@@ -11,8 +11,9 @@ namespace RepairServicesAggregatorBot
         {
             UserRepository userRepository = new UserRepository();
             var u = new UserDTO();
-            u.Id = 1000000;
-            userRepository.AddUser(u);
+            u.Id = 10700;
+            int qwe =  userRepository.AddUser(u);
+            Console.WriteLine(qwe);
         }
     }
 }

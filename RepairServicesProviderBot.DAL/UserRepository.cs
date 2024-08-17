@@ -15,8 +15,8 @@ namespace RepairServicesProviderBot.DAL
             {
                 string query = Querries.UserQuerys.AddUserQuery;
 
-                var args = new { id = user.Id, 
-                    name = user.Name,
+                var args = new { userId = user.Id, 
+                    userName = user.Name,
                     email = user.Email,
                     phone = user.Phone,
                     roleId = user.RoleId,

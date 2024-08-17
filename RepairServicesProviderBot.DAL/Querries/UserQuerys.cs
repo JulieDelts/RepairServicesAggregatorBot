@@ -8,7 +8,7 @@ namespace RepairServicesProviderBot.DAL.Querries
 {
     public class UserQuerys
     {
-        public const string AddUserQuery = $"SELECT * FROM \"AddUser(@userId, @userName, @phone, @email, @roleId, @image, @isDeleted)\"";
+        public const string AddUserQuery = $"SELECT * FROM \"AddUser\"(@userId, @userName, @phone, @email, @roleId, @image, @isDeleted)";
 
     }
 }
