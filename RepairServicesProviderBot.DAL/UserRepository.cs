@@ -8,12 +8,13 @@ namespace RepairServicesProviderBot.DAL
 {
     public class UserRepository
     {
-        public void AddUser(UserDTO user)
+        public int AddUser(UserDTO user)
         {
             string conectionString = Options.ConnectionString;
             using (var connection = new NpgsqlConnection(conectionString))
             {
                 string query = Querries.UserQuerys.AddUserQuery;
+
                 var args = new { id = user.Id, 
                     name = user.Name,
                     email = user.Email,
@@ -24,7 +25,8 @@ namespace RepairServicesProviderBot.DAL
                 };
 
                 connection.Open();
-                connection.Query(query, args);
+
+                return connection.QuerySingle<int>(query, args);
             }
         }
     }
