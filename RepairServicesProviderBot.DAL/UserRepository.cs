@@ -54,7 +54,7 @@ namespace RepairServicesProviderBot.DAL
             string conectionString = Options.ConnectionString;
             using (var connection = new NpgsqlConnection(conectionString))
             {
-                string query = UserQuerys.SetUserRoleByIdQuery;
+                string query = UserQuerys.HideUserById;
 
                 var args = new
                 {
