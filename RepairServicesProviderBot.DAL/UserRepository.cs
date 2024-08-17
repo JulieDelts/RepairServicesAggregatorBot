@@ -15,7 +15,9 @@ namespace RepairServicesProviderBot.DAL
             {
                 string query = Querries.UserQuerys.AddUserQuery;
 
-                var args = new { userId = user.Id, 
+                var args = new
+                {
+                    userId = user.Id,
                     userName = user.Name,
                     email = user.Email,
                     phone = user.Phone,
@@ -25,7 +27,41 @@ namespace RepairServicesProviderBot.DAL
                 };
 
                 connection.Open();
+                return connection.QuerySingle<int>(query, args);
+            }
+        }
 
+        public int SetUserRoleById(UserDTO user)
+        {
+            string conectionString = Options.ConnectionString;
+            using (var connection = new NpgsqlConnection(conectionString))
+            {
+                string query = Querries.UserQuerys.SetUserRoleByIdQuery;
+
+                var args = new
+                {
+                    userId = user.Id,
+                    roleId = user.RoleId
+                };
+
+                connection.Open();
+                return connection.QuerySingle<int>(query, args);
+            }
+        }
+
+        public int HideUserById(UserDTO user)
+        {
+            string conectionString = Options.ConnectionString;
+            using (var connection = new NpgsqlConnection(conectionString))
+            {
+                string query = Querries.UserQuerys.SetUserRoleByIdQuery;
+
+                var args = new
+                {
+                    userId = user.Id
+                };
+
+                connection.Open();
                 return connection.QuerySingle<int>(query, args);
             }
         }
