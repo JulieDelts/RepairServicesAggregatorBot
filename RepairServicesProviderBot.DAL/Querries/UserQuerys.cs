@@ -10,5 +10,9 @@ namespace RepairServicesProviderBot.DAL.Querries
     {
         public const string AddUserQuery = $"SELECT * FROM \"AddUser\"(@userId, @userName, @phone, @email, @roleId, @image, @isDeleted)";
 
+        public const string SetUserRoleByIdQuery = $"SELECT * FROM \"SetUserRoleById\"(@userId, @roleId)";
+
+        public const string HideUserById = $"SELECT * FROM \"HideUserById\"(@userId)";
+
     }
 }
