@@ -13,7 +13,7 @@ namespace RepairServicesProviderBot.DAL
             string conectionString = Options.ConnectionString;
             using (var connection = new NpgsqlConnection(conectionString))
             {
-                string query = Querries.UserQuerys.AddUserQuery;
+                string query = UserQuerys.AddUserQuery;
 
                 var args = new
                 {
@@ -36,7 +36,7 @@ namespace RepairServicesProviderBot.DAL
             string conectionString = Options.ConnectionString;
             using (var connection = new NpgsqlConnection(conectionString))
             {
-                string query = Querries.UserQuerys.SetUserRoleByIdQuery;
+                string query = UserQuerys.SetUserRoleByIdQuery;
 
                 var args = new
                 {
@@ -54,7 +54,7 @@ namespace RepairServicesProviderBot.DAL
             string conectionString = Options.ConnectionString;
             using (var connection = new NpgsqlConnection(conectionString))
             {
-                string query = Querries.UserQuerys.SetUserRoleByIdQuery;
+                string query = UserQuerys.SetUserRoleByIdQuery;
 
                 var args = new
                 {
