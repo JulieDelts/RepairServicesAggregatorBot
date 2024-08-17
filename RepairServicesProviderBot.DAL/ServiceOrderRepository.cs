@@ -42,7 +42,7 @@ namespace RepairServicesProviderBot.DAL
 
                 var args = new
                 {
-                    OrderId = order.Id
+                    orderId = order.Id
                 };
 
                 connection.Open();
