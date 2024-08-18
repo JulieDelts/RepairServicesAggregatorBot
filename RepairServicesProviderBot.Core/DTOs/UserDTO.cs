@@ -18,10 +18,14 @@ namespace RepairServicesProviderBot.Core.DTOs
 
         public int? RoleId { get; set; }
 
+        public string? RoleDescription { get; set; }
+
         public string? Image { get; set; }
 
         public bool? IsDeleted { get; set; }
 
-        //public List<Contactor_ServiceType>? Contactor_ServiceType { get; set; }
+        public List<ServiceOrderDTO>? Orders { get; set; }
+
+        public Dictionary<ServiceTypeDTO,int>? ProvidedServices { get; set; }
     }
 }
