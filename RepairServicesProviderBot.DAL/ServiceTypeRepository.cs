@@ -86,5 +86,24 @@ namespace RepairServicesProviderBot.DAL
                 return connection.QuerySingle<int>(query, args);
             }
         }
+
+        public List<ServiceTypeDTO> GetContractorServicesById(int contractorId)
+        {
+            string conectionString = Options.ConnectionString;
+
+            using (var connection = new NpgsqlConnection(conectionString))
+            {
+                string query = Querries.ServiceTypeQueries.GetContractorServicesById;
+
+                var args = new
+                {
+                    contractorId = contractorId,
+                };
+
+                connection.Open();
+
+                return connection.Query<ServiceTypeDTO>(query, args).ToList();
+            }
+        }
     }
 }

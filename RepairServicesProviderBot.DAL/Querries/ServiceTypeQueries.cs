@@ -15,7 +15,7 @@ namespace RepairServicesProviderBot.DAL.Querries
         public const string GetAllServiceTypes = "SELECT * FROM \"GetAllServiceTypes\"(@serviceTypeId);";
 
         public const string UpdateServiceTypeById = "SELECT * FROM \"UpdateServiceTypeById\"(@serviceTypeId, @description, @isDeleted)";
-        
-        //slozno...
+
+        public const string GetContractorServicesById = $"SELECT * FROM \"GetContractorServicesById\"(@contractorId)";
     }
 }
