@@ -12,6 +12,8 @@ namespace RepairServicesProviderBot.Core.DTOs
 
         public string? Description { get; set; }
 
+        public int? Cost { get; set; }
+
         public bool? IsDeleted { get; set; }
     }
 }
