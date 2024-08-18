@@ -13,7 +13,7 @@ namespace RepairServicesProviderBot.DAL
             string conectionString = Options.ConnectionString;
             using (var connection = new NpgsqlConnection(conectionString))
             {
-                string query = ServiceOrderQuerys.AddServiceOrder;
+                string query = ServiceOrderQueries.AddServiceOrder;
 
                 var args = new
                 {
@@ -22,7 +22,7 @@ namespace RepairServicesProviderBot.DAL
                     contractorId = order.ContractorId,
                     adminId = order.AdminId,
                     statusId = order.StatusId,
-                    date = order.Date,
+                    orderDate = order.Date,
                     description = order.Description,
                     address = order.Address,
                     isDeleted = order.IsDeleted
@@ -38,7 +38,7 @@ namespace RepairServicesProviderBot.DAL
             string conectionString = Options.ConnectionString;
             using (var connection = new NpgsqlConnection(conectionString))
             {
-                string query = ServiceOrderQuerys.GetServiceOrderById;
+                string query = ServiceOrderQueries.GetServiceOrderById;
 
                 var args = new
                 {
