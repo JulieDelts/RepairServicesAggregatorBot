@@ -11,6 +11,7 @@ namespace RepairServicesProviderBot.DAL
         public int AddUser(UserDTO user)
         {
             string conectionString = Options.ConnectionString;
+
             using (var connection = new NpgsqlConnection(conectionString))
             {
                 string query = UserQuerys.AddUserQuery;
@@ -27,6 +28,7 @@ namespace RepairServicesProviderBot.DAL
                 };
 
                 connection.Open();
+
                 return connection.QuerySingle<int>(query, args);
             }
         }
@@ -34,6 +36,7 @@ namespace RepairServicesProviderBot.DAL
         public int SetUserRoleById(UserDTO user)
         {
             string conectionString = Options.ConnectionString;
+
             using (var connection = new NpgsqlConnection(conectionString))
             {
                 string query = UserQuerys.SetUserRoleByIdQuery;
@@ -45,6 +48,7 @@ namespace RepairServicesProviderBot.DAL
                 };
 
                 connection.Open();
+
                 return connection.QuerySingle<int>(query, args);
             }
         }
@@ -52,6 +56,7 @@ namespace RepairServicesProviderBot.DAL
         public int HideUserById(UserDTO user)
         {
             string conectionString = Options.ConnectionString;
+
             using (var connection = new NpgsqlConnection(conectionString))
             {
                 string query = UserQuerys.HideUserById;
@@ -62,6 +67,47 @@ namespace RepairServicesProviderBot.DAL
                 };
 
                 connection.Open();
+
+                return connection.QuerySingle<int>(query, args);
+            }
+        }
+
+        public UserDTO GetUserById(int id)
+        {
+            string conectionString = Options.ConnectionString;
+
+            using (var connection = new NpgsqlConnection(conectionString))
+            {
+                string query = UserQuerys.GetUserById;
+
+                var args = new
+                {
+                    userId = id
+                };
+
+                connection.Open();
+
+                return connection.QuerySingle<UserDTO>(query, args);
+            }
+        }
+
+        public int AddContractorInfo(int userId, int serviceTypeId, int cost)
+        {
+            string conectionString = Options.ConnectionString;
+
+            using (var connection = new NpgsqlConnection(conectionString))
+            {
+                string query = UserQuerys.AddContractorInfo;
+
+                var args = new
+                {
+                    userId = userId,
+                    serviceTypeId = serviceTypeId,
+                    cost = cost
+                };
+
+                connection.Open();
+
                 return connection.QuerySingle<int>(query, args);
             }
         }
