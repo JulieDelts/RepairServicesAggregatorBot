@@ -1,6 +1,6 @@
 ﻿namespace RepairServicesProviderBot.DAL.Querries
 {
-    public class ServiceOrderQuerys
+    public class ServiceOrderQueries
     {
         public const string AddServiceOrder = $"SELECT * FROM \"AddServiceOrder\"(@clientId, @serviceTypeId,  @contractorId, @adminId, @statusId, @date, @description, @address, @isDeleted)";
 
