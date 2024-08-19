@@ -6,5 +6,7 @@
 
         public const string GetServiceOrderById = $"SELECT * FROM \"GetServiceOrderById\"(@orderId)";
 
+        public const string HideServiceOrderById = $"SELECT * FROM \"HideServiceOrderById\"(@serviceOrderId)";
+
     }
 }

@@ -49,5 +49,22 @@ namespace RepairServicesProviderBot.DAL
                 return connection.QuerySingle<ServiceOrderDTO>(query, args);
             }
         }
+
+        public ServiceOrderDTO HideServiceOrderById(ServiceOrderDTO order)
+        {
+            string conectionString = Options.ConnectionString;
+            using (var connection = new NpgsqlConnection(conectionString))
+            {
+                string query = ServiceOrderQueries.HideServiceOrderById;
+
+                var args = new
+                {
+                    serviceOrderId = order.Id
+                };
+
+                connection.Open();
+                return connection.QuerySingle<ServiceOrderDTO>(query, args);
+            }
+        }
     }
 }
