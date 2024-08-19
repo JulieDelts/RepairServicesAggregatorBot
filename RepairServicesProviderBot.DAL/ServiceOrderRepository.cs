@@ -1,4 +1,4 @@
-﻿using Dapper;
+using Dapper;
 using Npgsql;
 using RepairServicesProviderBot.Core;
 using RepairServicesProviderBot.Core.DTOs;

@@ -27,5 +27,7 @@ namespace RepairServicesProviderBot.Core.DTOs
         public string? Address { get; set; }
 
         public bool? IsDeleted { get; set; }
+
+        public List <ReviewDTO> reviewDTOs { get; set; }
     }
 }
