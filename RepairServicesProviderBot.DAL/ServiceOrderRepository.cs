@@ -1,4 +1,4 @@
-﻿using Dapper;
+using Dapper;
 using Npgsql;
 using RepairServicesProviderBot.Core;
 using RepairServicesProviderBot.Core.DTOs;
@@ -43,6 +43,23 @@ namespace RepairServicesProviderBot.DAL
                 var args = new
                 {
                     orderId = order.Id
+                };
+
+                connection.Open();
+                return connection.QuerySingle<ServiceOrderDTO>(query, args);
+            }
+        }
+
+        public ServiceOrderDTO HideServiceOrderById(ServiceOrderDTO order)
+        {
+            string conectionString = Options.ConnectionString;
+            using (var connection = new NpgsqlConnection(conectionString))
+            {
+                string query = ServiceOrderQueries.HideServiceOrderById;
+
+                var args = new
+                {
+                    serviceOrderId = order.Id
                 };
 
                 connection.Open();
