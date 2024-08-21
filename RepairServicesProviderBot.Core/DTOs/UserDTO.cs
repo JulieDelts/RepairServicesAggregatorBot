@@ -24,6 +24,8 @@ namespace RepairServicesProviderBot.Core.DTOs
 
         public bool? IsDeleted { get; set; }
 
+        public ServiceTypeDTO? ServiceType { get; set; }
+
         public List<OrderDTO>? Orders { get; set; }
 
         public List<ServiceTypeDTO>? Services { get; set; }

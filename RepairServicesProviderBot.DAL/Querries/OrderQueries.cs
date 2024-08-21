@@ -8,7 +8,7 @@
 
         public const string GetOrderByIdQuery = $"SELECT * FROM \"GetOrderById\"(@orderId)";
 
-        public const string GetContractorsReadyToAcceptOrderByIdQuery = $"SELECT * FROM \"GetContractorsReadyToAcceptOrderById\"(@orderId)";
+        public const string GetContractorsReadyToAcceptOrderByOrderIdQuery = $"SELECT * FROM \"GetContractorsReadyToAcceptOrderByOrderId\"(@orderId)";
 
         public const string UpdateOrderByIdQuery = $"SELECT * FROM \"UpdateOrderById\"(@orderId, @clientId, @serviceTypeId,@contractorId, @adminId, @statusId, @orderDate, @description, @address, @isDeleted)";
 
