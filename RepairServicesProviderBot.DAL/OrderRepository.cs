@@ -6,14 +6,15 @@ using RepairServicesProviderBot.DAL.Querries;
 
 namespace RepairServicesProviderBot.DAL
 {
-    public class ServiceOrderRepository
+    public class OrderRepository
     {
-        public int AddServiceOrder(ServiceOrderDTO order)
+        public int AddOrder(OrderDTO order)
         {
             string conectionString = Options.ConnectionString;
+
             using (var connection = new NpgsqlConnection(conectionString))
             {
-                string query = ServiceOrderQueries.AddServiceOrder;
+                string query = OrderQueries.AddOrderQuery;
 
                 var args = new
                 {
@@ -24,46 +25,50 @@ namespace RepairServicesProviderBot.DAL
                     statusId = order.StatusId,
                     orderDate = order.Date,
                     description = order.Description,
-                    address = order.Address,
-                    isDeleted = order.IsDeleted
+                    address = order.Address
                 };
 
                 connection.Open();
+
                 return connection.QuerySingle<int>(query, args);
             }
         }
 
-        public ServiceOrderDTO GetServiceOrderById(ServiceOrderDTO order)
+        public OrderDTO GetOrderById(int orderId)
         {
             string conectionString = Options.ConnectionString;
+
             using (var connection = new NpgsqlConnection(conectionString))
             {
-                string query = ServiceOrderQueries.GetServiceOrderById;
+                string query = OrderQueries.GetOrderByIdQuery;
 
                 var args = new
                 {
-                    orderId = order.Id
+                    orderId = orderId
                 };
 
                 connection.Open();
-                return connection.QuerySingle<ServiceOrderDTO>(query, args);
+
+                return connection.QuerySingle<OrderDTO>(query, args);
             }
         }
 
-        public ServiceOrderDTO HideServiceOrderById(ServiceOrderDTO order)
+        public OrderDTO HideOrderById(int orderId)
         {
             string conectionString = Options.ConnectionString;
+
             using (var connection = new NpgsqlConnection(conectionString))
             {
-                string query = ServiceOrderQueries.HideServiceOrderById;
+                string query = OrderQueries.HideOrderByIdQuery;
 
                 var args = new
                 {
-                    serviceOrderId = order.Id
+                    orderId = orderId
                 };
 
                 connection.Open();
-                return connection.QuerySingle<ServiceOrderDTO>(query, args);
+
+                return connection.QuerySingle<OrderDTO>(query, args);
             }
         }
     }
