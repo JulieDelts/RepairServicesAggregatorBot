@@ -108,6 +108,27 @@ namespace RepairServicesProviderBot.DAL
             }
         }
 
+        public int UpdateContractorServiceCost(int userId, int serviceTypeId, int cost)
+        {
+            string conectionString = Options.ConnectionString;
+
+            using (var connection = new NpgsqlConnection(conectionString))
+            {
+                string query = ServiceTypeQueries.UpdateContractorServiceCostQuery;
+
+                var args = new
+                {
+                    userId = userId,
+                    serviceTypeId = serviceTypeId,
+                    cost = cost
+                };
+
+                connection.Open();
+
+                return connection.QuerySingle<int>(query, args);
+            }
+        }
+
         public int HideServiceTypeById(int ServiceTypeId)
         {
             string conectionString = Options.ConnectionString;
