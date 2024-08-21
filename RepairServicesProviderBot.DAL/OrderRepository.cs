@@ -4,6 +4,7 @@ using RepairServicesProviderBot.Core;
 using RepairServicesProviderBot.Core.DTOs;
 using RepairServicesProviderBot.DAL.Querries;
 
+
 namespace RepairServicesProviderBot.DAL
 {
     public class OrderRepository
@@ -70,6 +71,30 @@ namespace RepairServicesProviderBot.DAL
                 connection.Open();
 
                 return connection.QuerySingle<OrderDTO>(query, args);
+            }
+        }
+
+        public List<UserDTO> GetContractorsReadyToAcceptOrderByOrderId(int orderId)
+        {
+            string conectionString = Options.ConnectionString;
+
+            using (var connection = new NpgsqlConnection(conectionString))
+            {
+                string query = OrderQueries.GetContractorsReadyToAcceptOrderByOrderIdQuery;
+
+                var args = new
+                {
+                    orderId = orderId
+                };
+
+                connection.Open();
+
+                return connection.Query<UserDTO,ServiceTypeDTO,UserDTO>(query,
+                    (userDTO,serviceTypeDTO) => 
+                    { userDTO.ServiceType = serviceTypeDTO;
+                      return userDTO;}, 
+                    args,
+                    splitOn:"Cost").ToList();
             }
         }
 
