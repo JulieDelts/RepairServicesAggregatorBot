@@ -14,11 +14,11 @@ namespace RepairServicesProviderBot.DAL
 
             using (var connection = new NpgsqlConnection(conectionString))
             {
-                string query = ReviewQueries.AddReview;
+                string query = ReviewQueries.AddReviewQuery;
 
                 var args = new
                 {
-                    serviceOrderId = review.ServiceOrderId,
+                    orderId = review.OrderId,
                     description = review.Description,
                     image = review.Image,
                     rating = review.Rating

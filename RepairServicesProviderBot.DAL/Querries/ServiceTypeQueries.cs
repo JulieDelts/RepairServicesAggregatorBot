@@ -8,14 +8,18 @@ namespace RepairServicesProviderBot.DAL.Querries
 {
     public class ServiceTypeQueries
     {
-        public const string AddServiceType = "SELECT * FROM \"AddServiceType\"(@description);";
+        public const string AddServiceTypeQuery = "SELECT * FROM \"AddServiceType\"(@description);";
 
-        public const string HideServiceTypeById = "SELECT * FROM \"HideServiceTypeById\"(@serviceTypeId);";
+        public const string AddContractorServiceQuery = $"SELECT * FROM \"AddContractorService\"(@userId, @serviceTypeId, @cost)";
 
-        public const string GetAllServiceTypes = "SELECT * FROM \"GetAllServiceTypes\"(@serviceTypeId);";
+        public const string GetAvailableServiceTypesQuery = "SELECT * FROM \"GetAvailableServiceTypes\"();";
 
-        public const string UpdateServiceTypeById = "SELECT * FROM \"UpdateServiceTypeById\"(@serviceTypeId, @description, @isDeleted)";
+        public const string GetContractorServicesByIdQuery = $"SELECT * FROM \"GetContractorServicesById\"(@contractorId)";
 
-        public const string GetContractorServicesById = $"SELECT * FROM \"GetContractorServicesById\"(@contractorId)";
+        public const string UpdateServiceTypeByIdQuery = "SELECT * FROM \"UpdateServiceTypeById\"(@serviceTypeId, @description, @isDeleted)";
+
+        public const string UpdateContractorServiceCostQuery = $"SELECT * FROM \"UpdateContractorServiceCost\"(@userId, @serviceTypeId, @cost)";
+
+        public const string HideServiceTypeByIdQuery = "SELECT * FROM \"HideServiceTypeById\"(@serviceTypeId);";
     }
 }

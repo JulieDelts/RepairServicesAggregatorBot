@@ -2,6 +2,6 @@
 {
     public class ReviewQueries
     {
-        public const string AddReview = $"SELECT * FROM \"AddReview\"(@serviceOrderId, @description, @image, @rating)";
+        public const string AddReviewQuery = $"SELECT * FROM \"AddReview\"(@orderId, @description, @image, @rating)";
     }
 }

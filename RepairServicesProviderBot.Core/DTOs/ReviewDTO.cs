@@ -8,12 +8,12 @@ namespace RepairServicesProviderBot.Core.DTOs
 {
     public class ReviewDTO
     {
-        public int? ServiceOrderId { get; set; }
+        public int? OrderId { get; set; }
 
         public string? Description { get; set; }
 
         public string? Image { get; set; }
 
-        public double? Rating { get; set; }
+        public int? Rating { get; set; }
     }
 }

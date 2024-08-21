@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RepairServicesProviderBot.Core.DTOs
 {
-    public class ServiceOrderDTO
+    public class OrderDTO
     {
         public int? Id { get; set; }
 
@@ -28,6 +28,8 @@ namespace RepairServicesProviderBot.Core.DTOs
 
         public bool? IsDeleted { get; set; }
 
-        public List <ReviewDTO> reviewDTOs { get; set; }
+        public List<UserDTO>? AvailableContractors { get; set; }
+
+        public ReviewDTO? Review { get; set; }
     }
 }

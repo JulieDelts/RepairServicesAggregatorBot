@@ -14,17 +14,15 @@ namespace RepairServicesProviderBot.DAL
 
             using (var connection = new NpgsqlConnection(conectionString))
             {
-                string query = UserQueries.AddUser;
+                string query = UserQueries.AddUserQuery;
 
                 var args = new
                 {
-                    userId = user.Id,
                     userName = user.Name,
                     email = user.Email,
                     phone = user.Phone,
                     roleId = user.RoleId,
                     image = user.Image,
-                    isDeleted = user.IsDeleted
                 };
 
                 connection.Open();
@@ -33,56 +31,17 @@ namespace RepairServicesProviderBot.DAL
             }
         }
 
-        public int SetUserRoleById(UserDTO user)
+        public UserDTO GetUserById(int userId)
         {
             string conectionString = Options.ConnectionString;
 
             using (var connection = new NpgsqlConnection(conectionString))
             {
-                string query = UserQueries.SetUserRoleById;
+                string query = UserQueries.GetUserByIdQuery;
 
                 var args = new
                 {
-                    userId = user.Id,
-                    roleId = user.RoleId
-                };
-
-                connection.Open();
-
-                return connection.QuerySingle<int>(query, args);
-            }
-        }
-
-        public int HideUserById(UserDTO user)
-        {
-            string conectionString = Options.ConnectionString;
-
-            using (var connection = new NpgsqlConnection(conectionString))
-            {
-                string query = UserQueries.HideUserById;
-
-                var args = new
-                {
-                    userId = user.Id
-                };
-
-                connection.Open();
-
-                return connection.QuerySingle<int>(query, args);
-            }
-        }
-
-        public UserDTO GetUserById(int id)
-        {
-            string conectionString = Options.ConnectionString;
-
-            using (var connection = new NpgsqlConnection(conectionString))
-            {
-                string query = UserQueries.GetUserById;
-
-                var args = new
-                {
-                    userId = id
+                    userId = userId
                 };
 
                 connection.Open();
@@ -91,19 +50,37 @@ namespace RepairServicesProviderBot.DAL
             }
         }
 
-        public int AddContractorInfo(int userId, int serviceTypeId, int cost)
+        public int UpdateUserRoleById(int userId, int roleId)
         {
             string conectionString = Options.ConnectionString;
 
             using (var connection = new NpgsqlConnection(conectionString))
             {
-                string query = UserQueries.AddContractorInfo;
+                string query = UserQueries.UpdateUserRoleByIdQuery;
 
                 var args = new
                 {
                     userId = userId,
-                    serviceTypeId = serviceTypeId,
-                    cost = cost
+                    roleId = roleId
+                };
+
+                connection.Open();
+
+                return connection.QuerySingle<int>(query, args);
+            }
+        }
+
+        public int HideUserById(int userId)
+        {
+            string conectionString = Options.ConnectionString;
+
+            using (var connection = new NpgsqlConnection(conectionString))
+            {
+                string query = UserQueries.HideUserByIdQuery;
+
+                var args = new
+                {
+                    userId = userId
                 };
 
                 connection.Open();
