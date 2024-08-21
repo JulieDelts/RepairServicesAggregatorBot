@@ -8,15 +8,13 @@ namespace RepairServicesProviderBot.DAL.Querries
 {
     public class UserQueries
     {
-        public const string AddUser = $"SELECT * FROM \"AddUser\"(@userId, @userName, @phone, @email, @roleId, @image, @isDeleted)";
+        public const string AddUserQuery = $"SELECT * FROM \"AddUser\"(@userName, @phone, @email, @roleId, @image)";
 
-        public const string SetUserRoleById = $"SELECT * FROM \"SetUserRoleById\"(@userId, @roleId)";
+        public const string GetUserByIdQuery = $"SELECT * FROM \"GetUserById\"(@userId)";
 
-        public const string HideUserById = $"SELECT * FROM \"HideUserById\"(@userId)";
+        public const string UpdateUserRoleByIdQuery = $"SELECT * FROM \"UpdateUserRoleById\"(@userId, @roleId)";
 
-        public const string GetUserById = $"SELECT * FROM \"GetUserById\"(@userId)";
-
-        public const string AddContractorInfo = $"SELECT * FROM \"AddContractorInfo\"(@userId, @serviceTypeId, @cost)";
+        public const string HideUserByIdQuery = $"SELECT * FROM \"HideUserById\"(@userId)";
 
     }
 }
