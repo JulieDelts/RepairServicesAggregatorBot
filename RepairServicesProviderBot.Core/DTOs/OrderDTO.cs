@@ -28,6 +28,8 @@ namespace RepairServicesProviderBot.Core.DTOs
 
         public bool? IsDeleted { get; set; }
 
+        public List<UserDTO>? AvailableContractors { get; set; }
+
         public ReviewDTO? Review { get; set; }
     }
 }
