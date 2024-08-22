@@ -14,7 +14,7 @@ namespace RepairServicesProviderBot.BLL
 {
     public class OrderService
     {
-        public OrderRepository OrderRepository { get; set; }
+        public OrderRepository OrderRepository { get; set; }//efkovmefovoefvefmvooefvoefmvmevoemv
 
         private Mapper _mapper;
 
