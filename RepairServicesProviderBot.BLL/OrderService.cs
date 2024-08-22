@@ -14,7 +14,7 @@ namespace RepairServicesProviderBot.BLL
 {
     public class OrderService
     {
-        public OrderRepository OrderRepository { get; set; }//efkovmefovoefvefmvooefvoefmvmevoemv
+        public OrderRepository OrderRepository { get; set; }
 
         private Mapper _mapper;
 
@@ -28,16 +28,12 @@ namespace RepairServicesProviderBot.BLL
                 });
             _mapper = new Mapper(config);
         }
+
         public UnConfirmedOrderOutputModel GetUnConfirmedOrderById(int orderId)
         {
             var orderDTO = OrderRepository.GetOrderById(orderId);
 
-            UnConfirmedOrderOutputModel orderResponce = new UnConfirmedOrderOutputModel();
-
-            if (orderDTO != null)
-            {
-                orderResponce = _mapper.Map<UnConfirmedOrderOutputModel>(orderDTO);
-            }
+            var orderResponce = _mapper.Map<UnConfirmedOrderOutputModel>(orderDTO);
 
             return orderResponce;
         }
