@@ -14,6 +14,8 @@ namespace RepairServicesAggregatorBot
             u.Id = 10700;
             int qwe =  userRepository.AddUser(u);
             Console.WriteLine(qwe);
+
+            //Показываю Саше гит
         }
     }
 }
