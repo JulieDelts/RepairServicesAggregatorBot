@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RepairServicesProviderBot.Core.OutputModels
 {
-    public abstract class OrderOutputModel
+    public class OrderOutputModel
     {
         //public ClientOutputModel Client { get; set; }
 

@@ -8,7 +8,7 @@ namespace RepairServicesProviderBot.Core.OutputModels
 {
     public class ConfirmedOrderOutputModel: OrderOutputModel
     {
-        //public ContractorOutputModel Contractor { get; set; }
+        public ContractorWithServiceTypeOutputModel Contractor { get; set; }
 
     }
 }
