@@ -14,7 +14,9 @@ namespace RepairServicesProviderBot.DAL.Querries
 
         public const string UpdateUserRoleByIdQuery = $"SELECT * FROM \"UpdateUserRoleById\"(@userId, @roleId)";
 
-        public const string HideUserByIdQuery = $"SELECT * FROM \"HideUserById\"(@userId)";
+        public const string UpdateUserQuery = $"SELECT * FROM \"UpdateUser\"(@userName, @phone, @email, @roleId, @image, @isDeleted);";
+
+        public const string HideUserByIdQuery = $"SELECT * FROM \"HideUserById\"(@userId)"; 
 
     }
 }
