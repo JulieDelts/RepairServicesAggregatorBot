@@ -9,7 +9,7 @@ namespace RepairServicesProviderBot.Core.OutputModels
 {
     public class ContractorWithServiceTypesOutputModel
     {
-        string Name { get; set; }
+        public string Name { get; set; }
 
         public string Email { get; set; }
 
