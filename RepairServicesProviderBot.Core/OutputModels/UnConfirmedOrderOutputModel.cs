@@ -8,6 +8,6 @@ namespace RepairServicesProviderBot.Core.OutputModels
 {
     public class UnConfirmedOrderOutputModel: OrderOutputModel
     {
-        //public List<ContractorOutputModel>? AvailableContractors { get; set; }
+        public List<ContractorWithServiceTypeOutputModel>? AvailableContractors { get; set; }
     }
 }

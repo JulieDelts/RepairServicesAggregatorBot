@@ -4,11 +4,6 @@ using RepairServicesProviderBot.Core.DTOs;
 using RepairServicesProviderBot.Core.InputModels;
 using RepairServicesProviderBot.Core.OutputModels;
 using RepairServicesProviderBot.DAL;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RepairServicesProviderBot.BLL
 {
@@ -38,7 +33,41 @@ namespace RepairServicesProviderBot.BLL
             return orderResponce;
         }
 
+<<<<<<< Updated upstream
 
+=======
+        public OrderOutputModel GetOrderById(int orderId)
+        {
+            OrderOutputModel orderResponse = new OrderOutputModel();
+
+            var contractorDTOs = OrderRepository.GetContractorsReadyToAcceptOrderByOrderId(orderId);  
+            
+            var contractors = _mapper.Map<List<ContractorWithServiceTypeOutputModel>>(contractorDTOs);
+
+            var orderDTO = OrderRepository.GetOrderById(orderId);
+
+            if (contractors.Count>0 & orderDTO.StatusId==0)
+            {
+                orderResponse = new ConfirmedOrderOutputModel();
+                orderResponse = _mapper.Map<ConfirmedOrderOutputModel>(orderDTO);
+                orderResponse.Contractor = contractors[0];
+            }
+            else if (contractors.Count > 0)
+            {
+                orderResponse = _mapper.Map<UnConfirmedOrderOutputModel>(orderDTO);
+                orderResponse.AvailableContractors = contractors;
+            }
+            else
+            {
+
+                orderResponse = _mapper.Map<CompletedOrderOutputModel>(orderDTO);
+                orderResponse.Contractor = contractors[0];
+                //ЗДЕСЬ ОТЗЫВ ДОБАВЛЯЕМ
+            }
+
+            return orderResponce;
+        }
+>>>>>>> Stashed changes
 
         public UnConfirmedOrderOutputModel AddOrder(OrderInputModel order)
         {

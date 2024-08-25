@@ -9,7 +9,7 @@ namespace RepairServicesProviderBot.Core.OutputModels
 {
     public class CompletedOrderOutputModel: OrderOutputModel
     {
-        //public ContractorOutputModel Contractor { get; set; }
+        public ContractorWithServiceTypeOutputModel Contractor { get; set; }
 
         //public ReviewOutputModel? Review { get; set; }
     }
