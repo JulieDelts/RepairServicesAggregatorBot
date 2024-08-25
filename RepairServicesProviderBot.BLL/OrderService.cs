@@ -33,9 +33,7 @@ namespace RepairServicesProviderBot.BLL
             return orderResponce;
         }
 
-<<<<<<< Updated upstream
 
-=======
         public OrderOutputModel GetOrderById(int orderId)
         {
             OrderOutputModel orderResponse = new OrderOutputModel();
@@ -48,26 +46,31 @@ namespace RepairServicesProviderBot.BLL
 
             if (contractors.Count>0 & orderDTO.StatusId==0)
             {
-                orderResponse = new ConfirmedOrderOutputModel();
-                orderResponse = _mapper.Map<ConfirmedOrderOutputModel>(orderDTO);
-                orderResponse.Contractor = contractors[0];
+                var confirmedOrderResponse = new ConfirmedOrderOutputModel();
+                confirmedOrderResponse = _mapper.Map<ConfirmedOrderOutputModel>(orderDTO);
+                confirmedOrderResponse.Contractor = contractors[0];
+
+                orderResponse = confirmedOrderResponse;
             }
             else if (contractors.Count > 0)
             {
-                orderResponse = _mapper.Map<UnConfirmedOrderOutputModel>(orderDTO);
-                orderResponse.AvailableContractors = contractors;
+                var unConfirmedOrderResponse = _mapper.Map<UnConfirmedOrderOutputModel>(orderDTO);
+                unConfirmedOrderResponse.AvailableContractors = contractors;
+
+                orderResponse = unConfirmedOrderResponse;
             }
             else
             {
 
-                orderResponse = _mapper.Map<CompletedOrderOutputModel>(orderDTO);
-                orderResponse.Contractor = contractors[0];
+                var completedOrderResponse = _mapper.Map<CompletedOrderOutputModel>(orderDTO);
+                completedOrderResponse.Contractor = contractors[0];
                 //ЗДЕСЬ ОТЗЫВ ДОБАВЛЯЕМ
+
+                orderResponse = completedOrderResponse;
             }
 
-            return orderResponce;
+            return orderResponse;
         }
->>>>>>> Stashed changes
 
         public UnConfirmedOrderOutputModel AddOrder(OrderInputModel order)
         {
