@@ -148,5 +148,24 @@ namespace RepairServicesProviderBot.DAL
             }
         }
 
+        public void DeleteContractorService(int serviceTypeId, int userId)
+        {
+            string conectionString = Options.ConnectionString;
+
+            using (var connection = new NpgsqlConnection(conectionString))
+            {
+                string query = ServiceTypeQueries.DeleteContractorServiceQuery;
+
+                var args = new
+                {
+                    serviceTypeId = serviceTypeId,
+                    userId = userId
+                };
+
+                connection.Open();
+
+                connection.QuerySingle<int>(query, args);
+            }
+        }
     }
 }

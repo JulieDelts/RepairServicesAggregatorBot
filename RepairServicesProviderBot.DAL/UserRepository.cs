@@ -70,6 +70,30 @@ namespace RepairServicesProviderBot.DAL
             }
         }
 
+        public int UpdateUser(UserDTO user)
+        {
+            string conectionString = Options.ConnectionString;
+
+            using (var connection = new NpgsqlConnection(conectionString))
+            {
+                string query = UserQueries.UpdateUserQuery;
+
+                var args = new
+                {
+                    userName = user.Name,
+                    phone = user.Phone,
+                    email = user.Email,
+                    roleId = user.RoleId,
+                    image = user.Image,
+                    isDeleted = user.IsDeleted,
+                };
+
+                connection.Open();
+
+                return connection.QuerySingle<int>(query, args);
+            }
+        }
+
         public int HideUserById(int userId)
         {
             string conectionString = Options.ConnectionString;
