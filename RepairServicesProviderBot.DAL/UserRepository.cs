@@ -31,7 +31,7 @@ namespace RepairServicesProviderBot.DAL
             }
         }
 
-        public UserDTO GetUserById(int userId)
+        public UserDTO GetUserById(long userId)
         {
             string conectionString = Options.ConnectionString;
 

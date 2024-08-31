@@ -76,6 +76,8 @@ namespace RepairServicesProviderBot.BLL
         {
             var orderDTO = _mapper.Map<OrderDTO>(order);
 
+            var order = GetOrderById(order.) 
+
             var orderId = OrderRepository.AddOrder(orderDTO);
 
             var orderResponce = GetUnConfirmedOrderById(orderId);

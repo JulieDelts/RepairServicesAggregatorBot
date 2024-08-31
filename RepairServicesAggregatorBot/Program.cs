@@ -62,7 +62,7 @@ namespace RepairServicesAggregatorBot
 
                 if (message.Text.ToLower() == "/start")
                 {
-                    crntClient.State = new LoginSystemState();
+                    crntClient.State = new LoginState();
                 }
                 else
                 {
