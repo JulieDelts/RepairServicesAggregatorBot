@@ -33,7 +33,7 @@ namespace RepairServicesProviderBot.BLL
             return clientId;
         }
 
-        public ClientOutputModel GetClientById(int clientId)
+        public ClientOutputModel GetClientById(long clientId)
         {
             var clientDTO = ClientRepository.GetUserById(clientId);
                 

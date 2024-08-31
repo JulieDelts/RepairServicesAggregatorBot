@@ -10,6 +10,8 @@ namespace RepairServicesProviderBot.Core.DTOs
     {
         public int? Id { get; set; }
 
+        public long? ChatId { get; set; }
+
         public string? Name { get; set; }
 
         public string? Email { get; set; }

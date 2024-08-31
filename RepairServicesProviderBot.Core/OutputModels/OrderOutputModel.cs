@@ -8,7 +8,7 @@ namespace RepairServicesProviderBot.Core.OutputModels
 {
     public class OrderOutputModel
     {
-        //public ClientOutputModel Client { get; set; }
+        public ClientOutputModel Client { get; set; }
 
         //public ServiceOutputModel Service { get; set; }
 

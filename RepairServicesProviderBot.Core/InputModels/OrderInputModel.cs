@@ -9,7 +9,7 @@ namespace RepairServicesProviderBot.Core.InputModels
 {
     public class OrderInputModel
     {
-        public int ClientId { get; set; }
+        public long ClientId { get; set; }
 
         //public UserInputModel Client { get; set; }
 
