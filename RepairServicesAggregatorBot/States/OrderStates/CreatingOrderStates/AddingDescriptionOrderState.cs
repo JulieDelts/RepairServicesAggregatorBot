@@ -7,7 +7,12 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.CreatingOrderStates
     {
         public override void HandleMessage(Context context, Update update)
         {
-            if (context)
+            var msg = update.Message;
+
+            if (msg.Text!="/Назад")
+            {
+
+            }
         }
 
         public override void ReactInBot(Context context, ITelegramBotClient botClient)
