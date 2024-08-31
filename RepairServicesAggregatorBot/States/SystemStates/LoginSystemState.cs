@@ -3,40 +3,48 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RepairServicesProviderBot.Core.InputModels;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 
-namespace RepairServicesAggregatorBot.Bot.States
+namespace RepairServicesAggregatorBot.Bot.States.SystemStates
 {
     public class LoginSystemState : AbstractState
     {
-        bool isLoginError = false;
+        UserInputModel UserInputModel { get; set; } = new();
+
+        bool IsLoginError = false;
 
         public override void HandleMessage(Context context, Update update)
         {
+
             var msg = update.Message;
 
             if (msg.Text == "qwe")
             {
-                //context.State = new AdminState()
+                UserInputModel.RoleId = 3;
+                context.State = new RegisterNameSystemState(UserInputModel);
             }
             else if (msg.Text == "собакачерепаха")
             {
-                //context.State = new ContractorState()
+                UserInputModel.RoleId = 2;
+                context.State = new RegisterNameSystemState(UserInputModel);
             }
             else if (msg.Text == "NO")
             {
-                //context.State = new UserState()
+                UserInputModel.RoleId = 1;
+                context.State = new RegisterNameSystemState(UserInputModel);
             }
             else
             {
-                isLoginError = true;
+                IsLoginError = true;
             }
+
         }
 
         public override async void ReactInBot(Context context, ITelegramBotClient botClient)
         {
-            if (isLoginError)
+            if (IsLoginError)
             {
                 await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "IDI NAHUI");
             }
