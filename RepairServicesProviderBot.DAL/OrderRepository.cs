@@ -35,7 +35,7 @@ namespace RepairServicesProviderBot.DAL
             }
         }
 
-        public int AddContractorReadyToAcceptOrder(int userId, int orderId)
+        public int AddContractorReadyToAcceptOrder(long userId, int orderId)
         {
             string conectionString = Options.ConnectionString;
 
@@ -55,7 +55,7 @@ namespace RepairServicesProviderBot.DAL
             }
         }
 
-        public OrderDTO GetOrderById(int orderId)
+        public OrderDTO GetOrderById(long orderId)
         {
             string conectionString = Options.ConnectionString;
 
@@ -74,7 +74,7 @@ namespace RepairServicesProviderBot.DAL
             }
         }
 
-        public List<UserDTO> GetContractorsReadyToAcceptOrderByOrderId(int orderId)
+        public List<UserDTO> GetContractorsReadyToAcceptOrderByOrderId(long orderId)
         {
             string conectionString = Options.ConnectionString;
 
@@ -126,7 +126,7 @@ namespace RepairServicesProviderBot.DAL
             }
         }
 
-        public OrderDTO HideOrderById(int orderId)
+        public OrderDTO HideOrderById(long orderId)
         {
             string conectionString = Options.ConnectionString;
 

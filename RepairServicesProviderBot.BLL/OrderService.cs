@@ -34,7 +34,7 @@ namespace RepairServicesProviderBot.BLL
         }
 
 
-        public OrderOutputModel GetOrderById(int orderId)
+        public OrderOutputModel GetOrderById(long orderId)
         {
             OrderOutputModel orderResponse = new OrderOutputModel();
 
@@ -75,8 +75,6 @@ namespace RepairServicesProviderBot.BLL
         public UnConfirmedOrderOutputModel AddOrder(OrderInputModel order)
         {
             var orderDTO = _mapper.Map<OrderDTO>(order);
-
-            var order = GetOrderById(order.) 
 
             var orderId = OrderRepository.AddOrder(orderDTO);
 

@@ -23,11 +23,18 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.CreatingOrderStates
         {
             Order.StatusId = 1;
             Order.ClientId = update.Message.Chat.Id;
+
+            var orderService = new OrderService();
+
+            orderService.AddOrder(Order);
+
+            context.State = new LoginSystemState();
+
         }
 
-        public override void ReactInBot(Context context, ITelegramBotClient botClient)
+        public override async void ReactInBot(Context context, ITelegramBotClient botClient)
         {
-            throw new NotImplementedException();
+            await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Подгрузили, беги смотреть");
         }
     }
 }
