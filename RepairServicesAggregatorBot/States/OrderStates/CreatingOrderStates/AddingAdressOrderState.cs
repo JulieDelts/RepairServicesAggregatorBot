@@ -7,12 +7,14 @@ using Telegram.Bot;
 using Telegram.Bot.Types;
 using RepairServicesProviderBot.Core.InputModels;
 using RepairServicesProviderBot.BLL;
+using RepairServicesAggregatorBot.Bot.States.SystemStates;
 
 namespace RepairServicesAggregatorBot.Bot.States.OrderStates.CreatingOrderStates
 {
     public class AddingAdressOrderState : AbstractState
     {
         public OrderInputModel Order { get; set; }
+        public string d {  get; set; }
 
         public AddingAdressOrderState(OrderInputModel order)
         {
@@ -23,13 +25,14 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.CreatingOrderStates
         {
             var msg = update.Message;
 
-            if (msg.Text != "Назад")
+            if (msg.Text == "Назад")
             {
                 context.State = new LoginSystemState();
             }
             else
             {
                 Order.Date = msg.Text;
+                var o = msg.Text;
 
                 var clientService = new ClientService();
 

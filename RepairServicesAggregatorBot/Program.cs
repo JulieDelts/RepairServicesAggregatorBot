@@ -5,6 +5,7 @@ using Telegram.Bot.Polling;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types;
 using RepairServicesAggregatorBot.Bot;
+using RepairServicesAggregatorBot.Bot.States.OrderStates.CreatingOrderStates;
 
 
 namespace RepairServicesAggregatorBot
@@ -17,7 +18,7 @@ namespace RepairServicesAggregatorBot
         {
             Clients = new Dictionary<long, Context>();
 
-            ITelegramBotClient bot = new TelegramBotClient("7469931637:AAFYfhGyHSnVwc6XCKv8v1iy5HFxpnKlYPo");
+            ITelegramBotClient bot = new TelegramBotClient("7505426475:AAGJh965t27_zyj5g88IY5Mh7_3pDddP0wg");
             var cts = new CancellationTokenSource();
             var cancellationToken = cts.Token;
 
@@ -44,41 +45,55 @@ namespace RepairServicesAggregatorBot
             {
 
                 var message = update.Message;
+                Console.WriteLine(message.Chat.Id);
 
                 Context crntClient;
 
                 if (Clients.ContainsKey(message.Chat.Id))
                 {
+                    Console.WriteLine("уже есть");
                     crntClient = Clients[message.Chat.Id];
                 }
                 else
                 {
+                    Console.WriteLine("добавил нового");
                     //Сохраняем его в базку или загружаем
                     crntClient = new Context();
                     crntClient.ChatId = message.Chat.Id;
                     Clients.Add(message.Chat.Id, crntClient);
                 }
 
-
-                if (message.Text.ToLower() == "/start")
+                Console.WriteLine(message.Text);
+                try
                 {
-                    crntClient.State = new LoginState();
+                    if (message.Text.ToLower() == "/start")
+                    {
+                        crntClient.State = new AddingDescriptionOrderState();
+                    }
+                    else
+                    {
+                        crntClient.HandleMessage(update);
+                    }
                 }
-                else
+                catch(Exception ex)
                 {
-                    crntClient.HandleMessage(update);
+
+                }
+                finally
+                {
+                    crntClient.ReactInBot(botClient);
+                    await Task.CompletedTask;
                 }
 
 
 
-
-                crntClient.ReactInBot(botClient);
+                
             }
         }
 
         public static async Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)
         {
-            Console.WriteLine(exception.ToString());
+            Console.WriteLine($"Error!!!! {exception.ToString()}");
         }
     }
 }
