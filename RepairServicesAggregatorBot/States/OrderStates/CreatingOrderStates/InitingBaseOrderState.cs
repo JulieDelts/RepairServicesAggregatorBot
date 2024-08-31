@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using RepairServicesProviderBot.Core.InputModels;
+using RepairServicesProviderBot.Core.OutputModels;
 using RepairServicesProviderBot.BLL;
 using Telegram.Bot.Types;
 using Telegram.Bot;
@@ -14,11 +15,13 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.CreatingOrderStates
     public class InitingBaseOrderState : AbstractState
     {
         public OrderInputModel Order { get; set; }
-        string d;
+
+        public UnConfirmedOrderOutputModel Response { get; set; }
 
         public InitingBaseOrderState(OrderInputModel order) 
         {
             Order = order;
+            Response = new UnConfirmedOrderOutputModel();
         }
 
         public override void HandleMessage(Context context, Update update)
@@ -28,7 +31,7 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.CreatingOrderStates
 
             var orderService = new OrderService();
 
-            orderService.AddOrder(Order);
+            Response = orderService.AddOrder(Order);
 
             context.State = new LoginSystemState();
 
@@ -36,7 +39,7 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.CreatingOrderStates
 
         public override async void ReactInBot(Context context, ITelegramBotClient botClient)
         {
-            await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Подгрузили, беги смотреть");
+            await botClient.SendTextMessageAsync(new ChatId(context.ChatId), $"{Response}");
         }
     }
 }
