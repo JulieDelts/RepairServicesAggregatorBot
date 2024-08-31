@@ -3,7 +3,7 @@ using Telegram.Bot.Types;
 using RepairServicesProviderBot.Core.InputModels;
 using RepairServicesAggregatorBot.Bot.States.SystemStates;
 
-namespace RepairServicesAggregatorBot.Bot.States.OrderStates.CreatingOrderStates
+namespace RepairServicesAggregatorBot.Bot.States.OrderStates.CreatingBaseOrderStates
 {
     public class AddingDescriptionOrderState : AbstractState
     {
@@ -24,9 +24,7 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.CreatingOrderStates
             else
             {
                 Order.Description = msg.Text;
-                Console.WriteLine(msg.Text);
                 context.State = new AddingAdressOrderState(Order);
-                Console.WriteLine(Order);    
             }
         }
 

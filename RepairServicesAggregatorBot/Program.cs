@@ -1,13 +1,10 @@
 using RepairServicesAggregatorBot.Bot;
-using RepairServicesAggregatorBot.Bot.States.OrderStates.CreatingOrderStates;
+using RepairServicesAggregatorBot.Bot.States.OrderStates.CreatingBaseOrderStates;
 using RepairServicesAggregatorBot.Bot.States.SystemStates;
 using Telegram.Bot;
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
-using Telegram.Bot.Types;
-using RepairServicesAggregatorBot.Bot;
-using RepairServicesAggregatorBot.Bot.States.OrderStates.CreatingOrderStates;
 
 
 namespace RepairServicesAggregatorBot
@@ -48,25 +45,20 @@ namespace RepairServicesAggregatorBot
             {
 
                 var message = update.Message;
-                Console.WriteLine(message.Chat.Id);
 
                 Context crntClient;
 
                 if (Clients.ContainsKey(message.Chat.Id))
                 {
-                    Console.WriteLine("уже есть");
                     crntClient = Clients[message.Chat.Id];
                 }
                 else
                 {
-                    Console.WriteLine("добавил нового");
-                    //Сохраняем его в базку или загружаем
                     crntClient = new Context();
                     crntClient.ChatId = message.Chat.Id;
                     Clients.Add(message.Chat.Id, crntClient);
                 }
 
-                Console.WriteLine(message.Text);
                 try
                 {
                     if (message.Text.ToLower() == "/start")
@@ -77,10 +69,6 @@ namespace RepairServicesAggregatorBot
                     {
                         crntClient.HandleMessage(update);
                     }
-                }
-                catch(Exception ex)
-                {
-
                 }
                 finally
                 {

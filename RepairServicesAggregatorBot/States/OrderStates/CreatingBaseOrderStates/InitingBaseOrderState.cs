@@ -10,36 +10,39 @@ using Telegram.Bot.Types;
 using Telegram.Bot;
 using RepairServicesAggregatorBot.Bot.States.SystemStates;
 
-namespace RepairServicesAggregatorBot.Bot.States.OrderStates.CreatingOrderStates
+namespace RepairServicesAggregatorBot.Bot.States.OrderStates.CreatingBaseOrderStates
 {
     public class InitingBaseOrderState : AbstractState
     {
         public OrderInputModel Order { get; set; }
 
-        public UnConfirmedOrderOutputModel Response { get; set; }
-
         public InitingBaseOrderState(OrderInputModel order) 
         {
             Order = order;
-            Response = new UnConfirmedOrderOutputModel();
         }
 
         public override void HandleMessage(Context context, Update update)
         {
+            var msg = update.Message;
+
+            var client = new UserInputModel();
+            client.RoleId = 0;
+            client.Name = msg.ForwardFrom.Username;
+            client.ChatId = msg.Chat.Id;
+
             Order.StatusId = 1;
-            Order.ClientId = update.Message.Chat.Id;
+            Order.Client = client;
 
             var orderService = new OrderService();
 
-            Response = orderService.AddOrder(Order);
+            var response = orderService.AddOrder(Order) ?? new UnConfirmedOrderOutputModel();
 
-            context.State = new LoginSystemState();
-
+            context.State = new CompleteCreatingBaseOrderState(response);
         }
 
         public override async void ReactInBot(Context context, ITelegramBotClient botClient)
         {
-            await botClient.SendTextMessageAsync(new ChatId(context.ChatId), $"{Response}");
+            await botClient.SendTextMessageAsync(new ChatId(context.ChatId), $"Подгружаем...");
         }
     }
 }

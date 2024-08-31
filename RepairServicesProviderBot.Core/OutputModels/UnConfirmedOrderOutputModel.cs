@@ -12,7 +12,7 @@ namespace RepairServicesProviderBot.Core.OutputModels
 
         public override string ToString()
         {
-            return $"Заказчик {Client} Статус {Status ?? "не указано"} Дата {Date ?? "не указано"} Описание {Description ?? "не указано"} Адрес {Adress ?? "не указано"}";
+            return $"Заказчик {Client} Статус {Status ?? "не указано"} Дата {Date ?? "не указано"} Описание {Description ?? "не указано"} Адрес {Address ?? "не указано"}";
         }
     }
 }

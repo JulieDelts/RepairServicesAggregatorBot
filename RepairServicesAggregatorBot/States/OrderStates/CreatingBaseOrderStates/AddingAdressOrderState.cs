@@ -9,7 +9,7 @@ using RepairServicesProviderBot.Core.InputModels;
 using RepairServicesProviderBot.BLL;
 using RepairServicesAggregatorBot.Bot.States.SystemStates;
 
-namespace RepairServicesAggregatorBot.Bot.States.OrderStates.CreatingOrderStates
+namespace RepairServicesAggregatorBot.Bot.States.OrderStates.CreatingBaseOrderStates
 {
     public class AddingAdressOrderState : AbstractState
     {
