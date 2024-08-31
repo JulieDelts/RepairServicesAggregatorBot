@@ -59,9 +59,10 @@ namespace RepairServicesAggregatorBot
                     Clients.Add(message.Chat.Id, crntClient);
                 }
 
+
                 if (message.Text.ToLower() == "/start")
                 {
-                    crntClient.State = new MenuState();
+                    crntClient.State = new LoginSystemState();
                 }
                 else
                 {
