@@ -14,7 +14,6 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.CreatingOrderStates
     public class AddingAdressOrderState : AbstractState
     {
         public OrderInputModel Order { get; set; }
-        public string d {  get; set; }
 
         public AddingAdressOrderState(OrderInputModel order)
         {
@@ -32,7 +31,6 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.CreatingOrderStates
             else
             {
                 Order.Date = msg.Text;
-                var o = msg.Text;
 
                 var clientService = new ClientService();
 
