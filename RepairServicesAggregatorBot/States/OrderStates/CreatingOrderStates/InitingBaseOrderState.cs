@@ -14,6 +14,7 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.CreatingOrderStates
     public class InitingBaseOrderState : AbstractState
     {
         public OrderInputModel Order { get; set; }
+        string d;
 
         public InitingBaseOrderState(OrderInputModel order) 
         {

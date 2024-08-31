@@ -1,6 +1,7 @@
 ﻿using RepairServicesAggregatorBot.Bot.States;
 using Telegram.Bot.Types;
 using Telegram.Bot;
+using RepairServicesAggregatorBot.Bot.States.OrderStates.CreatingOrderStates;
 
 namespace RepairServicesAggregatorBot.Bot
 {
@@ -11,6 +12,11 @@ namespace RepairServicesAggregatorBot.Bot
         public long ChatId { get; set; }
 
         public AbstractState State { get; set; }
+
+        public Context()
+        {
+            State = new AddingDescriptionOrderState();
+        }
 
         public void HandleMessage(Update update)
         {

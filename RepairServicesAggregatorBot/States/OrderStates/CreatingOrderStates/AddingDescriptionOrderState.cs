@@ -9,7 +9,10 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.CreatingOrderStates
     {
         public OrderInputModel Order { get; set; }
 
-        public AddingDescriptionOrderState() { }
+        public AddingDescriptionOrderState() 
+        {
+            Order = new OrderInputModel();
+        }
         public override void HandleMessage(Context context, Update update)
         {
             var msg = update.Message;
@@ -21,8 +24,9 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.CreatingOrderStates
             else
             {
                 Order.Description = msg.Text;
-
+                Console.WriteLine(msg.Text);
                 context.State = new AddingAdressOrderState(Order);
+                Console.WriteLine(Order);    
             }
         }
 
