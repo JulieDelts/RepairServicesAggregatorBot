@@ -27,7 +27,7 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates
             if (!string.IsNullOrWhiteSpace(msg.Text))
             {
                 UserInputModel.Name = msg.Text;
-                //context.State = new AdminState()
+                context.State = new LoginSystemState();
             }
             else
             {

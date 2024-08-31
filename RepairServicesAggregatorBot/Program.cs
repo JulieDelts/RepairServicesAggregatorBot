@@ -1,10 +1,10 @@
-﻿using RepairServicesProviderBot.DAL;
-using RepairServicesProviderBot.Core.DTOs;
+﻿using RepairServicesAggregatorBot.Bot;
+using RepairServicesAggregatorBot.Bot.States.OrderStates.CreatingOrderStates;
+using RepairServicesAggregatorBot.Bot.States.SystemStates;
 using Telegram.Bot;
 using Telegram.Bot.Polling;
-using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types;
-using RepairServicesAggregatorBot.Bot;
+using Telegram.Bot.Types.Enums;
 
 
 namespace RepairServicesAggregatorBot
@@ -13,17 +13,18 @@ namespace RepairServicesAggregatorBot
     {
         public static Dictionary<long, Context> Clients { get; set; }
 
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             Clients = new Dictionary<long, Context>();
 
-            ITelegramBotClient bot = new TelegramBotClient("7469931637:AAFYfhGyHSnVwc6XCKv8v1iy5HFxpnKlYPo");
+            ITelegramBotClient bot = new TelegramBotClient("7038260400:AAF1gzbDgTjtrlP03nsLvmg3KplbTF9mzrE");
             var cts = new CancellationTokenSource();
             var cancellationToken = cts.Token;
 
             var receiverOptions = new ReceiverOptions
             {
                 AllowedUpdates = { }
+
             };
 
             bot.StartReceiving(
@@ -35,12 +36,12 @@ namespace RepairServicesAggregatorBot
 
             Console.WriteLine("ЗАРАБОТАЛО!!!");
 
-            Console.ReadLine();
+            await Task.Delay(-1);
 
         }
         public static async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
         {
-            if (update.Type == UpdateType.Message)
+            if (update.Type == UpdateType.Message && update.Message.Text != null)
             {
 
                 var message = update.Message;
@@ -60,9 +61,9 @@ namespace RepairServicesAggregatorBot
                 }
 
 
-                if (message.Text.ToLower() == "/start")
+                if (message.Text == "/start")
                 {
-                    crntClient.State = new LoginState();
+                    crntClient.State = new LoginSystemState();
                 }
                 else
                 {

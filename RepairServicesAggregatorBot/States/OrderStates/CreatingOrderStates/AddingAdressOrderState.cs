@@ -7,6 +7,7 @@ using Telegram.Bot;
 using Telegram.Bot.Types;
 using RepairServicesProviderBot.Core.InputModels;
 using RepairServicesProviderBot.BLL;
+using RepairServicesAggregatorBot.Bot.States.SystemStates;
 
 namespace RepairServicesAggregatorBot.Bot.States.OrderStates.CreatingOrderStates
 {
@@ -23,7 +24,7 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.CreatingOrderStates
         {
             var msg = update.Message;
 
-            if (msg.Text != "Назад")
+            if (msg.Text == "Назад")
             {
                 context.State = new LoginSystemState();
             }
