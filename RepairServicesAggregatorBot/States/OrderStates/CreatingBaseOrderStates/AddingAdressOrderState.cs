@@ -26,7 +26,7 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.CreatingBaseOrderSt
 
             if (msg.Text == "Назад")
             {
-                context.State = new LoginSystemState();
+                context.State = new StartRegistrationSystemState();
             }
             else
             {

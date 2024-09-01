@@ -17,7 +17,7 @@ namespace RepairServicesAggregatorBot
         {
             Clients = new Dictionary<long, Context>();
 
-            ITelegramBotClient bot = new TelegramBotClient("7505426475:AAGJh965t27_zyj5g88IY5Mh7_3pDddP0wg");
+            ITelegramBotClient bot = new TelegramBotClient("7500546786:AAF-jAJEnauxeKOIrNA1MVhoGFuFjSxOzF0");
             var cts = new CancellationTokenSource();
             var cancellationToken = cts.Token;
 
@@ -37,7 +37,6 @@ namespace RepairServicesAggregatorBot
             Console.WriteLine("ЗАРАБОТАЛО!!!");
 
             await Task.Delay(-1);
-
         }
         public static async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
         {
@@ -63,7 +62,7 @@ namespace RepairServicesAggregatorBot
                 {
                     if (message.Text.ToLower() == "/start")
                     {
-                        crntClient.State = new AddingDescriptionOrderState();
+                        crntClient.State = new StartRegistrationSystemState();
                     }
                     else
                     {
@@ -75,10 +74,6 @@ namespace RepairServicesAggregatorBot
                     crntClient.ReactInBot(botClient);
                     await Task.CompletedTask;
                 }
-
-
-
-                
             }
         }
 
