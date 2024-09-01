@@ -9,16 +9,16 @@ using Telegram.Bot;
 
 namespace RepairServicesAggregatorBot.Bot.States.SystemStates
 {
-    public class RegisterNameSystemState: AbstractState
+    public class RegisterPhoneSystemState: AbstractState
     {
         public UserInputModel UserInputModel { get; set; }
 
-        private bool _isNameError;
+        private bool _isPhoneError;
 
-        public RegisterNameSystemState(UserInputModel userInputModel) 
+        public RegisterPhoneSystemState(UserInputModel userInputModel)
         {
             UserInputModel = userInputModel;
-            _isNameError = false;
+            _isPhoneError = false;
         }
 
         public override void HandleMessage(Context context, Update update)
@@ -27,25 +27,24 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates
 
             if (!string.IsNullOrWhiteSpace(message.Text))
             {
-                UserInputModel.Name = message.Text;
-                context.State = new RegisterPhoneSystemState(UserInputModel);
+                UserInputModel.Phone = message.Text;
+                context.State = new RegisterEmailSystemState(UserInputModel);
             }
             else
             {
-                _isNameError = true;
+                _isPhoneError = true;
             }
-            
         }
 
         public override async void ReactInBot(Context context, ITelegramBotClient botClient)
         {
-            if (_isNameError)
+            if (_isPhoneError)
             {
-                await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Имя введено некорректно.");
+                await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Номер введен некорректно.");
             }
             else
             {
-                await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Введите имя:");
+                await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Введите номер телефона:");
             }
         }
     }
