@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RepairServicesProviderBot.Core.DTOs
+namespace RepairServicesProviderBot.Core.InputModels
 {
-    public class ReviewDTO
+    public class ReviewInputModel
     {
-        public int? OrderId { get; set; }
+        public int OrderId { get; set; }
 
         public string? Description { get; set; }
 
-        public int? Rating { get; set; }
+        public int Rating { get; set; }
     }
 }
