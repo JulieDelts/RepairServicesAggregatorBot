@@ -14,19 +14,37 @@ namespace RepairServicesProviderBot.DAL
 
             using (var connection = new NpgsqlConnection(conectionString))
             {
-                string query = ReviewQueries.AddReviewQuery;
+                string query = ReviewQueries.AddReviewByOrderIdQuery;
 
                 var args = new
                 {
                     orderId = review.OrderId,
                     description = review.Description,
-                    image = review.Image,
                     rating = review.Rating
                 };
 
                 connection.Open();
 
                 return connection.QuerySingle<int>(query, args);
+            }
+        }
+
+        public ReviewDTO GetReviewByOrderId(int orderId)
+        {
+            string conectionString = Options.ConnectionString;
+
+            using (var connection = new NpgsqlConnection(conectionString))
+            {
+                string query = ReviewQueries.GetReviewByOrderIdQuery;
+
+                var args = new
+                {
+                    orderId = orderId
+                };
+
+                connection.Open();
+
+                return connection.QuerySingle<ReviewDTO>(query, args);
             }
         }
     }

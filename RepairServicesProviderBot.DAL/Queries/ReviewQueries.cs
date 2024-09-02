@@ -2,6 +2,8 @@
 {
     public class ReviewQueries
     {
-        public const string AddReviewQuery = $"SELECT * FROM \"AddReview\"(@orderId, @description, @image, @rating)";
+        public const string AddReviewByOrderIdQuery = $"SELECT * FROM \"AddReviewByOrderId\"(@orderId, @description, @rating)";
+
+        public const string GetReviewByOrderIdQuery = $"SELECT * FROM \"GetReviewByOrderId\"(@orderId)";
     }
 }
