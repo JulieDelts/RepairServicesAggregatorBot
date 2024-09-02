@@ -20,8 +20,6 @@ namespace RepairServicesProviderBot.BLL.Mappings
             CreateMap<ExtendedServiceTypeInputModel, ServiceTypeDTO>();
             CreateMap<ServiceTypeDTO, ServiceTypeOutputModel>();
             CreateMap<ServiceTypeDTO, ContractorServiceTypeOutputModel>();
-
-           // CreateMap<List<ServiceTypeDTO>, List <ServiceTypeOutputModel>>();
         }
     }
 }

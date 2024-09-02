@@ -31,7 +31,7 @@ namespace RepairServicesProviderBot.DAL
             }
         }
 
-        public UserDTO GetUserById(long userId)
+        public UserDTO GetUserById(int userId)
         {
             string conectionString = Options.ConnectionString;
 
@@ -47,26 +47,6 @@ namespace RepairServicesProviderBot.DAL
                 connection.Open();
 
                 return connection.QuerySingle<UserDTO>(query, args);
-            }
-        }
-
-        public int UpdateUserRoleById(int userId, int roleId)
-        {
-            string conectionString = Options.ConnectionString;
-
-            using (var connection = new NpgsqlConnection(conectionString))
-            {
-                string query = UserQueries.UpdateUserRoleByIdQuery;
-
-                var args = new
-                {
-                    userId = userId,
-                    roleId = roleId
-                };
-
-                connection.Open();
-
-                return connection.QuerySingle<int>(query, args);
             }
         }
 
