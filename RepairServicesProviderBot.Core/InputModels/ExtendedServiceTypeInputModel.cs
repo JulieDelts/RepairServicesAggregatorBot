@@ -4,17 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RepairServicesProviderBot.Core.DTOs
+namespace RepairServicesProviderBot.Core.InputModels
 {
-    public class ServiceTypeDTO
+    public class ExtendedServiceTypeInputModel
     {
-        public int? Id { get; set; }
-
-        public int? UserId { get; set; }
+        public int Id { get; set; }
 
         public string? Description { get; set; }
-
-        public int? Cost { get; set; }
 
         public bool? IsDeleted { get; set; }
     }
