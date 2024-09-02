@@ -10,14 +10,12 @@ using RepairServicesProviderBot.Core.OutputModels;
 
 namespace RepairServicesProviderBot.BLL.Mappings
 {
-    public class ContractorMapperProfile:Profile
+    public class UserMapperProfile: Profile
     {
-        public ContractorMapperProfile()
+        public UserMapperProfile() 
         {
-            CreateMap<UserMapperProfile, UserDTO>();
-            CreateMap<UserDTO, ContractorWithOrdersOutputModel>();
-            CreateMap<UserDTO, ContractorWithServiceTypeOutputModel>();
-            CreateMap<UserDTO, ContractorWithServiceTypesOutputModel>();
+            CreateMap<ExtendedUserInputModel, UserDTO>();
+            CreateMap<UserDTO,ExtendedUserOutputModel>();
         }
     }
 }

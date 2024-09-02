@@ -9,13 +9,13 @@ namespace RepairServicesProviderBot.BLL
 {
     public class ClientService
     {
-        public UserRepository ClientRepository { get; set; }
+        public UserRepository UserRepository { get; set; }
 
         private Mapper _mapper;
 
         public ClientService()
         {
-            ClientRepository = new UserRepository();
+            UserRepository = new UserRepository();
 
             var config = new MapperConfiguration(
                 cfg => {
@@ -24,18 +24,9 @@ namespace RepairServicesProviderBot.BLL
             _mapper = new Mapper(config);
         }
 
-        public int AddClient(UserInputModel client)
+        public ClientOutputModel GetClientById(int clientId)
         {
-            var clientDTO = _mapper.Map<UserDTO>(client);
-
-            var clientId = ClientRepository.AddUser(clientDTO);
-
-            return clientId;
-        }
-
-        public ClientOutputModel GetClientById(long clientId)
-        {
-            var clientDTO = ClientRepository.GetUserById(clientId);
+            var clientDTO = UserRepository.GetUserById(clientId);
                 
             var client = _mapper.Map<ClientOutputModel>(clientDTO);
 
@@ -52,11 +43,5 @@ namespace RepairServicesProviderBot.BLL
 
         //    return client;
         //}
-
-        public void HideClientById(int clientId)
-        {
-            ClientRepository.HideUserById(clientId);
-        }
-
     }
 }
