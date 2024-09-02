@@ -7,10 +7,11 @@ using RepairServicesProviderBot.Core.InputModels;
 using Telegram.Bot.Types;
 using Telegram.Bot;
 using RepairServicesProviderBot.BLL;
+using System.Text.RegularExpressions;
 
-namespace RepairServicesAggregatorBot.Bot.States.SystemStates
+namespace RepairServicesAggregatorBot.Bot.States.SystemStates.RegisteringUser
 {
-    public class RegisterEmailSystemState: AbstractState
+    public class RegisterEmailSystemState : AbstractState
     {
         public UserInputModel UserInputModel { get; set; }
 
@@ -26,7 +27,7 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates
         {
             var message = update.Message;
 
-            if (!string.IsNullOrWhiteSpace(message.Text))
+            if (IsEmailValid(message.Text))
             {
                 UserInputModel.Email = message.Text;
                 ClientService clientService = new ClientService();
@@ -54,6 +55,11 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates
             {
                 await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Введите электронную почту или 'no', чтобы перейти к следующему этапу регистрации:");
             }
+        }
+
+        private bool IsEmailValid(string email)
+        {
+            return Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$");
         }
     }
 }

@@ -7,7 +7,7 @@ using RepairServicesProviderBot.Core.InputModels;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 
-namespace RepairServicesAggregatorBot.Bot.States.SystemStates
+namespace RepairServicesAggregatorBot.Bot.States.SystemStates.RegisteringUser
 {
     public class StartRegistrationSystemState : AbstractState
     {
@@ -15,9 +15,9 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates
 
         private Dictionary<string, int> _roleModes;
 
-        private bool _isLoginError; 
+        private bool _isLoginError;
 
-        public StartRegistrationSystemState() 
+        public StartRegistrationSystemState()
         {
             UserInputModel = new UserInputModel();
             _roleModes = new Dictionary<string, int>() { { "qwe", 3 }, { "qwo", 2 }, { "no", 1 } };

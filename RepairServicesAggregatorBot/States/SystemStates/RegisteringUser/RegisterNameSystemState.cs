@@ -6,16 +6,17 @@ using System.Threading.Tasks;
 using RepairServicesProviderBot.Core.InputModels;
 using Telegram.Bot.Types;
 using Telegram.Bot;
+using System.Text.RegularExpressions;
 
-namespace RepairServicesAggregatorBot.Bot.States.SystemStates
+namespace RepairServicesAggregatorBot.Bot.States.SystemStates.RegisteringUser
 {
-    public class RegisterNameSystemState: AbstractState
+    public class RegisterNameSystemState : AbstractState
     {
         public UserInputModel UserInputModel { get; set; }
 
         private bool _isNameError;
 
-        public RegisterNameSystemState(UserInputModel userInputModel) 
+        public RegisterNameSystemState(UserInputModel userInputModel)
         {
             UserInputModel = userInputModel;
             _isNameError = false;
@@ -25,7 +26,7 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates
         {
             var message = update.Message;
 
-            if (!string.IsNullOrWhiteSpace(message.Text))
+            if (IsNameValid(message.Text))
             {
                 UserInputModel.Name = message.Text;
                 context.State = new RegisterPhoneSystemState(UserInputModel);
@@ -34,7 +35,7 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates
             {
                 _isNameError = true;
             }
-            
+
         }
 
         public override async void ReactInBot(Context context, ITelegramBotClient botClient)
@@ -45,8 +46,13 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates
             }
             else
             {
-                await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Введите имя:");
+                await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Введите имя кириллицей:");
             }
+        }
+
+        private bool IsNameValid(string name)
+        {
+            return Regex.IsMatch(name, @"^[а-яА-ЯёЁ]+ ?[а-яА-ЯёЁa-zA-Z]+ ?[а-яА-ЯёЁa-zA-Z]+$");
         }
     }
 }
