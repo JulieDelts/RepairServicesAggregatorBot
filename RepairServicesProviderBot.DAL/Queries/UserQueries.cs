@@ -12,7 +12,7 @@ namespace RepairServicesProviderBot.DAL.Querries
 
         public const string GetUserByIdQuery = $"SELECT * FROM \"GetUserById\"(@userId)";
 
-        public const string UpdateUserQuery = $"SELECT * FROM \"UpdateUser\"(@userName, @phone, @email, @roleId, @image, @isDeleted);";
+        public const string UpdateUserByIdQuery = $"SELECT * FROM \"UpdateUserById\"(@userId, @userName, @phone, @email, @roleId, @image, @isDeleted);";
 
         public const string HideUserByIdQuery = $"SELECT * FROM \"HideUserById\"(@userId)"; 
 

@@ -50,16 +50,17 @@ namespace RepairServicesProviderBot.DAL
             }
         }
 
-        public int UpdateUser(UserDTO user)
+        public int UpdateUserById(UserDTO user)
         {
             string conectionString = Options.ConnectionString;
 
             using (var connection = new NpgsqlConnection(conectionString))
             {
-                string query = UserQueries.UpdateUserQuery;
+                string query = UserQueries.UpdateUserByIdQuery;
 
                 var args = new
                 {
+                    userId = user.Id,
                     userName = user.Name,
                     phone = user.Phone,
                     email = user.Email,

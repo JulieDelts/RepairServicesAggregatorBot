@@ -34,7 +34,7 @@ namespace RepairServicesProviderBot.BLL
         }
 
 
-        public OrderOutputModel GetOrderById(long orderId)
+        public OrderOutputModel GetOrderById(int orderId)
         {
             OrderOutputModel orderResponse = new OrderOutputModel();
 

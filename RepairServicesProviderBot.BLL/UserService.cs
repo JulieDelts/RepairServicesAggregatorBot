@@ -51,7 +51,7 @@ namespace RepairServicesProviderBot.BLL
         {
             var userDTO = _mapper.Map<UserDTO>(user);
 
-            int userId = UserRepository.UpdateUser(userDTO);
+            int userId = UserRepository.UpdateUserById(userDTO);
 
             var userResponse = GetUserById(userId);
 
