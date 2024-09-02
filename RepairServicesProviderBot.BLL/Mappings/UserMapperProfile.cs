@@ -14,6 +14,7 @@ namespace RepairServicesProviderBot.BLL.Mappings
     {
         public UserMapperProfile() 
         {
+            CreateMap<UserInputModel, UserDTO>();
             CreateMap<ExtendedUserInputModel, UserDTO>();
             CreateMap<UserDTO,ExtendedUserOutputModel>();
         }

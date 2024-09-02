@@ -30,7 +30,7 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.RegisteringUser
             if (IsEmailValid(message.Text))
             {
                 UserInputModel.Email = message.Text;
-                AdminService adminService = new AdminService();
+                UserService adminService = new UserService();
                 int qwe = adminService.AddUser(UserInputModel);
                 Console.WriteLine(qwe);
                 context.State = new CompleteRegistrationSystemState(UserInputModel);
