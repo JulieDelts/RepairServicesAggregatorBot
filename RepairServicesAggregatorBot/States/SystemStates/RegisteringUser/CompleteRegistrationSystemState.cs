@@ -3,7 +3,7 @@ using RepairServicesProviderBot.Core.InputModels;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 
-namespace RepairServicesAggregatorBot.Bot.States.SystemStates
+namespace RepairServicesAggregatorBot.Bot.States.SystemStates.RegisteringUser
 {
     public class CompleteRegistrationSystemState : AbstractState
     {
@@ -16,10 +16,7 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates
 
         public override void HandleMessage(Context context, Update update)
         {
-            ClientService clientService = new ClientService();
-            int qwe = clientService.AddClient(UserInputModel);
-            Console.WriteLine(qwe);
-            context.State = new StartRegistrationSystemState();
+            //context.State = new StartRegistrationSystemState();
         }
 
         public override async void ReactInBot(Context context, ITelegramBotClient botClient)

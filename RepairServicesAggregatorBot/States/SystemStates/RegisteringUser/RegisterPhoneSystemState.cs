@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 using RepairServicesProviderBot.Core.InputModels;
 using Telegram.Bot.Types;
 using Telegram.Bot;
+using System.Text.RegularExpressions;
 
-namespace RepairServicesAggregatorBot.Bot.States.SystemStates
+namespace RepairServicesAggregatorBot.Bot.States.SystemStates.RegisteringUser
 {
-    public class RegisterPhoneSystemState: AbstractState
+    public class RegisterPhoneSystemState : AbstractState
     {
         public UserInputModel UserInputModel { get; set; }
 
@@ -25,7 +26,7 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates
         {
             var message = update.Message;
 
-            if (!string.IsNullOrWhiteSpace(message.Text))
+            if (IsPhoneValid(message.Text))
             {
                 UserInputModel.Phone = message.Text;
                 context.State = new RegisterEmailSystemState(UserInputModel);
@@ -44,8 +45,13 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates
             }
             else
             {
-                await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Введите номер телефона:");
+                await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Введите номер телефона в формате +7 ### ###-##-##:");
             }
+        }
+
+        private bool IsPhoneValid(string phone)
+        {
+            return Regex.IsMatch(phone, @"\+7 \d{3} \d{3}-\d{2}-\d{2}");
         }
     }
 }
