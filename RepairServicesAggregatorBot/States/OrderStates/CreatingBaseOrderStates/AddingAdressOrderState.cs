@@ -8,6 +8,7 @@ using Telegram.Bot.Types;
 using RepairServicesProviderBot.Core.InputModels;
 using RepairServicesProviderBot.BLL;
 using RepairServicesAggregatorBot.Bot.States.SystemStates;
+using RepairServicesAggregatorBot.Bot.States.SystemStates.RegisteringUser;
 
 namespace RepairServicesAggregatorBot.Bot.States.OrderStates.CreatingBaseOrderStates
 {

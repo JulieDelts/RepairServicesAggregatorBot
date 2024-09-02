@@ -20,7 +20,7 @@ namespace RepairServicesProviderBot.DAL
 
             using (var connection = new NpgsqlConnection(conectionString))
             {
-                string query = Querries.ServiceTypeQueries.AddServiceTypeQuery;
+                string query = ServiceTypeQueries.AddServiceTypeQuery;
 
                 var args = new
                 {
@@ -33,24 +33,63 @@ namespace RepairServicesProviderBot.DAL
             }
         }
 
-        public int AddContractorService(int userId, int serviceTypeId, int cost)
+        public int AddContractorServiceType(ServiceTypeDTO serviceType)
         {
             string conectionString = Options.ConnectionString;
 
             using (var connection = new NpgsqlConnection(conectionString))
             {
-                string query = ServiceTypeQueries.AddContractorServiceQuery;
+                string query = ServiceTypeQueries.AddContractorServiceTypeQuery;
 
                 var args = new
                 {
-                    userId = userId,
-                    serviceTypeId = serviceTypeId,
-                    cost = cost
+                    userId = serviceType.UserId,
+                    serviceTypeId = serviceType.Id,
+                    cost = serviceType.Cost
                 };
 
                 connection.Open();
 
                 return connection.QuerySingle<int>(query, args);
+            }
+        }
+
+        public ServiceTypeDTO GetServiceTypeById(int serviceTypeId)
+        {
+            string conectionString = Options.ConnectionString;
+
+            using (var connection = new NpgsqlConnection(conectionString))
+            {
+                string query = ServiceTypeQueries.GetServiceTypeByIdQuery;
+
+                var args = new
+                {
+                    serviceTypeId = serviceTypeId
+                };
+
+                connection.Open();
+
+                return connection.QuerySingle<ServiceTypeDTO>(query,args);
+            }
+        }
+
+        public ServiceTypeDTO GetContractorServiceTypeById(ServiceTypeDTO serviceType)
+        {
+            string conectionString = Options.ConnectionString;
+
+            using (var connection = new NpgsqlConnection(conectionString))
+            {
+                string query = ServiceTypeQueries.GetContractorServiceTypeByIdQuery;
+
+                var args = new
+                {
+                    userId = serviceType.UserId,
+                    serviceTypeId = serviceType.Id
+                };
+
+                connection.Open();
+
+                return connection.QuerySingle<ServiceTypeDTO>(query, args);
             }
         }
 
@@ -60,7 +99,7 @@ namespace RepairServicesProviderBot.DAL
 
             using (var connection = new NpgsqlConnection(conectionString))
             {
-                string query = Querries.ServiceTypeQueries.GetAvailableServiceTypesQuery;
+                string query = ServiceTypeQueries.GetAvailableServiceTypesQuery;
 
                 connection.Open();
 
@@ -68,13 +107,13 @@ namespace RepairServicesProviderBot.DAL
             }
         }
 
-        public List<ServiceTypeDTO> GetContractorServicesById(int userId)
+        public List<ServiceTypeDTO> GetContractorServiceTypesById(int userId)
         {
             string conectionString = Options.ConnectionString;
 
             using (var connection = new NpgsqlConnection(conectionString))
             {
-                string query = Querries.ServiceTypeQueries.GetContractorServicesByIdQuery;
+                string query = ServiceTypeQueries.GetContractorServiceTypesByIdQuery;
 
                 var args = new
                 {
@@ -93,7 +132,7 @@ namespace RepairServicesProviderBot.DAL
 
             using (var connection = new NpgsqlConnection(conectionString))
             {
-                string query = Querries.ServiceTypeQueries.UpdateServiceTypeByIdQuery;
+                string query = ServiceTypeQueries.UpdateServiceTypeByIdQuery;
 
                 var args = new
                 {
@@ -108,19 +147,19 @@ namespace RepairServicesProviderBot.DAL
             }
         }
 
-        public int UpdateContractorServiceCost(int userId, int serviceTypeId, int cost)
+        public int UpdateContractorServiceCostById(ServiceTypeDTO serviceType)
         {
             string conectionString = Options.ConnectionString;
 
             using (var connection = new NpgsqlConnection(conectionString))
             {
-                string query = ServiceTypeQueries.UpdateContractorServiceCostQuery;
+                string query = ServiceTypeQueries.UpdateContractorServiceCostByIdQuery;
 
                 var args = new
                 {
-                    userId = userId,
-                    serviceTypeId = serviceTypeId,
-                    cost = cost
+                    userId = serviceType.UserId,
+                    serviceTypeId = serviceType.Id,
+                    cost = serviceType.Cost
                 };
 
                 connection.Open();
@@ -129,13 +168,13 @@ namespace RepairServicesProviderBot.DAL
             }
         }
 
-        public int HideServiceTypeById(int ServiceTypeId)
+        public void HideServiceTypeById(int ServiceTypeId)
         {
             string conectionString = Options.ConnectionString;
 
             using (var connection = new NpgsqlConnection(conectionString))
             {
-                string query = Querries.ServiceTypeQueries.HideServiceTypeByIdQuery;
+                string query = ServiceTypeQueries.HideServiceTypeByIdQuery;
 
                 var args = new
                 {
@@ -144,27 +183,27 @@ namespace RepairServicesProviderBot.DAL
 
                 connection.Open();
 
-                return connection.QuerySingle<int>(query, args);
+                connection.Execute(query, args);
             }
         }
 
-        public void DeleteContractorService(int serviceTypeId, int userId)
+        public void DeleteContractorServiceTypeById(ServiceTypeDTO serviceType)
         {
             string conectionString = Options.ConnectionString;
 
             using (var connection = new NpgsqlConnection(conectionString))
             {
-                string query = ServiceTypeQueries.DeleteContractorServiceQuery;
+                string query = ServiceTypeQueries.DeleteContractorServiceTypeByIdQuery;
 
                 var args = new
                 {
-                    serviceTypeId = serviceTypeId,
-                    userId = userId
+                    serviceTypeId = serviceType.Id,
+                    userId = serviceType.UserId
                 };
 
                 connection.Open();
 
-                connection.QuerySingle<int>(query, args);
+                connection.Execute(query, args);
             }
         }
     }
