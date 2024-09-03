@@ -10,7 +10,7 @@ namespace RepairServicesProviderBot.DAL.Querries
     {
         public const string AddServiceTypeQuery = "SELECT * FROM \"AddServiceType\"(@description);";
 
-        public const string AddContractorServiceTypeQuery = $"SELECT * FROM \"AddContractorServiceType\"(@userId, @serviceTypeId, @cost)";
+        public const string AddContractorServiceTypeQuery = $"SELECT * FROM \"AddContractorServiceType\"(@userId, @serviceTypeId, @cost);";
 
         public const string GetServiceTypeByIdQuery = $"SELECT * FROM \"GetServiceTypeById\"(@serviceTypeId);";
 
@@ -18,11 +18,11 @@ namespace RepairServicesProviderBot.DAL.Querries
 
         public const string GetAvailableServiceTypesQuery = "SELECT * FROM \"GetAvailableServiceTypes\"();";
 
-        public const string GetContractorServiceTypesByIdQuery = $"SELECT * FROM \"GetContractorServiceTypesById\"(@contractorId)";
+        public const string GetContractorServiceTypesByIdQuery = $"SELECT * FROM \"GetContractorServiceTypesById\"(@contractorId);";
 
-        public const string UpdateServiceTypeByIdQuery = "SELECT * FROM \"UpdateServiceTypeById\"(@serviceTypeId, @description, @isDeleted)";
+        public const string UpdateServiceTypeByIdQuery = "SELECT * FROM \"UpdateServiceTypeById\"(@serviceTypeId, @description, @isDeleted);";
 
-        public const string UpdateContractorServiceCostByIdQuery = $"SELECT * FROM \"UpdateContractorServiceCostById\"(@userId, @serviceTypeId, @cost)";
+        public const string UpdateContractorServiceCostByIdQuery = $"SELECT * FROM \"UpdateContractorServiceCostById\"(@userId, @serviceTypeId, @cost);";
 
         public const string HideServiceTypeByIdQuery = "SELECT * FROM \"HideServiceTypeById\"(@serviceTypeId);";
 

@@ -51,6 +51,25 @@ namespace RepairServicesProviderBot.DAL
             }
         }
 
+        public double GetContractorRating(int userId)
+        {
+            string conectionString = Options.ConnectionString;
+
+            using (var connection = new NpgsqlConnection(conectionString))
+            {
+                string query = UserQueries.GetContractorRatingQuery;
+
+                var args = new
+                {
+                    userId = userId
+                };
+
+                connection.Open();
+
+                return connection.QuerySingle<double>(query, args);
+            }
+        }
+
         public int UpdateUserById(UserDTO user)
         {
             string conectionString = Options.ConnectionString;
