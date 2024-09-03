@@ -18,6 +18,7 @@ namespace RepairServicesProviderBot.DAL
 
                 var args = new
                 {
+                    chatId = user.ChatId,
                     userName = user.Name,
                     email = user.Email,
                     phone = user.Phone,

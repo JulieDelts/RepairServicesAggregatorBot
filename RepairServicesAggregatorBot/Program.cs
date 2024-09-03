@@ -1,6 +1,7 @@
 using RepairServicesAggregatorBot.Bot;
 using RepairServicesAggregatorBot.Bot.States.OrderStates.CreatingBaseOrderStates;
 using RepairServicesAggregatorBot.Bot.States.SystemStates;
+using RepairServicesAggregatorBot.Bot.States.SystemStates.RegisteringUser;
 using Telegram.Bot;
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
