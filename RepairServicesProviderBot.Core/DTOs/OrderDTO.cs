@@ -20,6 +20,8 @@ namespace RepairServicesProviderBot.Core.DTOs
 
         public int? StatusId { get; set; }
 
+        public string? StatusDescription { get; set; }
+
         public string? Date { get; set; }
 
         public string? Description { get; set; }
@@ -32,7 +34,7 @@ namespace RepairServicesProviderBot.Core.DTOs
 
         public UserDTO? Contractor { get; set; }
 
-        public ServiceTypeDTO? Service { get; set; }
+        public ServiceTypeDTO? ServiceType { get; set; }
 
         public List<UserDTO>? AvailableContractors { get; set; }
 

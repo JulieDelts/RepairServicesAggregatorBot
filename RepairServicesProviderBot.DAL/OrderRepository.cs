@@ -98,6 +98,33 @@ namespace RepairServicesProviderBot.DAL
             }
         }
 
+        public List<OrderDTO> GetAllContractorOrdersByContractorId(int userId)
+        {
+            string conectionString = Options.ConnectionString;
+
+            using (var connection = new NpgsqlConnection(conectionString))
+            {
+                string query = OrderQueries.GetAllContractorOrdersByContractorIdQuery;
+
+                var args = new
+                {
+                    userId = userId
+                };
+
+                connection.Open();
+
+                return connection.Query<OrderDTO,ServiceTypeDTO,OrderDTO>(query,
+                    (orderDTO,serviceTypeDTO) =>
+                    {
+                        orderDTO.ServiceType = serviceTypeDTO;
+                        return orderDTO;
+                    },
+                    args,
+                    splitOn:"Description").ToList();
+
+            }
+        }
+
         public int UpdateOrderById(OrderDTO order)
         {
             string conectionString = Options.ConnectionString;

@@ -22,6 +22,8 @@ namespace RepairServicesProviderBot.Core.DTOs
 
         public string? RoleDescription { get; set; }
 
+        public string? Rating { get; set; }
+
         public string? Image { get; set; }
 
         public bool? IsDeleted { get; set; }
