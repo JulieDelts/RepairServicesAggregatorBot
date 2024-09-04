@@ -37,28 +37,28 @@ namespace RepairServicesProviderBot.BLL
             return client;
         }
 
-        public ClientWithOrdersOutputModel GetClientWithOrdersById(int clientId)
-        {
-            var clientDTO = UserRepository.GetUserById(clientId);
+        //public ClientWithOrdersOutputModel GetClientWithOrdersById(int clientId)
+        //{
+        //    var clientDTO = UserRepository.GetUserById(clientId);
 
-            var client = _mapper.Map<ClientWithOrdersOutputModel>(clientDTO);
+        //    var client = _mapper.Map<ClientWithOrdersOutputModel>(clientDTO);
 
-            //var orders = _mapper.Map
-            //client.Orders = orders;
+        //    //var orders = _mapper.Map
+        //    //client.Orders = orders;
 
-            return client;
-        }
+        //    return client;
+        //}
 
-        public List<OrderOutputModel> GetAllClientOrdersById(int clientId)
-        {
-            List<OrderOutputModel> clientOrders = new();
+        //public List<OrderOutputModel> GetAllClientOrdersById(int clientId)
+        //{
+        //    List<OrderOutputModel> clientOrders = new();
 
-            var orderDTOs = OrderRepository.GetAllClientOrdersById(clientId);
+        //    var orderDTOs = OrderRepository.GetAllClientOrdersById(clientId);
 
-            foreach (var orderDTO in orderDTOs)
-            {
-                if(orderDTO.StatusDescription == "подтверждение"||orderDTO.StatusDescription == "подтверждение")
-            }
-        }
+        //    foreach (var orderDTO in orderDTOs)
+        //    {
+        //        if(orderDTO.StatusDescription == "подтверждение"||orderDTO.StatusDescription == "подтверждение")
+        //    }
+        //}
     }
 }
