@@ -24,7 +24,7 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.CreatingBaseOrderSt
             }
             else
             {
-                Order.Description = msg.Text;
+                Order.OrderDescription = msg.Text;
                 context.State = new AddingAdressOrderState(Order);
             }
         }

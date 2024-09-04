@@ -25,7 +25,7 @@ namespace RepairServicesProviderBot.BLL
         }
         public ServiceTypeOutputModel AddServiceType(ServiceTypeInputModel serviceType)
         {
-            var serviceTypeDescription = serviceType.Description;
+            var serviceTypeDescription = serviceType.ServiceTypeDescription;
 
             var serviceTypeId = ServiceTypeRepository.AddServiceType(serviceTypeDescription);
 
