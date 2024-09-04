@@ -10,7 +10,7 @@ namespace RepairServicesProviderBot.Core.DTOs
     {
         public int? OrderId { get; set; }
 
-        public string? Description { get; set; }
+        public string? ReviewDescription { get; set; }
 
         public int? Rating { get; set; }
     }

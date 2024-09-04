@@ -19,7 +19,7 @@ namespace RepairServicesProviderBot.DAL
                 var args = new
                 {
                     orderId = review.OrderId,
-                    description = review.Description,
+                    description = review.ReviewDescription,
                     rating = review.Rating
                 };
 
