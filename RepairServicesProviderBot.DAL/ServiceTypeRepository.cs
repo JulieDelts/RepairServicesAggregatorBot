@@ -137,7 +137,7 @@ namespace RepairServicesProviderBot.DAL
                 var args = new
                 {
                     serviceTypeId = serviceType.Id,
-                    description = serviceType.Description,
+                    description = serviceType.ServiceTypeDescription,
                     isDeleted = serviceType.IsDeleted
                 };
 

@@ -25,7 +25,7 @@ namespace RepairServicesProviderBot.DAL
                     adminId = order.AdminId,
                     statusId = order.StatusId,
                     orderDate = order.Date,
-                    description = order.Description,
+                    description = order.OrderDescription,
                     address = order.Address
                 };
 
@@ -120,7 +120,7 @@ namespace RepairServicesProviderBot.DAL
                         return orderDTO;
                     },
                     args,
-                    splitOn:"Description").ToList();
+                    splitOn:"ServiceTypeDescription").ToList();
 
             }
         }
@@ -142,7 +142,7 @@ namespace RepairServicesProviderBot.DAL
                     adminId = order.AdminId,
                     statusId = order.StatusId,
                     orderDate = order.Date,
-                    description = order.Description,
+                    description = order.OrderDescription,
                     address = order.Address,
                     isDeleted = order.IsDeleted
                 };
