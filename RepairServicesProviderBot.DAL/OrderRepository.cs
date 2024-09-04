@@ -89,12 +89,12 @@ namespace RepairServicesProviderBot.DAL
 
                 connection.Open();
 
-                return connection.Query<UserDTO,ServiceTypeDTO,UserDTO>(query,
-                    (userDTO,serviceTypeDTO) => 
+                return connection.Query<UserDTO, ServiceTypeDTO, UserDTO>(query,
+                    (userDTO, serviceTypeDTO) =>
                     { userDTO.ServiceType = serviceTypeDTO;
-                      return userDTO;}, 
+                        return userDTO; },
                     args,
-                    splitOn:"Cost").ToList();
+                    splitOn: "Cost").ToList();
             }
         }
 
@@ -113,15 +113,96 @@ namespace RepairServicesProviderBot.DAL
 
                 connection.Open();
 
-                return connection.Query<OrderDTO,ServiceTypeDTO,OrderDTO>(query,
-                    (orderDTO,serviceTypeDTO) =>
+                return connection.Query<OrderDTO, ServiceTypeDTO, OrderDTO>(query,
+                    (orderDTO, serviceTypeDTO) =>
                     {
                         orderDTO.ServiceType = serviceTypeDTO;
                         return orderDTO;
                     },
                     args,
-                    splitOn:"ServiceTypeDescription").ToList();
+                    splitOn: "ServiceTypeDescription").ToList();
 
+            }
+        }
+
+        public List<OrderDTO> GetCurrentContractorOrdersByContractorId(int userId)
+        {
+            string conectionString = Options.ConnectionString;
+
+            using (var connection = new NpgsqlConnection(conectionString))
+            {
+                string query = OrderQueries.GetCurrentContractorOrdersByContractorIdQuery;
+
+                var args = new
+                {
+                    userId = userId
+                };
+
+                connection.Open();
+
+                return connection.Query<UserDTO, OrderDTO, ServiceTypeDTO, OrderDTO>(query,
+                    (userDTO, orderDTO, serviceTypeDTO) =>
+                    {
+                        orderDTO.Client = userDTO;
+                        orderDTO.ServiceType = serviceTypeDTO;
+                        return orderDTO;
+                    },
+                    args,
+                    splitOn: "OrderDescription, ServiceTypeDescription").ToList();
+
+            }
+        }
+
+        public OrderDTO GetOrderForContractorConfirmation(int orderId)
+        {
+            string conectionString = Options.ConnectionString;
+
+            using (var connection = new NpgsqlConnection(conectionString))
+            {
+                string query = OrderQueries.GetOrderForContractorConfirmationQuery;
+
+                var args = new
+                {
+                    orderId = orderId
+                };
+
+                connection.Open();
+
+                return connection.Query<OrderDTO, ServiceTypeDTO, OrderDTO>(query,
+                    (orderDTO, serviceTypeDTO) =>
+                    {
+                        orderDTO.ServiceType = serviceTypeDTO;
+                        return orderDTO;
+                    },
+                    args,
+                    splitOn: "ServiceTypeDescription").First();
+            }
+        }
+
+        public List<OrderDTO> GetAllClientOrdersById(int userId)
+        {
+            string conectionString = Options.ConnectionString;
+
+            using (var connection = new NpgsqlConnection(conectionString))
+            {
+                string query = OrderQueries.GetAllClientOrdersByIdQuery;
+
+                var args = new
+                {
+                    userId = userId
+                };
+
+                connection.Open();
+
+                return connection.Query<UserDTO, OrderDTO, ServiceTypeDTO, OrderDTO>(query,
+                  (userDTO, orderDTO, serviceTypeDTO) =>
+                  {
+                      orderDTO.Contractor = userDTO;
+                      orderDTO.ServiceType = serviceTypeDTO;
+                      return orderDTO;
+                  },
+                  args,
+                  splitOn: "OrderDescription, ServiceTypeDescription").ToList();
             }
         }
 
