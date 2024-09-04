@@ -1,7 +1,9 @@
 using RepairServicesAggregatorBot.Bot;
+using RepairServicesAggregatorBot.Bot.States.ClientStates;
 using RepairServicesAggregatorBot.Bot.States.OrderStates.CreatingBaseOrderStates;
 using RepairServicesAggregatorBot.Bot.States.SystemStates;
 using RepairServicesAggregatorBot.Bot.States.SystemStates.RegisteringUser;
+using RepairServicesProviderBot.Core.InputModels;
 using Telegram.Bot;
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
@@ -63,7 +65,8 @@ namespace RepairServicesAggregatorBot
                 {
                     if (message.Text.ToLower() == "/start")
                     {
-                        crntClient.State = new StartRegistrationSystemState();
+                        UserInputModel userInputModel = new UserInputModel();
+                        crntClient.State = new ClientMenuState(userInputModel);
                     }
                     else
                     {
