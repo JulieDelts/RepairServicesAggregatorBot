@@ -16,7 +16,7 @@ namespace RepairServicesProviderBot.Core.OutputModels
 
         public string Date { get; set; }
 
-        public string Description { get; set; }
+        public string OrderDescription { get; set; }
 
         public string Address { get; set; }
     }

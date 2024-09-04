@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace RepairServicesProviderBot.Core.OutputModels
 {
-    public class ServiceTypeOutputModel
+    public class ServiceTypeWithCostOutputModel
     {
         public string ServiceTypeDescription { get; set; }
+
+        public string Cost {  get; set; }
     }
 }

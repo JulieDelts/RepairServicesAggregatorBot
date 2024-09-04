@@ -8,7 +8,7 @@ namespace RepairServicesProviderBot.Core.OutputModels
 {
     public class ReviewOutputModel
     {
-        public string Description { get; set; }
+        public string ReviewDescription { get; set; }
 
         public int Rating { get; set; }
     }
