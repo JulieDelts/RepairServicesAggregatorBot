@@ -8,7 +8,7 @@ namespace RepairServicesProviderBot.Core.InputModels
 {
     public class ServiceTypeInputModel
     {
-        public string Description { get; set; }
+        public string ServiceTypeDescription { get; set; }
 
     }
 }
