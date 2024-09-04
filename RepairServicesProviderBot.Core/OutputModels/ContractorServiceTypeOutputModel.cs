@@ -8,7 +8,7 @@ namespace RepairServicesProviderBot.Core.OutputModels
 {
     public class ContractorServiceTypeOutputModel
     {
-        public string Description { get; set; }
+        public string ServiceTypeDescription { get; set; }
 
         public int Cost { get; set; }
     }
