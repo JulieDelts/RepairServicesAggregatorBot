@@ -12,6 +12,12 @@
 
         public const string GetAllContractorOrdersByContractorIdQuery = $"SELECT * FROM \"GetAllContractorOrdersByContractorId\"(@userId);";
 
+        public const string GetCurrentContractorOrdersByContractorIdQuery = $"SELECT * FROM \"GetCurrentContractorOrdersByContractorId\"(@userId);";
+
+        public const string GetOrderForContractorConfirmationQuery = $"SELECT * FROM \"GetOrderForContractorConfirmation\"(@orderId);";
+
+        public const string GetAllClientOrdersByIdQuery = $"SELECT * FROM \"GetAllClientOrdersById\"(@userId)";
+
         public const string UpdateOrderByIdQuery = $"SELECT * FROM \"UpdateOrderById\"(@orderId, @clientId, @serviceTypeId,@contractorId, @adminId, @statusId, @orderDate, @description, @address, @isDeleted);";
 
         public const string HideOrderByIdQuery = $"SELECT * FROM \"HideOrderById\"(@orderId);";
