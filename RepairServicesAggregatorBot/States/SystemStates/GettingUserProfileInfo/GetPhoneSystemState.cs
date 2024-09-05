@@ -8,15 +8,15 @@ using Telegram.Bot.Types;
 using Telegram.Bot;
 using System.Text.RegularExpressions;
 
-namespace RepairServicesAggregatorBot.Bot.States.SystemStates.RegisteringUser
+namespace RepairServicesAggregatorBot.Bot.States.SystemStates.GettingUserProfileInfo
 {
-    public class RegisterPhoneSystemState : AbstractState
+    public class GetPhoneSystemState : AbstractState
     {
         public UserInputModel UserInputModel { get; set; }
 
         private bool _isPhoneError;
 
-        public RegisterPhoneSystemState(UserInputModel userInputModel)
+        public GetPhoneSystemState(UserInputModel userInputModel)
         {
             UserInputModel = userInputModel;
             _isPhoneError = false;
@@ -29,7 +29,7 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.RegisteringUser
             if (IsPhoneValid(message.Text))
             {
                 UserInputModel.Phone = message.Text;
-                context.State = new RegisterEmailSystemState(UserInputModel);
+                context.State = new GetEmailSystemState(UserInputModel);
             }
             else
             {

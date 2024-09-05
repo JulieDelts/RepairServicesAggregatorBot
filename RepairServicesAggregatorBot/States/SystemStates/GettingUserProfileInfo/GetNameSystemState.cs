@@ -7,16 +7,17 @@ using RepairServicesProviderBot.Core.InputModels;
 using Telegram.Bot.Types;
 using Telegram.Bot;
 using System.Text.RegularExpressions;
+using RepairServicesAggregatorBot.Bot.States.SystemStates.RegisteringUser;
 
-namespace RepairServicesAggregatorBot.Bot.States.SystemStates.RegisteringUser
+namespace RepairServicesAggregatorBot.Bot.States.SystemStates.GettingUserProfileInfo
 {
-    public class RegisterNameSystemState : AbstractState
+    public class GetNameSystemState : AbstractState
     {
         public UserInputModel UserInputModel { get; set; }
 
         private bool _isNameError;
 
-        public RegisterNameSystemState(UserInputModel userInputModel)
+        public GetNameSystemState(UserInputModel userInputModel)
         {
             UserInputModel = userInputModel;
             _isNameError = false;
@@ -29,7 +30,7 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.RegisteringUser
             if (IsNameValid(message.Text))
             {
                 UserInputModel.Name = message.Text;
-                context.State = new RegisterPhoneSystemState(UserInputModel);
+                context.State = new GetPhoneSystemState(UserInputModel);
             }
             else
             {

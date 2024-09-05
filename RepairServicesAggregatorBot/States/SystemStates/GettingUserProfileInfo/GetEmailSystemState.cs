@@ -1,23 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text.RegularExpressions;
+using RepairServicesAggregatorBot.Bot.States.SystemStates.RegisteringUser;
+using RepairServicesAggregatorBot.Bot.States.SystemStates.UpdatingUserProfile;
 using RepairServicesProviderBot.Core.InputModels;
-using Telegram.Bot.Types;
 using Telegram.Bot;
-using RepairServicesProviderBot.BLL;
-using System.Text.RegularExpressions;
+using Telegram.Bot.Types;
 
-namespace RepairServicesAggregatorBot.Bot.States.SystemStates.RegisteringUser
+namespace RepairServicesAggregatorBot.Bot.States.SystemStates.GettingUserProfileInfo
 {
-    public class RegisterEmailSystemState : AbstractState
+    public class GetEmailSystemState : AbstractState
     {
         public UserInputModel UserInputModel { get; set; }
 
         private bool _isEmailError;
 
-        public RegisterEmailSystemState(UserInputModel userInputModel)
+        public GetEmailSystemState(UserInputModel userInputModel)
         {
             UserInputModel = userInputModel;
             _isEmailError = false;
@@ -30,11 +26,12 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.RegisteringUser
             if (IsEmailValid(message.Text))
             {
                 UserInputModel.Email = message.Text;
-                context.State = new CompleteRegistrationSystemState(UserInputModel);
+
+                ChangeState(context);
             }
             else if (message.Text == "no")
             {
-                context.State = new CompleteRegistrationSystemState(UserInputModel);
+                ChangeState(context);
             }
             else
             {
@@ -51,6 +48,18 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.RegisteringUser
             else
             {
                 await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Введите электронную почту или 'no', чтобы перейти к следующему этапу регистрации:");
+            }
+        }
+
+        private void ChangeState(Context context)
+        {
+            if (context.Id == 0)
+            {
+                context.State = new CompleteRegistrationSystemState(UserInputModel);
+            }
+            else
+            {
+                context.State = new CompleteUpdateUserProfileSystemState(UserInputModel);
             }
         }
 
