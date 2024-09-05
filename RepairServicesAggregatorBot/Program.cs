@@ -45,9 +45,8 @@ namespace RepairServicesAggregatorBot
         }
         public static async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
         {
-            if (update.Type == UpdateType.Message && update.Message.Text != null)
+            if (update.Type == UpdateType.Message)
             {
-
                 var message = update.Message;
 
                 Context crntClient;
@@ -85,12 +84,12 @@ namespace RepairServicesAggregatorBot
                         }
                         else
                         {
-                            crntClient.State = new AddingDescriptionOrderState();
+                            crntClient.State = new ClientMenuState();
                         }
                     }
                     else
                     {
-                        crntClient.HandleMessage(update);
+                        crntClient.HandleMessage(update, botClient);
                     }
                 }
                 finally
@@ -98,6 +97,16 @@ namespace RepairServicesAggregatorBot
                     crntClient.ReactInBot(botClient);
                     await Task.CompletedTask;
                 }
+            }
+            else if (update.Type == UpdateType.CallbackQuery)
+            {
+                var callback = update.CallbackQuery;
+
+                Context crntClient = Clients[callback.From.Id];
+
+                crntClient.HandleMessage(update, botClient);
+
+                crntClient.ReactInBot(botClient);
             }
         }
 

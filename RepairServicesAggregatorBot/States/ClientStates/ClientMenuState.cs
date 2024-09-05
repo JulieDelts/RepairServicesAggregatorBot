@@ -1,22 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RepairServicesAggregatorBot.Bot.States.SystemStates.RegisteringUser;
-using RepairServicesProviderBot.Core.InputModels;
+﻿using Telegram.Bot;
 using Telegram.Bot.Types;
-using Telegram.Bot;
 using Telegram.Bot.Types.ReplyMarkups;
 
 namespace RepairServicesAggregatorBot.Bot.States.ClientStates
 {
-    public class ClientMenuState: AbstractState
+    public class ClientMenuState : AbstractState
     {
-        public override void HandleMessage(Context context, Update update)
+        public override async void HandleMessage(Context context, Update update, ITelegramBotClient botClient)
         {
-            //var message = update.Message;
+            if (update.CallbackQuery.Data == "prf")
+            {
+                context.State = new ClientProfileMenuState();
+            }
+            else if (update.CallbackQuery.Data == "admhlp")
+            {
+                await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Да, это пиздец, сочувствую!");
+            }
+            else 
+            {
+                await botClient.SendTextMessageAsync(new ChatId(context.ChatId), $"Нажали на кнопочку {update.CallbackQuery.Data}!");
+            }
 
+            //int messageId = update.CallbackQuery.Message.MessageId;
+
+            //await botClient.EditMessageTextAsync(new ChatId(context.ChatId),messageId, update.CallbackQuery.Message.Text);
         }
 
         public override async void ReactInBot(Context context, ITelegramBotClient botClient)
@@ -48,7 +55,8 @@ namespace RepairServicesAggregatorBot.Bot.States.ClientStates
                 }
             );
 
-            await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Меню пользователя", replyMarkup:keyboard);
+            await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Меню пользователя", replyMarkup: keyboard);
+
         }
     }
 }

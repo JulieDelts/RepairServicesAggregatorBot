@@ -14,7 +14,7 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.CreatingBaseOrderSt
         {
             Order = new OrderInputModel();
         }
-        public override void HandleMessage(Context context, Update update)
+        public override void HandleMessage(Context context, Update update, ITelegramBotClient botClient)
         {
             var msg = update.Message;
 
