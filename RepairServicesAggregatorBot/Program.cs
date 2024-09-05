@@ -1,5 +1,6 @@
 using System.Security.Principal;
 using RepairServicesAggregatorBot.Bot;
+using RepairServicesAggregatorBot.Bot.States.AdminStates;
 using RepairServicesAggregatorBot.Bot.States.ClientStates;
 using RepairServicesAggregatorBot.Bot.States.OrderStates.CreatingBaseOrderStates;
 using RepairServicesAggregatorBot.Bot.States.SystemStates;
@@ -78,14 +79,7 @@ namespace RepairServicesAggregatorBot
                 {
                     if (message.Text.ToLower() == "/start")
                     {
-                        if (crntClient.Id == 0)
-                        {
-                            crntClient.State = new StartRegistrationSystemState();
-                        }
-                        else
-                        {
-                            crntClient.State = new ClientMenuState();
-                        }
+                        SetBaseState(crntClient);
                     }
                     else
                     {
@@ -95,7 +89,7 @@ namespace RepairServicesAggregatorBot
                 finally
                 {
                     crntClient.ReactInBot(botClient);
-                    await Task.CompletedTask;
+                    //await Task.CompletedTask;
                 }
             }
             else if (update.Type == UpdateType.CallbackQuery)
@@ -110,9 +104,32 @@ namespace RepairServicesAggregatorBot
             }
         }
 
+     
         public static async Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)
         {
             Console.WriteLine($"Error!!!! {exception.ToString()}");
+        }
+
+        private static Context SetBaseState(Context context)
+        {
+            if (context.Id == 0)
+            {
+                context.State = new StartRegistrationSystemState();
+            }
+            else if (context.RoleId == 1)
+            {
+                context.State = new ClientMenuState();
+            }
+            else if (context.RoleId == 2)
+            {
+                //contractor menu
+            }
+            else if (context.RoleId == 3)
+            {
+                context.State = new AdminMenuState();
+            }
+
+            return context;
         }
     }
 }
