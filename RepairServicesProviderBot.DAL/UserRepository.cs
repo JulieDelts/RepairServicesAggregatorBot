@@ -51,6 +51,25 @@ namespace RepairServicesProviderBot.DAL
             }
         }
 
+        public UserDTO GetUserByChatId(long chatId)
+        {
+            string conectionString = Options.ConnectionString;
+
+            using (var connection = new NpgsqlConnection(conectionString))
+            {
+                string query = UserQueries.GetUserByChatIdQuery;
+
+                var args = new
+                {
+                    chatId = chatId
+                };
+
+                connection.Open();
+
+                return connection.QuerySingle<UserDTO>(query, args);
+            }
+        }
+
         public double GetContractorRating(int userId)
         {
             string conectionString = Options.ConnectionString;
