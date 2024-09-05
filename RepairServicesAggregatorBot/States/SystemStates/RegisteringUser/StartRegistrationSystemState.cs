@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RepairServicesAggregatorBot.Bot.States.SystemStates.GettingUserProfileInfo;
 using RepairServicesProviderBot.Core.InputModels;
 using Telegram.Bot;
 using Telegram.Bot.Types;
@@ -48,7 +49,7 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.RegisteringUser
 
                 UserInputModel.ChatId = context.ChatId;
 
-                context.State = new RegisterNameSystemState(UserInputModel);
+                context.State = new GetNameSystemState(UserInputModel);
             }
             else
             {

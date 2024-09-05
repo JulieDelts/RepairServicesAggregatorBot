@@ -7,6 +7,7 @@ using Telegram.Bot.Types.ReplyMarkups;
 using Telegram.Bot.Types;
 using Telegram.Bot;
 using RepairServicesProviderBot.BLL;
+using RepairServicesAggregatorBot.Bot.States.SystemStates.UpdatingUserProfile;
 
 namespace RepairServicesAggregatorBot.Bot.States.ClientStates
 {
@@ -22,7 +23,7 @@ namespace RepairServicesAggregatorBot.Bot.States.ClientStates
             }
             else if (message.Data == "updprf")
             {
-                //context.State = new ClientProfileMenuState();
+                context.State = new StartUpdateUserProfileSystemState();
             }
 
         }
