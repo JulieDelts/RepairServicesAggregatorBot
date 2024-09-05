@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Telegram.Bot.Types.ReplyMarkups;
 using Telegram.Bot.Types;
 using Telegram.Bot;
+using RepairServicesProviderBot.BLL;
 
 namespace RepairServicesAggregatorBot.Bot.States.ClientStates
 {
@@ -13,18 +14,37 @@ namespace RepairServicesAggregatorBot.Bot.States.ClientStates
     {
         public override void HandleMessage(Context context, Update update, ITelegramBotClient botClient)
         {
-           var message = update.Message;
+           var message = update.CallbackQuery;
 
-            if (message.Text == "/back")
+            if (message.Data == "bck")
             {
                 context.State = new ClientMenuState();
+            }
+            else if (message.Data == "updprf")
+            {
+                //context.State = new ClientProfileMenuState();
             }
 
         }
 
         public override async void ReactInBot(Context context, ITelegramBotClient botClient)
         {
-            await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Новое состояние");
+            ClientService clientService = new ClientService();
+
+            var client = clientService.GetClientById(context.Id);
+
+            InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(
+               new[]
+               {
+                    new[]
+                    {
+                        InlineKeyboardButton.WithCallbackData("Обновить профиль", "updprf"),
+                        InlineKeyboardButton.WithCallbackData("Назад", "bck")
+                    }
+               }
+           );
+
+            await botClient.SendTextMessageAsync(new ChatId(context.ChatId), $"Ваш профиль\n{client.Image ?? ""}\nИмя: {client.Name}\nТелефон: {client.Phone}\nЭлектронная почта: {client.Email}", replyMarkup: keyboard);
         }
 
     }
