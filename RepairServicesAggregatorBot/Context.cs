@@ -20,9 +20,9 @@ namespace RepairServicesAggregatorBot.Bot
             State = new AddingDescriptionOrderState();
         }
 
-        public void HandleMessage(Update update)
+        public void HandleMessage(Update update, ITelegramBotClient botClient)
         {
-            State.HandleMessage(this, update);
+            State.HandleMessage(this, update, botClient);
         }
 
         public void ReactInBot(ITelegramBotClient botClient)

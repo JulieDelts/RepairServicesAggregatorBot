@@ -22,7 +22,7 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.RegisteringUser
             _isNameError = false;
         }
 
-        public override void HandleMessage(Context context, Update update)
+        public override void HandleMessage(Context context, Update update, ITelegramBotClient botClient)
         {
             var message = update.Message;
 

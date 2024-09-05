@@ -15,7 +15,7 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.RegisteringUser
             UserInputModel = userInputModel;
         }
 
-        public override void HandleMessage(Context context, Update update)
+        public override void HandleMessage(Context context, Update update, ITelegramBotClient botClient)
         {
         }
 
