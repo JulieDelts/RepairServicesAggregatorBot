@@ -1,4 +1,5 @@
-﻿using Telegram.Bot;
+﻿using RepairServicesAggregatorBot.Bot.States.OrderStates.CreatingBaseOrderStates;
+using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 
@@ -10,11 +11,15 @@ namespace RepairServicesAggregatorBot.Bot.States.ClientStates
         {
             if (update.CallbackQuery.Data == "prf")
             {
-                context.State = new ClientProfileMenuState();
+                context.State = new UserProfileMenuState();
             }
             else if (update.CallbackQuery.Data == "admhlp")
             {
                 await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Да, это пиздец, сочувствую!");
+            }
+            else if (update.CallbackQuery.Data == "ord")
+            {
+                context.State = new AddingDescriptionOrderState();
             }
             else 
             {

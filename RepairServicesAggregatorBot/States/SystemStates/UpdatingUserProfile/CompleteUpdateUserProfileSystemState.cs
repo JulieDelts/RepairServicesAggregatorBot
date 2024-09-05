@@ -46,7 +46,7 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.UpdatingUserProfil
 
             await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Обновление профиля завершено.");
 
-            context.State = new ClientProfileMenuState();
+            context.State = new UserProfileMenuState();
         }
     }
 }

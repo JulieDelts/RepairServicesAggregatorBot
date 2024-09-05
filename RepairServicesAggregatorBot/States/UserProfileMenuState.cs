@@ -8,14 +8,15 @@ using Telegram.Bot.Types;
 using Telegram.Bot;
 using RepairServicesProviderBot.BLL;
 using RepairServicesAggregatorBot.Bot.States.SystemStates.UpdatingUserProfile;
+using RepairServicesAggregatorBot.Bot.States.ClientStates;
 
-namespace RepairServicesAggregatorBot.Bot.States.ClientStates
+namespace RepairServicesAggregatorBot.Bot.States
 {
-    public class ClientProfileMenuState: AbstractState
+    public class UserProfileMenuState : AbstractState
     {
         public override void HandleMessage(Context context, Update update, ITelegramBotClient botClient)
         {
-           var message = update.CallbackQuery;
+            var message = update.CallbackQuery;
 
             if (message.Data == "bck")
             {
