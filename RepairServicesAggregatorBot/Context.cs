@@ -11,6 +11,8 @@ namespace RepairServicesAggregatorBot.Bot
 
         public long ChatId { get; set; }
 
+        public int RoleId { get; set; }
+
         public AbstractState State { get; set; }
 
         public Context()

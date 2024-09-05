@@ -33,14 +33,17 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.RegisteringUser
                 if (message.Text == "qwe")
                 {
                     UserInputModel.RoleId = 3;
+                    context.RoleId = 3;
                 }
                 else if (message.Text == "qwo")
                 {
                     UserInputModel.RoleId = 2;
+                    context.RoleId = 2;
                 }
                 else if (message.Text == "no")
                 {
                     UserInputModel.RoleId = 1;
+                    context.RoleId = 1;
                 }
 
                 UserInputModel.ChatId = context.ChatId;

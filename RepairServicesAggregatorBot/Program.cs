@@ -1,8 +1,10 @@
+using System.Security.Principal;
 using RepairServicesAggregatorBot.Bot;
 using RepairServicesAggregatorBot.Bot.States.ClientStates;
 using RepairServicesAggregatorBot.Bot.States.OrderStates.CreatingBaseOrderStates;
 using RepairServicesAggregatorBot.Bot.States.SystemStates;
 using RepairServicesAggregatorBot.Bot.States.SystemStates.RegisteringUser;
+using RepairServicesProviderBot.BLL;
 using RepairServicesProviderBot.Core.InputModels;
 using Telegram.Bot;
 using Telegram.Bot.Polling;
@@ -58,6 +60,18 @@ namespace RepairServicesAggregatorBot
                 {
                     crntClient = new Context();
                     crntClient.ChatId = message.Chat.Id;
+                    try
+                    {
+                        UserService userService = new UserService();
+                        var clientModel = userService.GetUserByChatId(message.Chat.Id);
+                        crntClient.Id = clientModel.Id;
+                        crntClient.RoleId = clientModel.RoleId;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Error: {ex.Message}");
+                    }
+
                     Clients.Add(message.Chat.Id, crntClient);
                 }
 
@@ -65,8 +79,14 @@ namespace RepairServicesAggregatorBot
                 {
                     if (message.Text.ToLower() == "/start")
                     {
-                        UserInputModel userInputModel = new UserInputModel();
-                        crntClient.State = new ClientMenuState(userInputModel);
+                        if (crntClient.Id == 0)
+                        {
+                            crntClient.State = new StartRegistrationSystemState();
+                        }
+                        else
+                        {
+                            crntClient.State = new AddingDescriptionOrderState();
+                        }
                     }
                     else
                     {

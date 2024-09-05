@@ -23,13 +23,14 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.RegisteringUser
         {
             UserService adminService = new UserService();
             int qwe = adminService.AddUser(UserInputModel);
+            context.Id = qwe;
             await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Регистрация завершена.");
 
-            if (UserInputModel.RoleId == 1)
+            if (context.RoleId == 1)
             {
-                context.State = new ClientMenuState(UserInputModel);
+                context.State = new ClientMenuState();
             }
-            else if (UserInputModel.RoleId == 2)
+            else if (context.RoleId == 2)
             {
                 //context.State = new ContractorMenuState(UserInputModel);
             }

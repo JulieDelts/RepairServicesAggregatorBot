@@ -13,13 +13,6 @@ namespace RepairServicesAggregatorBot.Bot.States.ClientStates
 {
     public class ClientMenuState: AbstractState
     {
-        public UserInputModel UserInputModel { get; set; }
-
-        public ClientMenuState(UserInputModel userInputModel)
-        {
-            UserInputModel = userInputModel;
-        }
-
         public override void HandleMessage(Context context, Update update)
         {
             //var message = update.Message;

@@ -47,6 +47,15 @@ namespace RepairServicesProviderBot.BLL
             return userResponse;
         }
 
+        public ExtendedUserOutputModel GetUserByChatId(long chatId)
+        {
+            var userDTO = UserRepository.GetUserByChatId(chatId);
+
+            var userResponse = _mapper.Map<ExtendedUserOutputModel>(userDTO);
+
+            return userResponse;
+        }
+
         public ExtendedUserOutputModel UpdateUserById(ExtendedUserInputModel user)
         {
             var userDTO = _mapper.Map<UserDTO>(user);
