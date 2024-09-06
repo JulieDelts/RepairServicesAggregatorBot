@@ -1,4 +1,5 @@
 ﻿using RepairServicesAggregatorBot.Bot.States.OrderStates.CreatingBaseOrderStates;
+using RepairServicesAggregatorBot.Bot.States.ServiceTypeStates;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
@@ -21,7 +22,11 @@ namespace RepairServicesAggregatorBot.Bot.States.ClientStates
             {
                 context.State = new AddingDescriptionOrderState();
             }
-            else 
+            else if (update.CallbackQuery.Data == "srvs")
+            {
+                context.State = new AvailableServiceTypesState();
+            }
+            else
             {
                 await botClient.SendTextMessageAsync(new ChatId(context.ChatId), $"Нажали на кнопочку {update.CallbackQuery.Data}!");
             }
