@@ -66,7 +66,6 @@ namespace RepairServicesAggregatorBot.Bot.States.ClientStates
             );
 
             await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Меню пользователя", replyMarkup: keyboard);
-
         }
     }
 }

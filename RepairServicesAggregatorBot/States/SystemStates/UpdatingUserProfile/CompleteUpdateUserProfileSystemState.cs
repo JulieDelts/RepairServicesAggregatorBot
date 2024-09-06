@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using RepairServicesAggregatorBot.Bot.States.AdminStates;
 using RepairServicesAggregatorBot.Bot.States.ClientStates;
 using RepairServicesProviderBot.BLL;
 using RepairServicesProviderBot.Core.InputModels;
-using Telegram.Bot.Types;
 using Telegram.Bot;
+using Telegram.Bot.Types;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace RepairServicesAggregatorBot.Bot.States.SystemStates.UpdatingUserProfile
 {
-    public class CompleteUpdateUserProfileSystemState: AbstractState
+    public class CompleteUpdateUserProfileSystemState : AbstractState
     {
         public UserInputModel UserInputModel { get; set; }
 
@@ -22,6 +19,22 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.UpdatingUserProfil
 
         public override void HandleMessage(Context context, Update update, ITelegramBotClient botClient)
         {
+            var message = update.CallbackQuery;
+
+            if (message.Data == "bck")
+            {
+                if (context.RoleId == 1)
+                {
+                    context.State = new ClientMenuState();
+                }
+                else if (context.RoleId == 2)
+                {
+                }
+                else if (context.RoleId == 3)
+                {
+                    context.State = new AdminMenuState();
+                }
+            }
         }
 
         public override async void ReactInBot(Context context, ITelegramBotClient botClient)
@@ -30,7 +43,7 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.UpdatingUserProfil
 
             var client = userService.GetUserById(context.Id);
 
-            var updatedClient = new ExtendedUserInputModel() 
+            var updatedClient = new ExtendedUserInputModel()
             {
                 Id = context.Id,
                 Name = UserInputModel.Name,
@@ -46,7 +59,16 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.UpdatingUserProfil
 
             await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Обновление профиля завершено.");
 
-            context.State = new UserProfileMenuState();
+            InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(
+            new[]
+            {
+                    new[]
+                    {
+                        InlineKeyboardButton.WithCallbackData("Назад", "bck")
+                    }
+            });
+
+            await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Вернуться в меню:", replyMarkup: keyboard);
         }
     }
 }

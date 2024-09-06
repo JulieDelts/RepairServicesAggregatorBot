@@ -21,7 +21,9 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.RegisteringUser
         public StartRegistrationSystemState()
         {
             UserInputModel = new UserInputModel();
+
             _roleModes = new Dictionary<string, int>() { { "qwe", 3 }, { "qwo", 2 }, { "no", 1 } };
+
             _isLoginError = false;
         }
 

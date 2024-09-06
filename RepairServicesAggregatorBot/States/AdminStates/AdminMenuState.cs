@@ -15,7 +15,7 @@ namespace RepairServicesAggregatorBot.Bot.States.AdminStates
             }
             else if (update.CallbackQuery.Data == "srvtp")
             {
-                context.State = new AvailableServiceTypesState();
+                context.State = new AdminServiceTypeMenuState();
             }
             //else if (update.CallbackQuery.Data == "ord")
             //{
@@ -33,7 +33,6 @@ namespace RepairServicesAggregatorBot.Bot.States.AdminStates
 
         public override async void ReactInBot(Context context, ITelegramBotClient botClient)
         {
-
             InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(
                 new[]
                 {
@@ -60,7 +59,6 @@ namespace RepairServicesAggregatorBot.Bot.States.AdminStates
             );
 
             await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Меню администратора", replyMarkup: keyboard);
-
         }
     }
 }

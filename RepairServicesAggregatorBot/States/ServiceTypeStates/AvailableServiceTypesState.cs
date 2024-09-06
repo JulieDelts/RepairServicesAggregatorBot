@@ -19,13 +19,9 @@ namespace RepairServicesAggregatorBot.Bot.States.ServiceTypeStates
                 {
                     context.State = new ClientMenuState();
                 }
-                else if (context.RoleId == 2)
-                {
-                    //
-                }
                 else if (context.RoleId == 3)
                 {
-                    context.State = new AdminMenuState();
+                    context.State = new AdminServiceTypeMenuState();
                 }
             }
         }
@@ -40,7 +36,14 @@ namespace RepairServicesAggregatorBot.Bot.States.ServiceTypeStates
 
             for (int i = 0; i < services.Count; i++)
             {
-                servicesDescription += $"{i + 1}. {services[i].ServiceTypeDescription}\n";
+                if (context.RoleId == 1)
+                {
+                    servicesDescription += $"{i + 1}. {services[i].ServiceTypeDescription}\n";
+                }
+                else
+                {
+                    servicesDescription += $"{i + 1}. {services[i].ServiceTypeDescription} ID: {services[i].Id}\n";
+                }
             }
 
             InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(
@@ -51,7 +54,7 @@ namespace RepairServicesAggregatorBot.Bot.States.ServiceTypeStates
                         InlineKeyboardButton.WithCallbackData("Назад", "bck")
                     }
                }
-           );
+            );
 
             await botClient.SendTextMessageAsync(new ChatId(context.ChatId), servicesDescription, replyMarkup: keyboard);
         }

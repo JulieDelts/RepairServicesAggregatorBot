@@ -20,6 +20,7 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.GettingUserProfile
         public GetNameSystemState(UserInputModel userInputModel)
         {
             UserInputModel = userInputModel;
+
             _isNameError = false;
         }
 
@@ -30,6 +31,7 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.GettingUserProfile
             if (IsNameValid(message.Text))
             {
                 UserInputModel.Name = message.Text;
+
                 context.State = new GetPhoneSystemState(UserInputModel);
             }
             else
