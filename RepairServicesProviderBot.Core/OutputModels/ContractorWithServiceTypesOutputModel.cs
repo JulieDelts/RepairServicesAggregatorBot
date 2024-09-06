@@ -7,7 +7,7 @@ using RepairServicesProviderBot.Core.DTOs;
 
 namespace RepairServicesProviderBot.Core.OutputModels
 {
-    public class ContractorWithOrdersAndServiceTypesOutputModel
+    public class ContractorWithServiceTypesOutputModel
     {
         public string Name { get; set; }
 
@@ -17,11 +17,9 @@ namespace RepairServicesProviderBot.Core.OutputModels
 
         public string Image { get; set; }
 
-        public string Rating { get; set; }
+        public double Rating { get; set; }
 
-        public List<OrderOutputModel> Orders { get; set; }
-
-        public List<ServiceTypeOutputModel> ServiceTypes { get; set; }
+        public List<ContractorServiceTypeOutputModel> ServiceTypes { get; set; }
 
     }
 }

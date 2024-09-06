@@ -31,14 +31,6 @@ namespace RepairServicesAggregatorBot.Bot.States.AdminStates
             {
                 context.State = new GetServiceTypeState();
             }
-            //else
-            //{
-            //    await botClient.SendTextMessageAsync(new ChatId(context.ChatId), $"Нажали на кнопочку {update.CallbackQuery.Data}!");
-            //}
-
-            //int messageId = update.CallbackQuery.Message.MessageId;
-
-            //await botClient.EditMessageTextAsync(new ChatId(context.ChatId),messageId, update.CallbackQuery.Message.Text);
         }
 
         public override async void ReactInBot(Context context, ITelegramBotClient botClient)
