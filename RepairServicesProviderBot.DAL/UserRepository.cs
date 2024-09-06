@@ -89,6 +89,20 @@ namespace RepairServicesProviderBot.DAL
             }
         }
 
+        public List<UserDTO> GetAllContractors()
+        {
+            string conectionString = Options.ConnectionString;
+
+            using (var connection = new NpgsqlConnection(conectionString))
+            {
+                string query = UserQueries.GetAllContractorsQuery;
+
+                connection.Open();
+
+                return connection.Query<UserDTO>(query).ToList();
+            }
+        }
+
         public int UpdateUserById(UserDTO user)
         {
             string conectionString = Options.ConnectionString;

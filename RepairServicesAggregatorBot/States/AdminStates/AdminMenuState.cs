@@ -5,7 +5,7 @@ using Telegram.Bot.Types.ReplyMarkups;
 
 namespace RepairServicesAggregatorBot.Bot.States.AdminStates
 {
-    internal class AdminMenuState : AbstractState
+    public class AdminMenuState : AbstractState
     {
         public override async void HandleMessage(Context context, Update update, ITelegramBotClient botClient)
         {
@@ -17,10 +17,10 @@ namespace RepairServicesAggregatorBot.Bot.States.AdminStates
             {
                 context.State = new AdminServiceTypeMenuState();
             }
-            //else if (update.CallbackQuery.Data == "ord")
-            //{
-            //    context.State = new AddingDescriptionOrderState();
-            //}
+            else if (update.CallbackQuery.Data == "cntrctr")
+            {
+                context.State = new AdminContractorsMenuState();
+            }
             //else
             //{
             //    await botClient.SendTextMessageAsync(new ChatId(context.ChatId), $"Нажали на кнопочку {update.CallbackQuery.Data}!");

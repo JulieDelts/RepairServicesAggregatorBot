@@ -2,6 +2,7 @@
 using Telegram.Bot.Types;
 using Telegram.Bot;
 using RepairServicesAggregatorBot.Bot.States.OrderStates.CreatingBaseOrderStates;
+using RepairServicesAggregatorBot.Bot.States.SystemStates;
 
 namespace RepairServicesAggregatorBot.Bot
 {
@@ -17,7 +18,7 @@ namespace RepairServicesAggregatorBot.Bot
 
         public Context()
         {
-            State = new AddingDescriptionOrderState();
+            State = new MockState();
         }
 
         public void HandleMessage(Update update, ITelegramBotClient botClient)

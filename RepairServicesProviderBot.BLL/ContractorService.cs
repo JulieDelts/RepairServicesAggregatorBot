@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using RepairServicesProviderBot.BLL.Mappings;
+using RepairServicesProviderBot.Core.OutputModels;
 using RepairServicesProviderBot.DAL;
 
 namespace RepairServicesProviderBot.BLL
@@ -33,5 +34,20 @@ namespace RepairServicesProviderBot.BLL
             return rating;
         }
 
+        public List<ExtendedContractorOutputModel> GetAllContractors()
+        {
+            var contractorDTOs = UserRepository.GetAllContractors();
+
+            List<ExtendedContractorOutputModel> contractors = new List<ExtendedContractorOutputModel>();
+
+            foreach (var contractorDTO in contractorDTOs)
+            { 
+                var contractor = _mapper.Map<ExtendedContractorOutputModel>(contractorDTO);
+
+                contractors.Add(contractor);
+            }
+
+            return contractors;
+        }
     }
 }

@@ -32,17 +32,22 @@ namespace RepairServicesAggregatorBot.Bot.States.ServiceTypeStates
 
             var services = serviceTypeService.GetAvailableServices();
 
-            string servicesDescription = "Доступные услуги:\n";
+            string servicesDescription = "Услуги:\n";
 
             for (int i = 0; i < services.Count; i++)
             {
                 if (context.RoleId == 1)
                 {
+                    if (services[i].IsDeleted == true)
+                    {
+                        continue;
+                    }
+
                     servicesDescription += $"{i + 1}. {services[i].ServiceTypeDescription}\n";
                 }
                 else
                 {
-                    servicesDescription += $"{i + 1}. {services[i].ServiceTypeDescription} ID: {services[i].Id}\n";
+                    servicesDescription += $"{i + 1}. {services[i].ServiceTypeDescription}\nID: {services[i].Id}\nСкрыт: {services[i].IsDeleted}\n";
                 }
             }
 

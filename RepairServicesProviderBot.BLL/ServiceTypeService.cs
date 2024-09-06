@@ -23,7 +23,7 @@ namespace RepairServicesProviderBot.BLL
                 });
             _mapper = new Mapper(config);
         }
-        public ServiceTypeOutputModel AddServiceType(ServiceTypeInputModel serviceType)
+        public ExtendedServiceTypeOutputModel AddServiceType(ServiceTypeInputModel serviceType)
         {
             var serviceTypeDescription = serviceType.ServiceTypeDescription;
 
@@ -45,11 +45,11 @@ namespace RepairServicesProviderBot.BLL
             return contractorServiceTypeResponce;
         }
 
-        public ServiceTypeOutputModel GetServiceTypeById(int serviceTypeId)
+        public ExtendedServiceTypeOutputModel GetServiceTypeById(int serviceTypeId)
         {
             var serviceTypeDTO = ServiceTypeRepository.GetServiceTypeById(serviceTypeId);
 
-            var serviceTypeResponse = _mapper.Map<ServiceTypeOutputModel>(serviceTypeDTO);
+            var serviceTypeResponse = _mapper.Map<ExtendedServiceTypeOutputModel>(serviceTypeDTO);
 
             return serviceTypeResponse;
         }
@@ -65,14 +65,14 @@ namespace RepairServicesProviderBot.BLL
             return contractorServiceTypeResponse;
         }
 
-        public List<ServiceTypeOutputModel> GetAvailableServices()
+        public List<ExtendedServiceTypeOutputModel> GetAvailableServices()
         { 
             List<ServiceTypeDTO> serviceTypeDTOs = ServiceTypeRepository.GetAvailableServiceTypes();
-            List<ServiceTypeOutputModel> serviceTypeOutputModels = new List<ServiceTypeOutputModel>();
+            List<ExtendedServiceTypeOutputModel> serviceTypeOutputModels = new List<ExtendedServiceTypeOutputModel>();
 
             foreach (var serviceTypeDTO in serviceTypeDTOs)
             {
-                var serviceTypeOutput = _mapper.Map<ServiceTypeOutputModel>(serviceTypeDTO);
+                var serviceTypeOutput = _mapper.Map<ExtendedServiceTypeOutputModel>(serviceTypeDTO);
                 serviceTypeOutputModels.Add(serviceTypeOutput);
             }
 
@@ -93,7 +93,7 @@ namespace RepairServicesProviderBot.BLL
             return contractorServiceTypeOutputModels;
         }
 
-        public ServiceTypeOutputModel UpdateServiceTypeById(ExtendedServiceTypeInputModel serviceType)
+        public ExtendedServiceTypeOutputModel UpdateServiceTypeById(ExtendedServiceTypeInputModel serviceType)
         {
             var serviceTypeDTO = _mapper.Map<ServiceTypeDTO>(serviceType);
 
@@ -101,7 +101,7 @@ namespace RepairServicesProviderBot.BLL
 
             var serviceTypeDTOResponse = ServiceTypeRepository.GetServiceTypeById(serviceTypeId);
 
-            var serviceTypeResponse = _mapper.Map<ServiceTypeOutputModel>(serviceTypeDTOResponse);
+            var serviceTypeResponse = _mapper.Map<ExtendedServiceTypeOutputModel>(serviceTypeDTOResponse);
 
             return serviceTypeResponse;
         }

@@ -10,7 +10,7 @@ namespace RepairServicesProviderBot.Core.OutputModels
     {
         public ClientOutputModel Client { get; set; }
 
-        public ServiceTypeOutputModel ServiceType { get; set; }
+        public ExtendedServiceTypeOutputModel ServiceType { get; set; }
 
         public string Status { get; set; }
 
