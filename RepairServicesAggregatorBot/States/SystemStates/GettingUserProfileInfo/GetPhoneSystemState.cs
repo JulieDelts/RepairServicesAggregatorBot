@@ -19,6 +19,7 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.GettingUserProfile
         public GetPhoneSystemState(UserInputModel userInputModel)
         {
             UserInputModel = userInputModel;
+
             _isPhoneError = false;
         }
 
@@ -29,6 +30,7 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.GettingUserProfile
             if (IsPhoneValid(message.Text))
             {
                 UserInputModel.Phone = message.Text;
+
                 context.State = new GetEmailSystemState(UserInputModel);
             }
             else

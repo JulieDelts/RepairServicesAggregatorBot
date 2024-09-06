@@ -3,6 +3,7 @@ using RepairServicesAggregatorBot.Bot.States.AdminStates;
 using RepairServicesAggregatorBot.Bot.States.ClientStates;
 using RepairServicesAggregatorBot.Bot.States.SystemStates.RegisteringUser;
 using RepairServicesProviderBot.BLL;
+using RepairServicesProviderBot.Core.InputModels;
 using Telegram.Bot;
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
@@ -20,7 +21,9 @@ namespace RepairServicesAggregatorBot
             Clients = new Dictionary<long, Context>();
 
             ITelegramBotClient bot = new TelegramBotClient("7500546786:AAF-jAJEnauxeKOIrNA1MVhoGFuFjSxOzF0");
+
             var cts = new CancellationTokenSource();
+
             var cancellationToken = cts.Token;
 
             var receiverOptions = new ReceiverOptions
@@ -55,11 +58,15 @@ namespace RepairServicesAggregatorBot
                 else
                 {
                     crntClient = new Context();
+
                     crntClient.ChatId = message.Chat.Id;
+
                     try
                     {
                         UserService userService = new UserService();
+
                         var clientModel = userService.GetUserByChatId(message.Chat.Id);
+
                         crntClient.Id = clientModel.Id;
                         crntClient.RoleId = clientModel.RoleId;
                     }
@@ -97,11 +104,15 @@ namespace RepairServicesAggregatorBot
                 else
                 {
                     crntClient = new Context();
+
                     crntClient.ChatId = callback.From.Id;
+
                     try
                     {
                         UserService userService = new UserService();
+
                         var clientModel = userService.GetUserByChatId(callback.From.Id);
+
                         crntClient.Id = clientModel.Id;
                         crntClient.RoleId = clientModel.RoleId;
                     }

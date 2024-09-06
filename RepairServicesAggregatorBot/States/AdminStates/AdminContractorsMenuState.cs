@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RepairServicesAggregatorBot.Bot.States.AdminStates
 {
-    internal class AdminServiceTypeMenu
+    public class AdminContractorsMenuState
     {
     }
 }

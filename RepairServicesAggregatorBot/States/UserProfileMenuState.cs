@@ -10,6 +10,8 @@ using RepairServicesProviderBot.BLL;
 using RepairServicesAggregatorBot.Bot.States.SystemStates.UpdatingUserProfile;
 using RepairServicesAggregatorBot.Bot.States.ClientStates;
 using RepairServicesAggregatorBot.Bot.States.AdminStates;
+using RepairServicesProviderBot.Core.InputModels;
+using RepairServicesAggregatorBot.Bot.States.SystemStates.GettingUserProfileInfo;
 
 namespace RepairServicesAggregatorBot.Bot.States
 {
@@ -36,7 +38,9 @@ namespace RepairServicesAggregatorBot.Bot.States
             }
             else if (message.Data == "updprf")
             {
-                context.State = new StartUpdateUserProfileSystemState();
+                UserInputModel userInputModel = new UserInputModel();
+
+                context.State = new GetNameSystemState(userInputModel);
             }
 
         }

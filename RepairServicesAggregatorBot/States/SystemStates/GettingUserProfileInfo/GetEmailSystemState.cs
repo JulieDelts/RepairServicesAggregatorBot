@@ -16,6 +16,7 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.GettingUserProfile
         public GetEmailSystemState(UserInputModel userInputModel)
         {
             UserInputModel = userInputModel;
+
             _isEmailError = false;
         }
 

@@ -8,6 +8,8 @@ namespace RepairServicesProviderBot.Core.OutputModels
 {
     public class ServiceTypeOutputModel
     {
+        public int Id { get; set; }
+        
         public string ServiceTypeDescription { get; set; }
     }
 }
