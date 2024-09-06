@@ -1,12 +1,8 @@
-using System.Security.Principal;
 using RepairServicesAggregatorBot.Bot;
 using RepairServicesAggregatorBot.Bot.States.AdminStates;
 using RepairServicesAggregatorBot.Bot.States.ClientStates;
-using RepairServicesAggregatorBot.Bot.States.OrderStates.CreatingBaseOrderStates;
-using RepairServicesAggregatorBot.Bot.States.SystemStates;
 using RepairServicesAggregatorBot.Bot.States.SystemStates.RegisteringUser;
 using RepairServicesProviderBot.BLL;
-using RepairServicesProviderBot.Core.InputModels;
 using Telegram.Bot;
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
@@ -75,28 +71,47 @@ namespace RepairServicesAggregatorBot
                     Clients.Add(message.Chat.Id, crntClient);
                 }
 
-                try
+
+                if (message.Text.ToLower() == "/start")
                 {
-                    if (message.Text.ToLower() == "/start")
-                    {
-                        SetBaseState(crntClient);
-                    }
-                    else
-                    {
-                        crntClient.HandleMessage(update, botClient);
-                    }
+                    SetBaseState(crntClient);
                 }
-                finally
+                else
                 {
-                    crntClient.ReactInBot(botClient);
-                    //await Task.CompletedTask;
+                    crntClient.HandleMessage(update, botClient);
                 }
+
+                crntClient.ReactInBot(botClient);
+
             }
             else if (update.Type == UpdateType.CallbackQuery)
             {
                 var callback = update.CallbackQuery;
 
-                Context crntClient = Clients[callback.From.Id];
+                Context crntClient;
+
+                if (Clients.ContainsKey(callback.From.Id))
+                {
+                    crntClient = Clients[callback.From.Id];
+                }
+                else
+                {
+                    crntClient = new Context();
+                    crntClient.ChatId = callback.From.Id;
+                    try
+                    {
+                        UserService userService = new UserService();
+                        var clientModel = userService.GetUserByChatId(callback.From.Id);
+                        crntClient.Id = clientModel.Id;
+                        crntClient.RoleId = clientModel.RoleId;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Error: {ex.Message}");
+                    }
+
+                    Clients.Add(callback.From.Id, crntClient);
+                }
 
                 crntClient.HandleMessage(update, botClient);
 
@@ -104,7 +119,6 @@ namespace RepairServicesAggregatorBot
             }
         }
 
-     
         public static async Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)
         {
             Console.WriteLine($"Error!!!! {exception.ToString()}");

@@ -9,6 +9,7 @@ using Telegram.Bot;
 using RepairServicesProviderBot.BLL;
 using RepairServicesAggregatorBot.Bot.States.SystemStates.UpdatingUserProfile;
 using RepairServicesAggregatorBot.Bot.States.ClientStates;
+using RepairServicesAggregatorBot.Bot.States.AdminStates;
 
 namespace RepairServicesAggregatorBot.Bot.States
 {
@@ -20,7 +21,18 @@ namespace RepairServicesAggregatorBot.Bot.States
 
             if (message.Data == "bck")
             {
-                context.State = new ClientMenuState();
+                if (context.RoleId == 1)
+                {
+                    context.State = new ClientMenuState();
+                }
+                else if (context.RoleId == 2)
+                {
+                    //
+                }
+                else if (context.RoleId == 3)
+                {
+                    context.State = new AdminMenuState();
+                }
             }
             else if (message.Data == "updprf")
             {

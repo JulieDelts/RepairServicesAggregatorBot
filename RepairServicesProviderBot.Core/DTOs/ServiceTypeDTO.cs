@@ -12,7 +12,7 @@ namespace RepairServicesProviderBot.Core.DTOs
 
         public int? UserId { get; set; }
 
-        public string? ServiceTypeDescription { get; set; }
+        public string ServiceTypeDescription { get; set; }
 
         public int? Cost { get; set; }
 
