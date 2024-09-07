@@ -49,9 +49,9 @@ namespace RepairServicesAggregatorBot.Bot.States
 
         public override async void ReactInBot(Context context, ITelegramBotClient botClient)
         {
-            ClientService clientService = new ClientService();
+            UserService userService = new UserService();
 
-            var client = clientService.GetClientById(context.Id);
+            var user = userService.GetUserById(context.Id);
 
             InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(
             new[]
@@ -63,7 +63,7 @@ namespace RepairServicesAggregatorBot.Bot.States
                 }
             });
 
-            await botClient.SendTextMessageAsync(new ChatId(context.ChatId), $"Ваш профиль\n{client.Image ?? ""}\nИмя: {client.Name}\nТелефон: {client.Phone}\nЭлектронная почта: {client.Email}", replyMarkup: keyboard);
+            await botClient.SendTextMessageAsync(new ChatId(context.ChatId), $"Ваш профиль\nИмя: {user.Name}\nТелефон: {user.Phone}\nЭлектронная почта: {user.Email}", replyMarkup: keyboard);
         }
     }
 }
