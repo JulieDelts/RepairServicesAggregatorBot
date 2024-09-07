@@ -31,6 +31,9 @@ namespace RepairServicesAggregatorBot.Bot.States.AdminStates
             //await botClient.EditMessageTextAsync(new ChatId(context.ChatId),messageId, update.CallbackQuery.Message.Text);
         }
 
+        public override void HandleCallbackQuery(Context context, Update update, ITelegramBotClient botClient)
+        { }
+
         public override async void ReactInBot(Context context, ITelegramBotClient botClient)
         {
             InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(

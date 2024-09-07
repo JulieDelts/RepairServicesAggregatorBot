@@ -36,6 +36,9 @@ namespace RepairServicesAggregatorBot.Bot.States.ClientStates
             //await botClient.EditMessageTextAsync(new ChatId(context.ChatId),messageId, update.CallbackQuery.Message.Text);
         }
 
+        public override void HandleCallbackQuery(Context context, Update update, ITelegramBotClient botClient)
+        { }
+
         public override async void ReactInBot(Context context, ITelegramBotClient botClient)
         {
             var msg = await botClient.SendPhotoAsync(new ChatId(context.ChatId), InputFile.FromUri(new Uri(@"https://www.allrecipes.com/thmb/pENwa46VDqWGvYkycgTqHxr4xfo=/0x512/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/48727-Mikes-homemade-pizza-DDMFS-beauty-4x3-BG-2974-a7a9842c14e34ca699f3b7d7143256cf.jpg")));

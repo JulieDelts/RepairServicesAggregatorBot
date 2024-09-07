@@ -45,6 +45,9 @@ namespace RepairServicesAggregatorBot.Bot.States
 
         }
 
+        public override void HandleCallbackQuery(Context context, Update update, ITelegramBotClient botClient)
+        { }
+
         public override async void ReactInBot(Context context, ITelegramBotClient botClient)
         {
             ClientService clientService = new ClientService();

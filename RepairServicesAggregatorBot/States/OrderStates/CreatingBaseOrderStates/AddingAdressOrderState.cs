@@ -39,6 +39,9 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.CreatingBaseOrderSt
             }
         }
 
+        public override void HandleCallbackQuery(Context context, Update update, ITelegramBotClient botClient)
+        { }
+
         public override async void ReactInBot(Context context, ITelegramBotClient botClient)
         {
             await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Введи свой адрес");
