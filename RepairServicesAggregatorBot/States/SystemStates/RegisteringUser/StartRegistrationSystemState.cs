@@ -59,8 +59,10 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.RegisteringUser
             }
         }
 
-        public override void HandleCallbackQuery(Context context, Update update, ITelegramBotClient botClient)
-        { }
+        public override async void HandleCallbackQuery(Context context, Update update, ITelegramBotClient botClient)
+        {
+            await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Неверная команда.");
+        }
 
         public override async void ReactInBot(Context context, ITelegramBotClient botClient)
         {

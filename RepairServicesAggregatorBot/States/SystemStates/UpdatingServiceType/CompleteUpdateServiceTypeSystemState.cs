@@ -16,7 +16,12 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.UpdatingServiceTyp
             ExtendedServiceTypeInputModel = extendedServiceTypeInputModel;
         }
 
-        public override void HandleMessage(Context context, Update update, ITelegramBotClient botClient)
+        public override async void HandleMessage(Context context, Update update, ITelegramBotClient botClient)
+        {
+            await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Неверная команда.");
+        }
+
+        public override async void HandleCallbackQuery(Context context, Update update, ITelegramBotClient botClient)
         {
             var message = update.CallbackQuery;
 
@@ -24,10 +29,11 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.UpdatingServiceTyp
             {
                 context.State = new AdminServiceTypeMenuState();
             }
+            else
+            {
+                await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Неверная команда.");
+            }
         }
-
-        public override void HandleCallbackQuery(Context context, Update update, ITelegramBotClient botClient)
-        { }
 
         public override async void ReactInBot(Context context, ITelegramBotClient botClient)
         {

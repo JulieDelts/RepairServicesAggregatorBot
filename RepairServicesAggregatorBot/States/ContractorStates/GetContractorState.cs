@@ -9,6 +9,7 @@ using RepairServicesProviderBot.Core.InputModels;
 using Telegram.Bot.Types;
 using Telegram.Bot;
 using RepairServicesProviderBot.Core.OutputModels;
+using System.Text.RegularExpressions;
 
 namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
 {
@@ -20,7 +21,7 @@ namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
         {
             var message = update.Message;
 
-            if (!string.IsNullOrEmpty(message.Text))
+            if (IsIdValid(message.Text))
             {
                 try
                 {
@@ -65,8 +66,10 @@ namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
             }
         }
 
-        public override void HandleCallbackQuery(Context context, Update update, ITelegramBotClient botClient)
-        { }
+        public override async void HandleCallbackQuery(Context context, Update update, ITelegramBotClient botClient)
+        {
+            await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Неверная команда.");
+        }
 
         public override async void ReactInBot(Context context, ITelegramBotClient botClient)
         {
@@ -78,6 +81,11 @@ namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
             {
                 await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Введите ID сотрудника:");
             }
+        }
+
+        private bool IsIdValid(string id)
+        {
+            return Regex.IsMatch(id, @"[0-9]+");
         }
     }
 }

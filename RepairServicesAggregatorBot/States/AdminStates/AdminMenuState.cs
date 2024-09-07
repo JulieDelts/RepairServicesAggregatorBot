@@ -9,57 +9,56 @@ namespace RepairServicesAggregatorBot.Bot.States.AdminStates
     {
         public override async void HandleMessage(Context context, Update update, ITelegramBotClient botClient)
         {
-            if (update.CallbackQuery.Data == "prf")
+            await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Неверная команда.");
+        }
+
+        public override async void HandleCallbackQuery(Context context, Update update, ITelegramBotClient botClient)
+        {
+            var message = update.CallbackQuery;
+
+            if (message.Data == "prf")
             {
                 context.State = new UserProfileMenuState();
             }
-            else if (update.CallbackQuery.Data == "srvtp")
+            else if (message.Data == "srvtp")
             {
                 context.State = new AdminServiceTypeMenuState();
             }
-            else if (update.CallbackQuery.Data == "cntrctr")
+            else if (message.Data == "cntrctr")
             {
                 context.State = new AdminContractorsMenuState();
             }
-            //else
-            //{
-            //    await botClient.SendTextMessageAsync(new ChatId(context.ChatId), $"Нажали на кнопочку {update.CallbackQuery.Data}!");
-            //}
-
-            //int messageId = update.CallbackQuery.Message.MessageId;
-
-            //await botClient.EditMessageTextAsync(new ChatId(context.ChatId),messageId, update.CallbackQuery.Message.Text);
+            else
+            {
+                await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Неверная команда.");
+            }
         }
-
-        public override void HandleCallbackQuery(Context context, Update update, ITelegramBotClient botClient)
-        { }
 
         public override async void ReactInBot(Context context, ITelegramBotClient botClient)
         {
             InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(
+            new[]
+            {
                 new[]
                 {
-                    new[]
-                    {
-                        InlineKeyboardButton.WithCallbackData("Меню услуг", "srvtp"),
-                        InlineKeyboardButton.WithCallbackData("Меню сотрудников", "cntrctr"),
-                    },
-                    new[]
-                    {
-                        InlineKeyboardButton.WithCallbackData("Меню заказов", "cntrctr"),
-                        InlineKeyboardButton.WithCallbackData("Меню клиентов", "srvs")
-                    },
-                    new[]
-                    {   InlineKeyboardButton.WithCallbackData("Профиль", "prf"),
-                        InlineKeyboardButton.WithCallbackData("Статистика", "ststcs"),
-                    },
-                    new[]
-                    {
-                        InlineKeyboardButton.WithCallbackData("Модификация пользователя", "usrmdf")
-                    }
-
+                    InlineKeyboardButton.WithCallbackData("Меню услуг", "srvtp"),
+                    InlineKeyboardButton.WithCallbackData("Меню сотрудников", "cntrctr"),
+                },
+                new[]
+                {
+                    InlineKeyboardButton.WithCallbackData("Меню заказов", "cntrctr"),
+                    InlineKeyboardButton.WithCallbackData("Меню клиентов", "srvs")
+                },
+                new[]
+                {  
+                    InlineKeyboardButton.WithCallbackData("Профиль", "prf"),
+                    InlineKeyboardButton.WithCallbackData("Статистика", "ststcs"),
+                },
+                new[]
+                {
+                    InlineKeyboardButton.WithCallbackData("Модификация пользователя", "usrmdf")
                 }
-            );
+            });
 
             await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Меню администратора", replyMarkup: keyboard);
         }

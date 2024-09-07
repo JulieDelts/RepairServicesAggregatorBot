@@ -8,6 +8,7 @@ using RepairServicesProviderBot.Core.InputModels;
 using Telegram.Bot.Types;
 using Telegram.Bot;
 using RepairServicesAggregatorBot.Bot.States.ServiceTypeStates;
+using System.Text.RegularExpressions;
 
 namespace RepairServicesAggregatorBot.Bot.States.SystemStates.AddingServiceType
 {
@@ -28,7 +29,7 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.AddingServiceType
         {
             var message = update.Message;
 
-            if (!string.IsNullOrEmpty(message.Text))
+            if (IsDescriptionValid(message.Text))
             {
                 ServiceTypeInputModel.ServiceTypeDescription = message.Text;
 
@@ -38,11 +39,12 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.AddingServiceType
             {
                 _isDescriptionError = true;
             }
-
         }
 
-        public override void HandleCallbackQuery(Context context, Update update, ITelegramBotClient botClient)
-        { }
+        public override async void HandleCallbackQuery(Context context, Update update, ITelegramBotClient botClient)
+        {
+            await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Неверная команда.");
+        }
 
         public override async void ReactInBot(Context context, ITelegramBotClient botClient)
         {
@@ -54,6 +56,11 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.AddingServiceType
             {
                 await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Введите описание услуги:");
             }
+        }
+
+        private bool IsDescriptionValid(string description)
+        {
+            return Regex.IsMatch(description, @"^[а-яА-ЯёЁ\s]+");
         }
     }
 }

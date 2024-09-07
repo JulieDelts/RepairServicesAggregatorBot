@@ -117,7 +117,7 @@ namespace RepairServicesAggregatorBot
 
             Context currentUser = GetUserFromCallback(callback);
 
-            currentUser.HandleMessage(update, botClient);
+            currentUser.HandleCallbackQuery(update, botClient);
 
             currentUser.ReactInBot(botClient);
         }

@@ -1,20 +1,20 @@
-﻿using RepairServicesAggregatorBot.Bot.States.SystemStates.AddingServiceType;
-using RepairServicesProviderBot.Core.InputModels;
-using Telegram.Bot.Types;
-using Telegram.Bot;
+﻿using System.Text.RegularExpressions;
 using RepairServicesProviderBot.BLL;
+using RepairServicesProviderBot.Core.InputModels;
+using Telegram.Bot;
+using Telegram.Bot.Types;
 
 namespace RepairServicesAggregatorBot.Bot.States.ServiceTypeStates
 {
-    public class GetServiceTypeState: AbstractState
+    public class GetServiceTypeState : AbstractState
     {
-        private bool _isIdError; 
+        private bool _isIdError;
 
         public override void HandleMessage(Context context, Update update, ITelegramBotClient botClient)
         {
             var message = update.Message;
 
-            if (!string.IsNullOrEmpty(message.Text))
+            if (IsIdValid(message.Text))
             {
                 try
                 {
@@ -25,7 +25,7 @@ namespace RepairServicesAggregatorBot.Bot.States.ServiceTypeStates
                     var serviceType = serviceTypeService.GetServiceTypeById(id);
 
                     ExtendedServiceTypeInputModel inputModel = new ExtendedServiceTypeInputModel();
-                    
+
                     inputModel.Id = id;
 
                     inputModel.ServiceTypeDescription = serviceType.ServiceTypeDescription;
@@ -45,8 +45,10 @@ namespace RepairServicesAggregatorBot.Bot.States.ServiceTypeStates
             }
         }
 
-        public override void HandleCallbackQuery(Context context, Update update, ITelegramBotClient botClient)
-        { }
+        public override async void HandleCallbackQuery(Context context, Update update, ITelegramBotClient botClient)
+        {
+            await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Неверная команда.");
+        }
 
         public override async void ReactInBot(Context context, ITelegramBotClient botClient)
         {
@@ -58,6 +60,11 @@ namespace RepairServicesAggregatorBot.Bot.States.ServiceTypeStates
             {
                 await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Введите ID услуги:");
             }
+        }
+
+        private bool IsIdValid(string id)
+        {
+            return Regex.IsMatch(id, @"[0-9]+");
         }
     }
 }

@@ -21,18 +21,24 @@ namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
             ContractorWithServiceTypesOutputModel = contractorWithServiceTypesOutputModel;
         }
 
-        public override void HandleMessage(Context context, Update update, ITelegramBotClient botClient)
+        public override async void HandleMessage(Context context, Update update, ITelegramBotClient botClient)
         {
+            await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Неверная команда.");
+        }
+
+        public override async void HandleCallbackQuery(Context context, Update update, ITelegramBotClient botClient)
+        { 
             var message = update.CallbackQuery;
 
             if (message.Data == "bck")
             {
                 context.State = new AdminContractorsMenuState();
             }
+            else 
+            {
+                await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Неверная команда.");
+            }
         }
-
-        public override void HandleCallbackQuery(Context context, Update update, ITelegramBotClient botClient)
-        { }
 
         public override async void ReactInBot(Context context, ITelegramBotClient botClient)
         {
@@ -46,10 +52,10 @@ namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
             InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(
             new[]
             {
-                    new[]
-                    {
-                        InlineKeyboardButton.WithCallbackData("Назад", "bck")
-                    }
+                new[]
+                {
+                    InlineKeyboardButton.WithCallbackData("Назад", "bck")
+                }
             });
 
             await botClient.SendTextMessageAsync(new ChatId(context.ChatId), contractorInfo, replyMarkup: keyboard);
