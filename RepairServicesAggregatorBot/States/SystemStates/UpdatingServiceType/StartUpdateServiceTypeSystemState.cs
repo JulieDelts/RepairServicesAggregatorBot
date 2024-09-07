@@ -1,4 +1,5 @@
-﻿using RepairServicesAggregatorBot.Bot.States.SystemStates.AddingServiceType;
+﻿using System.Text.RegularExpressions;
+using RepairServicesAggregatorBot.Bot.States.SystemStates.AddingServiceType;
 using RepairServicesProviderBot.BLL;
 using RepairServicesProviderBot.Core.InputModels;
 using RepairServicesProviderBot.Core.OutputModels;
@@ -20,24 +21,26 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.UpdatingServiceTyp
             _isDescriptionError = false;
         }
 
-        public override void HandleMessage(Context context, Update update, ITelegramBotClient botClient)
+        public override async void HandleMessage(Context context, Update update, ITelegramBotClient botClient)
+        {
+            await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Неверная команда.");
+        }
+
+        public override void HandleCallbackQuery(Context context, Update update, ITelegramBotClient botClient)
         {
             var message = update.Message;
 
-            if (!string.IsNullOrEmpty(message.Text))
+            if (!IsDescriptionValid(message.Text))
             {
-               ExtendedServiceTypeInputModel.ServiceTypeDescription = message.Text;
-                
-               context.State = new GetServiceTypeStatusSystemState(ExtendedServiceTypeInputModel);
+                ExtendedServiceTypeInputModel.ServiceTypeDescription = message.Text;
+
+                context.State = new GetServiceTypeStatusSystemState(ExtendedServiceTypeInputModel);
             }
             else
             {
                 _isDescriptionError = true;
             }
         }
-
-        public override void HandleCallbackQuery(Context context, Update update, ITelegramBotClient botClient)
-        { }
 
         public override async void ReactInBot(Context context, ITelegramBotClient botClient)
         {
@@ -49,6 +52,11 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.UpdatingServiceTyp
             {
                 await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Введите описание услуги:");
             }
+        }
+
+        private bool IsDescriptionValid(string description)
+        {
+            return Regex.IsMatch(description, @"^[а-яА-ЯёЁ\s]+");
         }
     }
 }

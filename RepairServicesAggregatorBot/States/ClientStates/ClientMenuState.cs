@@ -10,34 +10,38 @@ namespace RepairServicesAggregatorBot.Bot.States.ClientStates
     {
         public override async void HandleMessage(Context context, Update update, ITelegramBotClient botClient)
         {
-            if (update.CallbackQuery.Data == "prf")
-            {
-                context.State = new UserProfileMenuState();
-            }
-            else if (update.CallbackQuery.Data == "admhlp")
-            {
-                await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Да, это пиздец, сочувствую!");
-            }
-            else if (update.CallbackQuery.Data == "ord")
-            {
-                context.State = new AddingDescriptionOrderState();
-            }
-            else if (update.CallbackQuery.Data == "srvs")
-            {
-                context.State = new AvailableServiceTypesState();
-            }
-            else
-            {
-                await botClient.SendTextMessageAsync(new ChatId(context.ChatId), $"Нажали на кнопочку {update.CallbackQuery.Data}!");
-            }
+            await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Неверная команда.");
 
             //int messageId = update.CallbackQuery.Message.MessageId;
 
             //await botClient.EditMessageTextAsync(new ChatId(context.ChatId),messageId, update.CallbackQuery.Message.Text);
         }
 
-        public override void HandleCallbackQuery(Context context, Update update, ITelegramBotClient botClient)
-        { }
+        public override async void HandleCallbackQuery(Context context, Update update, ITelegramBotClient botClient)
+        {
+            var message = update.CallbackQuery;
+
+            if (message.Data == "prf")
+            {
+                context.State = new UserProfileMenuState();
+            }
+            else if (message.Data == "admhlp")
+            {
+                await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Да, это пиздец, сочувствую!");
+            }
+            else if (message.Data == "ord")
+            {
+                context.State = new AddingDescriptionOrderState();
+            }
+            else if (message.Data == "srvs")
+            {
+                context.State = new AvailableServiceTypesState();
+            }
+            else
+            {
+                await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Неверная команда.");
+            }
+        }
 
         public override async void ReactInBot(Context context, ITelegramBotClient botClient)
         {
@@ -48,25 +52,24 @@ namespace RepairServicesAggregatorBot.Bot.States.ClientStates
             var message = await botClient.SendStickerAsync(new ChatId(context.ChatId), InputFile.FromFileId("CAACAgIAAxkBAAEIQAJm2KQmQ9lgITGWr0VCxCV2EKpFpgACDlkAAmm6yEpSDNwNc75gtzYE"));
 
             InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(
+            new[]
+            {
                 new[]
                 {
-                    new[]
-                    {
-                        InlineKeyboardButton.WithCallbackData("Создать заказ", "ord"),
-                        InlineKeyboardButton.WithCallbackData("Заказы", "crtOrds")
-                    },
-                    new[]
-                    {
-                        InlineKeyboardButton.WithCallbackData("Профиль", "prf"),
-                        InlineKeyboardButton.WithCallbackData("Доступные услуги", "srvs")
-                    },
-                    new[]
-                    {
-                        InlineKeyboardButton.WithCallbackData("Поплакаться админу", "admhlp")
-                    }
-
+                    InlineKeyboardButton.WithCallbackData("Создать заказ", "ord"),
+                    InlineKeyboardButton.WithCallbackData("Заказы", "crtOrds")
+                },
+                new[]
+                {
+                    InlineKeyboardButton.WithCallbackData("Профиль", "prf"),
+                    InlineKeyboardButton.WithCallbackData("Доступные услуги", "srvs")
+                },
+                new[]
+                {
+                    InlineKeyboardButton.WithCallbackData("Поплакаться админу", "admhlp")
                 }
-            );
+
+            });
 
             await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Меню пользователя", replyMarkup: keyboard);
         }
