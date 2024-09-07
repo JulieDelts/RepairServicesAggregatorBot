@@ -7,6 +7,15 @@ namespace RepairServicesAggregatorBot.Bot.States.AdminStates
 {
     public class AdminMenuState : AbstractState
     {
+        private int _messageId;
+
+        public AdminMenuState(int messageId)
+        {
+            _messageId = messageId;
+        }
+
+        public AdminMenuState() { }
+
         public override async void HandleMessage(Context context, Update update, ITelegramBotClient botClient)
         {
             await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Неверная команда.");
@@ -18,15 +27,15 @@ namespace RepairServicesAggregatorBot.Bot.States.AdminStates
 
             if (message.Data == "prf")
             {
-                context.State = new UserProfileMenuState();
+                context.State = new UserProfileMenuState(_messageId);
             }
             else if (message.Data == "srvtp")
             {
-                context.State = new AdminServiceTypeMenuState();
+                context.State = new AdminServiceTypeMenuState(_messageId);
             }
             else if (message.Data == "cntrctr")
             {
-                context.State = new AdminContractorsMenuState();
+                context.State = new AdminContractorsMenuState(_messageId);
             }
             else
             {
@@ -41,13 +50,13 @@ namespace RepairServicesAggregatorBot.Bot.States.AdminStates
             {
                 new[]
                 {
-                    InlineKeyboardButton.WithCallbackData("Меню услуг", "srvtp"),
-                    InlineKeyboardButton.WithCallbackData("Меню сотрудников", "cntrctr"),
+                    InlineKeyboardButton.WithCallbackData("Услуги", "srvtp"),
+                    InlineKeyboardButton.WithCallbackData("Сотрудники", "cntrctr"),
                 },
                 new[]
                 {
-                    InlineKeyboardButton.WithCallbackData("Меню заказов", "cntrctr"),
-                    InlineKeyboardButton.WithCallbackData("Меню клиентов", "srvs")
+                    InlineKeyboardButton.WithCallbackData("Заказы", "cntrctr"),
+                    InlineKeyboardButton.WithCallbackData("Клиенты", "srvs")
                 },
                 new[]
                 {  
@@ -60,7 +69,16 @@ namespace RepairServicesAggregatorBot.Bot.States.AdminStates
                 }
             });
 
-            await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Меню администратора", replyMarkup: keyboard);
+            if (_messageId == 0)
+            {
+                var message = await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Меню администратора", replyMarkup: keyboard);
+
+                _messageId = message.MessageId;
+            }
+            else
+            {
+                await botClient.EditMessageTextAsync(new ChatId(context.ChatId), _messageId, "Меню администратора", replyMarkup: keyboard);
+            }
         }
     }
 }

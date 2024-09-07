@@ -29,9 +29,9 @@ namespace RepairServicesProviderBot.BLL
 
         public double GetContractorRating(int userId)
         {
-            double rating = UserRepository.GetContractorRating(userId);
+            double? rating = UserRepository.GetContractorRating(userId);
 
-            return rating;
+            return rating ?? 0;
         }
 
         public List<ExtendedContractorOutputModel> GetAllContractors()

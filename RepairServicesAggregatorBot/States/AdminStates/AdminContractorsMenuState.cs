@@ -7,6 +7,13 @@ namespace RepairServicesAggregatorBot.Bot.States.AdminStates
 {
     public class AdminContractorsMenuState: AbstractState
     {
+        private int _messageId;
+
+        public AdminContractorsMenuState(int messageId)
+        {
+            _messageId = messageId;
+        }
+
         public override async void HandleMessage(Context context, Update update, ITelegramBotClient botClient)
         {
             await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Неверная команда.");
@@ -18,15 +25,15 @@ namespace RepairServicesAggregatorBot.Bot.States.AdminStates
 
             if (message.Data == "bck")
             {
-                context.State = new AdminMenuState();
+                context.State = new AdminMenuState(_messageId);
             }
             else if (message.Data == "cntrctr")
             {
-                context.State = new GetContractorState();
+                context.State = new GetContractorState(_messageId);
             }
             else if (message.Data == "allcntrctrs")
             {
-                context.State = new AllContractorsState();
+                context.State = new AllContractorsState(_messageId);
             }
             else
             {
@@ -51,7 +58,9 @@ namespace RepairServicesAggregatorBot.Bot.States.AdminStates
 
             });
 
-            await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Сотрудники:", replyMarkup: keyboard);
+            var message = await botClient.EditMessageTextAsync(new ChatId(context.ChatId), _messageId, "Меню сотрудников", replyMarkup: keyboard);
+
+            _messageId = message.MessageId;
         }
     }
 }

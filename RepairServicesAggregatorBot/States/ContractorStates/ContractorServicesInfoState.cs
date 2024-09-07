@@ -16,6 +16,8 @@ namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
     {
         ContractorWithServiceTypesOutputModel ContractorWithServiceTypesOutputModel { get; set; }
 
+        private int _messageId;
+
         public ContractorServicesInfoState(ContractorWithServiceTypesOutputModel contractorWithServiceTypesOutputModel) 
         {
             ContractorWithServiceTypesOutputModel = contractorWithServiceTypesOutputModel;
@@ -32,7 +34,7 @@ namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
 
             if (message.Data == "bck")
             {
-                context.State = new AdminContractorsMenuState();
+                context.State = new AdminContractorsMenuState(_messageId);
             }
             else 
             {
@@ -58,7 +60,9 @@ namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
                 }
             });
 
-            await botClient.SendTextMessageAsync(new ChatId(context.ChatId), contractorInfo, replyMarkup: keyboard);
+            var message = await botClient.SendTextMessageAsync(new ChatId(context.ChatId), contractorInfo, replyMarkup: keyboard);
+
+            _messageId = message.MessageId;
         }
     }
 }

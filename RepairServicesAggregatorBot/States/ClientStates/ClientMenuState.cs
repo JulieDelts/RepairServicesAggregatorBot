@@ -8,13 +8,18 @@ namespace RepairServicesAggregatorBot.Bot.States.ClientStates
 {
     public class ClientMenuState : AbstractState
     {
+        private int _messageId;
+
+        public ClientMenuState(int messageId)
+        {
+            _messageId = messageId;
+        }
+
+        public ClientMenuState() { }
+
         public override async void HandleMessage(Context context, Update update, ITelegramBotClient botClient)
         {
             await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Неверная команда.");
-
-            //int messageId = update.CallbackQuery.Message.MessageId;
-
-            //await botClient.EditMessageTextAsync(new ChatId(context.ChatId),messageId, update.CallbackQuery.Message.Text);
         }
 
         public override async void HandleCallbackQuery(Context context, Update update, ITelegramBotClient botClient)
@@ -23,7 +28,7 @@ namespace RepairServicesAggregatorBot.Bot.States.ClientStates
 
             if (message.Data == "prf")
             {
-                context.State = new UserProfileMenuState();
+                context.State = new UserProfileMenuState(_messageId);
             }
             else if (message.Data == "admhlp")
             {
@@ -35,7 +40,7 @@ namespace RepairServicesAggregatorBot.Bot.States.ClientStates
             }
             else if (message.Data == "srvs")
             {
-                context.State = new AvailableServiceTypesState();
+                context.State = new AvailableServiceTypesState(_messageId);
             }
             else
             {
@@ -49,7 +54,7 @@ namespace RepairServicesAggregatorBot.Bot.States.ClientStates
 
             var qwe = msg.Photo.Last().FileId; //Возможно, это успех
 
-            var message = await botClient.SendStickerAsync(new ChatId(context.ChatId), InputFile.FromFileId("CAACAgIAAxkBAAEIQAJm2KQmQ9lgITGWr0VCxCV2EKpFpgACDlkAAmm6yEpSDNwNc75gtzYE"));
+            await botClient.SendStickerAsync(new ChatId(context.ChatId), InputFile.FromFileId("CAACAgIAAxkBAAEIQAJm2KQmQ9lgITGWr0VCxCV2EKpFpgACDlkAAmm6yEpSDNwNc75gtzYE"));
 
             InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(
             new[]
@@ -71,7 +76,16 @@ namespace RepairServicesAggregatorBot.Bot.States.ClientStates
 
             });
 
-            await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Меню пользователя", replyMarkup: keyboard);
+            if (_messageId == 0)
+            {
+                var message = await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Меню пользователя", replyMarkup: keyboard);
+
+                _messageId = message.MessageId;
+            }
+            else
+            {
+                await botClient.EditMessageTextAsync(new ChatId(context.ChatId), _messageId, "Меню пользователя", replyMarkup: keyboard);
+            }
         }
     }
 }

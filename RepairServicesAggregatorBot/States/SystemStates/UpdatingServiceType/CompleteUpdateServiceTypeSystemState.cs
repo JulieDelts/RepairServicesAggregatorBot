@@ -11,6 +11,8 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.UpdatingServiceTyp
     {
         ExtendedServiceTypeInputModel ExtendedServiceTypeInputModel { get; set; }
 
+        private int _messageId;
+
         public CompleteUpdateServiceTypeSystemState(ExtendedServiceTypeInputModel extendedServiceTypeInputModel)
         {
             ExtendedServiceTypeInputModel = extendedServiceTypeInputModel;
@@ -27,7 +29,7 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.UpdatingServiceTyp
 
             if (message.Data == "bck")
             {
-                context.State = new AdminServiceTypeMenuState();
+                context.State = new AdminServiceTypeMenuState(_messageId);
             }
             else
             {
@@ -52,7 +54,9 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.UpdatingServiceTyp
                     }
             });
 
-            await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Вернуться в меню:", replyMarkup: keyboard);
+            var message = await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Вернуться в меню:", replyMarkup: keyboard);
+
+            _messageId = message.MessageId;
         }
     }
 }

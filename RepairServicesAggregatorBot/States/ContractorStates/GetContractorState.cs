@@ -17,6 +17,13 @@ namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
     {
         private bool _isIdError;
 
+        private int _messageId;
+
+        public GetContractorState(int messageId)
+        {
+            _messageId = messageId;
+        }
+
         public override void HandleMessage(Context context, Update update, ITelegramBotClient botClient)
         {
             var message = update.Message;
@@ -40,7 +47,7 @@ namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
 
                     ContractorService contractorService = new ContractorService();
 
-                    double contractorRating = contractorService.GetContractorRating(id);
+                    double? contractorRating = contractorService.GetContractorRating(id);
 
                     contractorWithServiceTypesOutputModel.Rating = contractorRating;
 
@@ -79,6 +86,8 @@ namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
             }
             else
             {
+                await botClient.DeleteMessageAsync(new ChatId(context.ChatId), _messageId);
+
                 await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Введите ID сотрудника:");
             }
         }

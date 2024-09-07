@@ -12,6 +12,8 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.UpdatingUserProfil
     {
         public UserInputModel UserInputModel { get; set; }
 
+        private int _messageId;
+
         public CompleteUpdateUserProfileSystemState(UserInputModel userInputModel)
         {
             UserInputModel = userInputModel;
@@ -37,7 +39,7 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.UpdatingUserProfil
                 }
                 else if (context.RoleId == 3)
                 {
-                    context.State = new AdminMenuState();
+                    context.State = new AdminMenuState(_messageId);
                 }
             }
             else 
@@ -77,7 +79,9 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.UpdatingUserProfil
                 }
             });
 
-            await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Вернуться в меню:", replyMarkup: keyboard);
+           var message = await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Вернуться в меню:", replyMarkup: keyboard);
+
+           _messageId = message.MessageId;
         }
     }
 }

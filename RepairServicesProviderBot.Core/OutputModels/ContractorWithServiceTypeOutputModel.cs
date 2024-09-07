@@ -17,7 +17,7 @@ namespace RepairServicesProviderBot.Core.OutputModels
 
         public string Image { get; set; }
 
-        public double Rating { get; set; }
+        public double? Rating { get; set; }
 
         public ExtendedServiceTypeOutputModel ServiceType { get; set; }
     }

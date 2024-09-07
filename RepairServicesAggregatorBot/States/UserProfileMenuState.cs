@@ -11,6 +11,13 @@ namespace RepairServicesAggregatorBot.Bot.States
 {
     public class UserProfileMenuState : AbstractState
     {
+        private int _messageId;
+
+        public UserProfileMenuState(int messageId)
+        {
+            _messageId = messageId;
+        }
+
         public override async void HandleMessage(Context context, Update update, ITelegramBotClient botClient)
         {
             await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Неверная команда.");
@@ -24,7 +31,7 @@ namespace RepairServicesAggregatorBot.Bot.States
             {
                 if (context.RoleId == 1)
                 {
-                    context.State = new ClientMenuState();
+                    context.State = new ClientMenuState(_messageId);
                 }
                 else if (context.RoleId == 2)
                 {
@@ -32,7 +39,7 @@ namespace RepairServicesAggregatorBot.Bot.States
                 }
                 else if (context.RoleId == 3)
                 {
-                    context.State = new AdminMenuState();
+                    context.State = new AdminMenuState(_messageId);
                 }
             }
             else if (message.Data == "updprf")
@@ -53,6 +60,8 @@ namespace RepairServicesAggregatorBot.Bot.States
 
             var user = userService.GetUserById(context.Id);
 
+            string userDescription = $"Ваш профиль\nИмя: {user.Name}\nТелефон: {user.Phone}\nЭлектронная почта: {user.Email}";
+
             InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(
             new[]
             {
@@ -63,7 +72,9 @@ namespace RepairServicesAggregatorBot.Bot.States
                 }
             });
 
-            await botClient.SendTextMessageAsync(new ChatId(context.ChatId), $"Ваш профиль\nИмя: {user.Name}\nТелефон: {user.Phone}\nЭлектронная почта: {user.Email}", replyMarkup: keyboard);
+            var message = await botClient.EditMessageTextAsync(new ChatId(context.ChatId), _messageId, userDescription, replyMarkup: keyboard);
+
+            _messageId = message.MessageId;
         }
     }
 }

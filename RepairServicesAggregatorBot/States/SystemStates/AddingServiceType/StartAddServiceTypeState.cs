@@ -18,11 +18,15 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.AddingServiceType
 
         private bool _isDescriptionError;
 
-        public StartAddServiceTypeState()
+        private int _messageId;
+
+        public StartAddServiceTypeState(int messageId)
         {
             ServiceTypeInputModel = new ServiceTypeInputModel();
 
             _isDescriptionError = false;
+
+            _messageId = messageId;
         }
 
         public override void HandleMessage(Context context, Update update, ITelegramBotClient botClient)
@@ -54,6 +58,8 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.AddingServiceType
             }
             else
             {
+                await botClient.DeleteMessageAsync(new ChatId(context.ChatId), _messageId);
+
                 await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Введите описание услуги:");
             }
         }
