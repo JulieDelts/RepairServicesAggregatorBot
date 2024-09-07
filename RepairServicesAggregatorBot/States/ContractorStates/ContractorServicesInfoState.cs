@@ -31,6 +31,9 @@ namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
             }
         }
 
+        public override void HandleCallbackQuery(Context context, Update update, ITelegramBotClient botClient)
+        { }
+
         public override async void ReactInBot(Context context, ITelegramBotClient botClient)
         {
             string contractorInfo = $"{ContractorWithServiceTypesOutputModel.Name}\nРейтинг: {ContractorWithServiceTypesOutputModel.Rating}\nТелефон: {ContractorWithServiceTypesOutputModel.Phone}\nЭлектронная почта: {ContractorWithServiceTypesOutputModel.Email}\nДоступные услуги:\n";

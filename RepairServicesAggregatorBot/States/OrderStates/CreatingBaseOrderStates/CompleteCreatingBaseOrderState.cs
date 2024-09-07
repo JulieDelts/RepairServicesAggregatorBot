@@ -22,6 +22,9 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.CreatingBaseOrderSt
             context.State = new AddingDescriptionOrderState();
         }
 
+        public override void HandleCallbackQuery(Context context, Update update, ITelegramBotClient botClient)
+        { }
+
         public override async void ReactInBot(Context context, ITelegramBotClient botClient)
         {
             var msg = await botClient.SendTextMessageAsync(new ChatId(context.ChatId), $"{Responce}");

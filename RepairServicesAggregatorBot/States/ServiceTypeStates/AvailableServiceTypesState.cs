@@ -26,6 +26,9 @@ namespace RepairServicesAggregatorBot.Bot.States.ServiceTypeStates
             }
         }
 
+        public override void HandleCallbackQuery(Context context, Update update, ITelegramBotClient botClient)
+        { }
+
         public override async void ReactInBot(Context context, ITelegramBotClient botClient)
         {
             ServiceTypeService serviceTypeService = new ServiceTypeService();

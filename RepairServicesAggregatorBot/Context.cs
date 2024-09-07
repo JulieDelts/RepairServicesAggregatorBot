@@ -26,6 +26,11 @@ namespace RepairServicesAggregatorBot.Bot
             State.HandleMessage(this, update, botClient);
         }
 
+        public void HandleCallbackQuery(Update update, ITelegramBotClient botClient)
+        {
+            State.HandleCallbackQuery(this, update, botClient);
+        }
+
         public void ReactInBot(ITelegramBotClient botClient)
         {
             State.ReactInBot(this, botClient);
