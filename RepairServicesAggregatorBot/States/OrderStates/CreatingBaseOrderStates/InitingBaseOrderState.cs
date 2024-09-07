@@ -35,9 +35,9 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.CreatingBaseOrderSt
 
             var orderService = new OrderService();
 
-            var response = orderService.AddOrder(Order) ?? new UnConfirmedOrderOutputModel();
+            //var response = orderService.AddOrder(Order) ?? new ConfirmedOrderOutputModel();
 
-            context.State = new CompleteCreatingBaseOrderState(response);
+           // context.State = new CompleteCreatingBaseOrderState(response);
         }
 
         public override async void HandleCallbackQuery(Context context, Update update, ITelegramBotClient botClient)

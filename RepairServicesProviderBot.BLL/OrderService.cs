@@ -18,70 +18,161 @@ namespace RepairServicesProviderBot.BLL
             OrderRepository = new OrderRepository();
 
             var config = new MapperConfiguration(
-                cfg => {
+                cfg =>
+                {
                     cfg.AddProfile(new OrderMapperProfile());
+                    cfg.AddProfile(new ContractorMapperProfile());
+                    cfg.AddProfile(new ServiceTypeMapperProfile());
+                    cfg.AddProfile(new ReviewMapperProfile());
                 });
             _mapper = new Mapper(config);
         }
 
-        public UnConfirmedOrderOutputModel GetUnConfirmedOrderById(int orderId)
+        //public InitialOrderOutputModel AddOrder(OrderInputModel order)
+        //{
+        //    var orderDTO = _mapper.Map<OrderDTO>(order);
+
+        //    var orderId = OrderRepository.AddOrder(orderDTO);
+
+        //    //var orderResponce = GetOrderById(orderId);
+
+        //    return orderResponce;
+        //}
+
+        public void AddContractorReadyToAcceptOrder(int userId, int orderId)
         {
-            var orderDTO = OrderRepository.GetOrderById(orderId);
-
-            var orderResponce = _mapper.Map<UnConfirmedOrderOutputModel>(orderDTO);
-
-            return orderResponce;
+            OrderRepository.AddContractorReadyToAcceptOrder(userId, orderId);
         }
 
-
-        public OrderOutputModel GetOrderById(int orderId)
+        public List<ContractorWithServiceTypeOutputModel> GetGetContractorsReadyToAcceptOrderByOrderId(int orderId)
         {
-            OrderOutputModel orderResponse = new OrderOutputModel();
+            var contractorDTOs = OrderRepository.GetContractorsReadyToAcceptOrderByOrderId(orderId);
 
-            var contractorDTOs = OrderRepository.GetContractorsReadyToAcceptOrderByOrderId(orderId);  
-            
-            var contractors = _mapper.Map<List<ContractorWithServiceTypeOutputModel>>(contractorDTOs);
+            List<ContractorWithServiceTypeOutputModel> contractors = new();
 
-            var orderDTO = OrderRepository.GetOrderById(orderId);
-
-            if (contractors.Count>0 & orderDTO.StatusId==0)
+            foreach (var contractorDTO in contractorDTOs)
             {
-                var confirmedOrderResponse = new ConfirmedOrderOutputModel();
-                confirmedOrderResponse = _mapper.Map<ConfirmedOrderOutputModel>(orderDTO);
-                confirmedOrderResponse.Contractor = contractors[0];
+                var contractor = _mapper.Map<ContractorWithServiceTypeOutputModel>(contractorDTO);
 
-                orderResponse = confirmedOrderResponse;
-            }
-            else if (contractors.Count > 0)
-            {
-                var unConfirmedOrderResponse = _mapper.Map<UnConfirmedOrderOutputModel>(orderDTO);
-                unConfirmedOrderResponse.AvailableContractors = contractors;
-
-                orderResponse = unConfirmedOrderResponse;
-            }
-            else
-            {
-
-                var completedOrderResponse = _mapper.Map<CompletedOrderOutputModel>(orderDTO);
-                completedOrderResponse.Contractor = contractors[0];
-                //ЗДЕСЬ ОТЗЫВ ДОБАВЛЯЕМ
-
-                orderResponse = completedOrderResponse;
+                contractors.Add(contractor);
             }
 
-            return orderResponse;
+            return contractors;
         }
 
-        public UnConfirmedOrderOutputModel AddOrder(OrderInputModel order)
+        //public List<InitialOrderOutputModel> GetAllContractorOrdersByContractorId(int userId)
+        //{
+        //    var orderDTOs = OrderRepository.GetAllContractorOrdersByContractorId(userId);
+
+        //    List<InitialOrderOutputModel> orders = new List<InitialOrderOutputModel>();
+
+        //    ReviewService reviewService = new ReviewService();
+
+        //    foreach (var orderDTO in orderDTOs)
+        //    {
+        //        InitialOrderOutputModel order = MapOrderDTOToOutputModel(orderDTO);
+
+        //        orders.Add(order);
+        //    }
+
+        //    return orders;
+        //}
+
+        //public InitialOrderOutputModel GetOrderById(int orderId)
+        //{
+        //    var orderDTO = OrderRepository.GetOrderById(orderId);
+
+        //    var order = MapOrderDTOToOutputModel(orderDTO);
+
+        //    return order;
+        //}
+
+        //public List<InitialOrderOutputModel> GetAllClientOrdersById(int userId)
+        //{
+        //    var orderDTOs = OrderRepository.GetAllClientOrdersById(userId);
+
+        //    List<InitialOrderOutputModel> orders = new List<InitialOrderOutputModel>();
+
+        //    ReviewService reviewService = new ReviewService();
+
+        //    foreach (var orderDTO in orderDTOs)
+        //    {
+        //        InitialOrderOutputModel order = MapOrderDTOToOutputModel(orderDTO);
+
+        //        orders.Add(order);
+        //    }
+
+        //    return orders;
+        //}
+
+        public ConfirmedOrderOutputModel GetOrderForContractorConfirmation(int orderId)
         {
-            var orderDTO = _mapper.Map<OrderDTO>(order);
+            var orderDTO = OrderRepository.GetOrderForContractorConfirmation(orderId);
 
-            var orderId = OrderRepository.AddOrder(orderDTO);
+            var order = _mapper.Map<ConfirmedOrderOutputModel>(orderDTO);
 
-            var orderResponce = GetUnConfirmedOrderById(orderId);
-
-            return orderResponce;
+            return order;
         }
 
+        public void HideOrderById(int orderId)
+        {
+            OrderRepository.HideOrderById(orderId);
+        }
+
+        private InitialOrderOutputModel MapOrderDTOToOutputModel(OrderDTO orderDTO)
+        {
+            ReviewService reviewService = new ReviewService();
+
+            InitialOrderOutputModel order = new();
+
+            if (orderDTO.StatusId == 0)
+            {
+                order = _mapper.Map<InitialOrderOutputModel>(orderDTO);
+            }
+            else if (orderDTO.StatusId == 1)
+            {
+                order = _mapper.Map<ConfirmedOrderOutputModel>(orderDTO);
+            }
+            else if (orderDTO.StatusId == 2)
+            {
+                var unassignedOrder = _mapper.Map<UnassignedOrderOutputModel>(orderDTO);
+
+                var contractors = GetGetContractorsReadyToAcceptOrderByOrderId((int)orderDTO.Id);
+
+                unassignedOrder.AvailableContractors = contractors;
+
+                order = unassignedOrder;
+            }
+            else if (orderDTO.StatusId == 3 || orderDTO.StatusId == 4)
+            {
+                order = _mapper.Map<AssignedOrderOutputModel>(orderDTO);
+            }
+            else if (orderDTO.StatusId == 5)
+            {
+                var completedOrder = _mapper.Map<CompletedOrderOutputModel>(orderDTO);
+
+                var review = reviewService.GetReviewByOrderId((int)orderDTO.Id);
+
+                completedOrder.Review = review;
+
+                order = completedOrder;
+            }
+            else if (orderDTO.StatusId == 6)
+            {
+                var cancelledOrder = _mapper.Map<CancelledOrderOutputModel>(orderDTO);
+
+                var contractors = GetGetContractorsReadyToAcceptOrderByOrderId((int)orderDTO.Id);
+
+                cancelledOrder.AvailableContractors = contractors;
+
+                var review = reviewService.GetReviewByOrderId((int)orderDTO.Id);
+
+                cancelledOrder.Review = review;
+
+                order = cancelledOrder;
+            }
+
+            return order;
+        }
     }
 }

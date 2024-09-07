@@ -6,13 +6,15 @@ using System.Threading.Tasks;
 
 namespace RepairServicesProviderBot.Core.OutputModels
 {
-    public class OrderOutputModel
+    public class InitialOrderOutputModel
     {
-        public ClientOutputModel Client { get; set; }
+        public int Id { get; set; }
 
-        public ExtendedServiceTypeOutputModel ServiceType { get; set; }
+        public int ClientId { get; set; }
 
-        public string Status { get; set; }
+        public int StatusId { get; set; }
+
+        public string StatusDescription { get; set; }
 
         public string Date { get; set; }
 

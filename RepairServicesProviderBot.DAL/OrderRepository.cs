@@ -70,7 +70,14 @@ namespace RepairServicesProviderBot.DAL
 
                 connection.Open();
 
-                return connection.QuerySingle<OrderDTO>(query, args);
+                return connection.Query<OrderDTO, ServiceTypeDTO, OrderDTO>(query,
+                (orderDTO, serviceTypeDTO) =>
+                {
+                      orderDTO.ServiceType = serviceTypeDTO;
+                      return orderDTO;
+                },
+                args,
+                splitOn: "ServiceTypeDescription").First();
             }
         }
 
@@ -194,15 +201,15 @@ namespace RepairServicesProviderBot.DAL
 
                 connection.Open();
 
-                return connection.Query<UserDTO, OrderDTO, ServiceTypeDTO, OrderDTO>(query,
-                  (userDTO, orderDTO, serviceTypeDTO) =>
+                return connection.Query<OrderDTO, UserDTO, ServiceTypeDTO, OrderDTO>(query,
+                  (orderDTO, userDTO, serviceTypeDTO) =>
                   {
                       orderDTO.Contractor = userDTO;
                       orderDTO.ServiceType = serviceTypeDTO;
                       return orderDTO;
                   },
                   args,
-                  splitOn: "OrderDescription, ServiceTypeDescription").ToList();
+                  splitOn: "Name, ServiceTypeDescription").ToList();
             }
         }
 

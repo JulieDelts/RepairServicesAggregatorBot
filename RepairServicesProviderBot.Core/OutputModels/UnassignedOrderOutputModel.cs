@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace RepairServicesProviderBot.Core.OutputModels
 {
-    public class ConfirmedOrderOutputModel: InitialOrderOutputModel
+    public class UnassignedOrderOutputModel: ConfirmedOrderOutputModel
     {
-        public ExtendedServiceTypeOutputModel ServiceType { get; set; }
+        public List<ContractorWithServiceTypeOutputModel> AvailableContractors { get; set; }
     }
 }

@@ -10,17 +10,19 @@ namespace RepairServicesProviderBot.Core.DTOs
     {
         public int? Id { get; set; }
 
-        public long? ClientId { get; set; }
+        public int? ClientId { get; set; }
 
         public int? ServiceTypeId { get; set; }
 
-        public long? ContractorId { get; set; }
+        public int? ContractorId { get; set; }
 
-        public long? AdminId { get; set; }
+        public int? AdminId { get; set; }
 
         public int? StatusId { get; set; }
 
         public string? StatusDescription { get; set; }
+
+        public int Cost { get; set; }
 
         public string? Date { get; set; }
 

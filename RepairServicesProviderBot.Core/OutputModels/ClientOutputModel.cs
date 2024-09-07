@@ -15,10 +15,5 @@ namespace RepairServicesProviderBot.Core.OutputModels
         public string Phone { get; set; }
 
         public string Image { get; set; }
-
-        public override string ToString()
-        {
-            return $"Имя {Name ?? "не указано"}";
-        }
     }
 }

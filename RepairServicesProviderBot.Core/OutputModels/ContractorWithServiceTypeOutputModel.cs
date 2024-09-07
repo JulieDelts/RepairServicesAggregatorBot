@@ -19,6 +19,6 @@ namespace RepairServicesProviderBot.Core.OutputModels
 
         public double? Rating { get; set; }
 
-        public ExtendedServiceTypeOutputModel ServiceType { get; set; }
+        public ContractorServiceTypeOutputModel ServiceType { get; set; }
     }
 }
