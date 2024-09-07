@@ -70,7 +70,7 @@ namespace RepairServicesProviderBot.DAL
             }
         }
 
-        public double GetContractorRating(int userId)
+        public double? GetContractorRating(int userId)
         {
             string conectionString = Options.ConnectionString;
 
@@ -85,7 +85,7 @@ namespace RepairServicesProviderBot.DAL
 
                 connection.Open();
 
-                return connection.QuerySingle<double>(query, args);
+                return connection.QuerySingle<double?>(query, args);
             }
         }
 

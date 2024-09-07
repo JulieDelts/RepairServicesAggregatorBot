@@ -13,6 +13,13 @@ namespace RepairServicesAggregatorBot.Bot.States.AdminStates
 {
     public class AdminServiceTypeMenuState: AbstractState 
     {
+        private int _messageId;
+
+        public AdminServiceTypeMenuState(int messageId)
+        {
+            _messageId = messageId;
+        }
+
         public override async void HandleMessage(Context context, Update update, ITelegramBotClient botClient)
         {
             await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Неверная команда.");
@@ -24,19 +31,19 @@ namespace RepairServicesAggregatorBot.Bot.States.AdminStates
 
             if (message.Data == "nwsrvtp")
             {
-                context.State = new StartAddServiceTypeState();
+                context.State = new StartAddServiceTypeState(_messageId);
             }
             else if (message.Data == "srvtp")
             {
-                context.State = new AvailableServiceTypesState();
+                context.State = new AvailableServiceTypesState(_messageId);
             }
             else if (message.Data == "bck")
             {
-                context.State = new AdminMenuState();
+                context.State = new AdminMenuState(_messageId);
             }
             else if (message.Data == "cntrctr")
             {
-                context.State = new GetServiceTypeState();
+                context.State = new GetServiceTypeState(_messageId);
             }
             else
             {
@@ -62,7 +69,9 @@ namespace RepairServicesAggregatorBot.Bot.States.AdminStates
                 }
             });
 
-            await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Меню услуг", replyMarkup: keyboard);
+            var message = await botClient.EditMessageTextAsync(new ChatId(context.ChatId), _messageId, "Меню услуг", replyMarkup: keyboard);
+
+            _messageId = message.MessageId; 
         }
     }
 }

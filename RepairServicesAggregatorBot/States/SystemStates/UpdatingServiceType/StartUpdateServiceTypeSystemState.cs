@@ -14,23 +14,22 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.UpdatingServiceTyp
 
         private bool _isDescriptionError;
 
-        public StartUpdateServiceTypeSystemState(ExtendedServiceTypeInputModel serviceTypeOutputModel)
+        private int _messageId;
+
+        public StartUpdateServiceTypeSystemState(int messageId, ExtendedServiceTypeInputModel serviceTypeOutputModel)
         {
             ExtendedServiceTypeInputModel = serviceTypeOutputModel;
 
             _isDescriptionError = false;
+
+            _messageId = messageId;
         }
 
         public override async void HandleMessage(Context context, Update update, ITelegramBotClient botClient)
         {
-            await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Неверная команда.");
-        }
-
-        public override void HandleCallbackQuery(Context context, Update update, ITelegramBotClient botClient)
-        {
             var message = update.Message;
 
-            if (!IsDescriptionValid(message.Text))
+            if (IsDescriptionValid(message.Text))
             {
                 ExtendedServiceTypeInputModel.ServiceTypeDescription = message.Text;
 
@@ -39,7 +38,14 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.UpdatingServiceTyp
             else
             {
                 _isDescriptionError = true;
+
+                await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Неверная команда.");
             }
+        }
+
+        public override async void HandleCallbackQuery(Context context, Update update, ITelegramBotClient botClient)
+        {
+            await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Неверная команда.");
         }
 
         public override async void ReactInBot(Context context, ITelegramBotClient botClient)
@@ -50,6 +56,8 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.UpdatingServiceTyp
             }
             else
             {
+                await botClient.DeleteMessageAsync(new ChatId(context.ChatId), _messageId);
+
                 await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Введите описание услуги:");
             }
         }

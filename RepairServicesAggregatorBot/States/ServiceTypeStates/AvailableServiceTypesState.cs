@@ -9,6 +9,13 @@ namespace RepairServicesAggregatorBot.Bot.States.ServiceTypeStates
 {
     public class AvailableServiceTypesState : AbstractState
     {
+        private int _messageId;
+
+        public AvailableServiceTypesState(int messageId)
+        {
+            _messageId = messageId;
+        }
+
         public override async void HandleMessage(Context context, Update update, ITelegramBotClient botClient)
         {
             await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Неверная команда.");
@@ -22,11 +29,11 @@ namespace RepairServicesAggregatorBot.Bot.States.ServiceTypeStates
             {
                 if (context.RoleId == 1)
                 {
-                    context.State = new ClientMenuState();
+                    context.State = new ClientMenuState(_messageId);
                 }
                 else if (context.RoleId == 3)
                 {
-                    context.State = new AdminServiceTypeMenuState();
+                    context.State = new AdminServiceTypeMenuState(_messageId);
                 }
             }
             else
@@ -69,7 +76,9 @@ namespace RepairServicesAggregatorBot.Bot.States.ServiceTypeStates
                 }
             });
 
-            await botClient.SendTextMessageAsync(new ChatId(context.ChatId), servicesDescription, replyMarkup: keyboard);
+            var message = await botClient.EditMessageTextAsync(new ChatId(context.ChatId), _messageId, servicesDescription, replyMarkup: keyboard);
+
+            int messageId = message.MessageId;
         }
     }
 }

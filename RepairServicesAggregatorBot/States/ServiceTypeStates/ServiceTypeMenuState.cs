@@ -12,6 +12,8 @@ namespace RepairServicesAggregatorBot.Bot.States.ServiceTypeStates
     {
         public ExtendedServiceTypeInputModel ExtendedServiceTypeInputModel { get; set; }
 
+        private int _messageId;
+
         public ServiceTypeMenuState(ExtendedServiceTypeInputModel extendedServiceTypeInputModel)
         {
             ExtendedServiceTypeInputModel = extendedServiceTypeInputModel;
@@ -28,11 +30,11 @@ namespace RepairServicesAggregatorBot.Bot.States.ServiceTypeStates
 
             if (message.Data == "bck")
             {
-                context.State = new AdminServiceTypeMenuState();
+                context.State = new AdminServiceTypeMenuState(_messageId);
             }
             else if (message.Data == "updsrvtp")
             {
-                context.State = new StartUpdateServiceTypeSystemState(ExtendedServiceTypeInputModel);
+                context.State = new StartUpdateServiceTypeSystemState(_messageId,ExtendedServiceTypeInputModel);
             }
             else 
             {
@@ -59,7 +61,9 @@ namespace RepairServicesAggregatorBot.Bot.States.ServiceTypeStates
                 }
             });
 
-            await botClient.SendTextMessageAsync(new ChatId(context.ChatId), $"Меню услуги\nОписание: {ExtendedServiceTypeInputModel.ServiceTypeDescription}", replyMarkup: keyboard);
+            var message = await botClient.SendTextMessageAsync(new ChatId(context.ChatId), $"Меню услуги\nОписание: {ExtendedServiceTypeInputModel.ServiceTypeDescription}", replyMarkup: keyboard);
+
+            _messageId = message.MessageId;
         }
     }
 }
