@@ -1,10 +1,13 @@
+using Microsoft.VisualBasic;
 using RepairServicesAggregatorBot.Bot;
 using RepairServicesAggregatorBot.Bot.States.AdminStates;
 using RepairServicesAggregatorBot.Bot.States.ClientStates;
 using RepairServicesAggregatorBot.Bot.States.SystemStates.RegisteringUser;
 using RepairServicesProviderBot.BLL;
+using RepairServicesProviderBot.DAL;
 using Telegram.Bot;
 using Telegram.Bot.Polling;
+using Telegram.Bot.Requests;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 

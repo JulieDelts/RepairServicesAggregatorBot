@@ -16,6 +16,6 @@ namespace RepairServicesProviderBot.Core.OutputModels
 
         public string Image { get; set; }
 
-        public List<OrderOutputModel> Orders { get; set; }
+        public List<InitialOrderOutputModel> Orders { get; set; }
     }
 }

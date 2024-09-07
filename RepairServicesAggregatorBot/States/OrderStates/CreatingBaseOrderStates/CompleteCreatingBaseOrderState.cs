@@ -11,9 +11,9 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.CreatingBaseOrderSt
 {
     public class CompleteCreatingBaseOrderState : AbstractState
     {
-        public UnConfirmedOrderOutputModel Responce;
+        public ConfirmedOrderOutputModel Responce;
 
-        public CompleteCreatingBaseOrderState(UnConfirmedOrderOutputModel responce)
+        public CompleteCreatingBaseOrderState(ConfirmedOrderOutputModel responce)
         {
             Responce = responce;
         }

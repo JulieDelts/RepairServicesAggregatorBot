@@ -10,9 +10,12 @@ namespace RepairServicesProviderBot.BLL.Mappings
         public OrderMapperProfile() 
         {
             CreateMap<OrderInputModel, OrderDTO>();
-            CreateMap<OrderDTO, CompletedOrderOutputModel>();
+            CreateMap<OrderDTO, InitialOrderOutputModel>();
             CreateMap<OrderDTO, ConfirmedOrderOutputModel>();
-            CreateMap<OrderDTO, UnConfirmedOrderOutputModel>();
+            CreateMap<OrderDTO, UnassignedOrderOutputModel>();
+            CreateMap<OrderDTO, AssignedOrderOutputModel>();
+            CreateMap<OrderDTO, CompletedOrderOutputModel>();
+            CreateMap<OrderDTO, CancelledOrderOutputModel>();
         }
     }
 }

@@ -14,7 +14,7 @@ namespace RepairServicesProviderBot.BLL.Mappings
     {
         public ContractorMapperProfile()
         {
-            CreateMap<UserMapperProfile, UserDTO>();
+            CreateMap<UserInputModel, UserDTO>();
             CreateMap<UserDTO, ContractorWithServiceTypesOutputModel>();
             CreateMap<UserDTO, ContractorWithServiceTypeOutputModel>();
             CreateMap<UserDTO, ExtendedContractorOutputModel>();

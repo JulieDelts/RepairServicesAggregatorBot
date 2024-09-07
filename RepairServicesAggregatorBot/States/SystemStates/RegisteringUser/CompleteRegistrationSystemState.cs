@@ -32,7 +32,7 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.RegisteringUser
             {
                 if (context.RoleId == 1)
                 {
-                    context.State = new ClientMenuState();
+                    context.State = new ClientMenuState(_messageId);
                 }
                 else if (context.RoleId == 2)
                 {

@@ -16,6 +16,8 @@ namespace RepairServicesProviderBot.Core.OutputModels
 
         public string? Email { get; set; }
 
+        public double? Rating { get; set; }
+
         public string IsDeleted { get; set; }
 
     }
