@@ -34,9 +34,13 @@ namespace RepairServicesAggregatorBot.Bot.States.ServiceTypeStates
             }
             else if (message.Data == "updsrvtp")
             {
-                context.State = new StartUpdateServiceTypeSystemState(_messageId,ExtendedServiceTypeInputModel);
+                context.State = new StartUpdateServiceTypeSystemState(_messageId, ExtendedServiceTypeInputModel);
             }
-            else 
+            else if (message.Data == "hdsrvtp")
+            {
+                context.State = new HideServiceTypeSystemState(_messageId, ExtendedServiceTypeInputModel);
+            }
+            else
             {
                 await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Неверная команда.");
             }
