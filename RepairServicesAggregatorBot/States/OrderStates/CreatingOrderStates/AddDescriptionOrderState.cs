@@ -67,7 +67,7 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.CreatingBaseOrderSt
 
         private bool IsDescriptionValid(string description)
         {
-            return Regex.IsMatch(description, @"^[а-яА-ЯёЁ\s.,]+");
+            return Regex.IsMatch(description, @"^[0-9а-яА-ЯёЁ\s.,]+");
         }
     }
 }

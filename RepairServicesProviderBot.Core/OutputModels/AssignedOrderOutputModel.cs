@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RepairServicesProviderBot.Core.OutputModels
 {
-    public class AssignedOrderOutputModel: UnassignedOrderOutputModel
+    public class AssignedOrderOutputModel: ConfirmedOrderOutputModel
     {
         public int ContractorId { get; set; }
 

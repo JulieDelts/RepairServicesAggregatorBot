@@ -29,15 +29,13 @@ namespace RepairServicesProviderBot.BLL
             _mapper = new Mapper(config);
         }
 
-        public InitialOrderOutputModel AddOrder(OrderInputModel order)
+        public int AddOrder(OrderInputModel order)
         {
             var orderDTO = _mapper.Map<OrderDTO>(order);
 
             var orderId = OrderRepository.AddOrder(orderDTO);
 
-            var orderResponce = GetOrderById(orderId);
-
-            return orderResponce;
+            return orderId;
         }
 
         public void AddContractorReadyToAcceptOrder(int userId, int orderId)
