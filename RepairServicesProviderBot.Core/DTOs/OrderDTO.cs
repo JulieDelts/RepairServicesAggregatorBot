@@ -12,11 +12,17 @@ namespace RepairServicesProviderBot.Core.DTOs
 
         public int? ClientId { get; set; }
 
-        public int? ServiceTypeId { get; set; }
+        public string? ClientName { get; set; }
 
         public int? ContractorId { get; set; }
 
+        public string? ContractorName { get; set; }
+
         public int? AdminId { get; set; }
+
+        public string? AdminName { get; set; }
+
+        public int? ServiceTypeId { get; set; }
 
         public int? StatusId { get; set; }
 
@@ -32,14 +38,7 @@ namespace RepairServicesProviderBot.Core.DTOs
 
         public bool? IsDeleted { get; set; }
 
-        public UserDTO? Client { get; set; }
-
-        public UserDTO? Contractor { get; set; }
-
         public ServiceTypeDTO? ServiceType { get; set; }
 
-        public List<UserDTO>? AvailableContractors { get; set; }
-
-        public ReviewDTO? Review { get; set; }
     }
 }

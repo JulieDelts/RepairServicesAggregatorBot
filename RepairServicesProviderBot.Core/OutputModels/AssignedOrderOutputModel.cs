@@ -10,9 +10,9 @@ namespace RepairServicesProviderBot.Core.OutputModels
     {
         public int ContractorId { get; set; }
 
+        public string ContractorName { get; set; }
+        
         public int Cost { get; set; }
-
-        public ContractorWithServiceTypeOutputModel Contractor { get; set; }
 
     }
 }

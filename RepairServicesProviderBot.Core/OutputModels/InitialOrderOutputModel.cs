@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,8 @@ namespace RepairServicesProviderBot.Core.OutputModels
 
         public int ClientId { get; set; }
 
+        public string ClientName { get; set; }
+
         public int StatusId { get; set; }
 
         public string StatusDescription { get; set; }
@@ -21,5 +24,7 @@ namespace RepairServicesProviderBot.Core.OutputModels
         public string OrderDescription { get; set; }
 
         public string Address { get; set; }
+
+        public bool IsDeleted { get; set; }
     }
 }

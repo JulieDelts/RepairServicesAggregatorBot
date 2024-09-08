@@ -61,24 +61,6 @@ namespace RepairServicesProviderBot.BLL
             return contractors;
         }
 
-        public List<InitialOrderOutputModel> GetAllContractorOrdersByContractorId(int userId)
-        {
-            var orderDTOs = OrderRepository.GetAllContractorOrdersByContractorId(userId);
-
-            List<InitialOrderOutputModel> orders = new List<InitialOrderOutputModel>();
-
-            ReviewService reviewService = new ReviewService();
-
-            foreach (var orderDTO in orderDTOs)
-            {
-                InitialOrderOutputModel order = MapOrderDTOToOutputModel(orderDTO);
-
-                orders.Add(order);
-            }
-
-            return orders;
-        }
-
         public InitialOrderOutputModel GetOrderById(int orderId)
         {
             var orderDTO = OrderRepository.GetOrderById(orderId);
@@ -88,9 +70,9 @@ namespace RepairServicesProviderBot.BLL
             return order;
         }
 
-        public List<InitialOrderOutputModel> GetAllClientOrdersById(int userId)
+        public List<InitialOrderOutputModel> GetAllOrdersByUserId(int userId)
         {
-            var orderDTOs = OrderRepository.GetAllClientOrdersById(userId);
+            var orderDTOs = OrderRepository.GetAllOrdersByUserId(userId);
 
             List<InitialOrderOutputModel> orders = new List<InitialOrderOutputModel>();
 

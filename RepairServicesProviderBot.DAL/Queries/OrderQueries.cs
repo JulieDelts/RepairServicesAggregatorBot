@@ -8,6 +8,8 @@
 
         public const string GetOrderByIdQuery = $"SELECT * FROM \"GetOrderById\"(@orderId);";
 
+        public const string GetAllOrdersByUserIdQuery = $"SELECT * FROM \"GetAllOrdersByUserId\"(@userId);";
+
         public const string GetContractorsReadyToAcceptOrderByOrderIdQuery = $"SELECT * FROM \"GetContractorsReadyToAcceptOrderByOrderId\"(@orderId);";
 
         public const string GetAllContractorOrdersByContractorIdQuery = $"SELECT * FROM \"GetAllContractorOrdersByContractorId\"(@userId);";

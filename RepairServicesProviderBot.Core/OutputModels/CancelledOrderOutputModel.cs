@@ -10,13 +10,17 @@ namespace RepairServicesProviderBot.Core.OutputModels
     {
         public int? ContractorId { get; set; }
 
+        public string? ContractorName { get; set; }
+
+        public int? AdminId { get; set; }
+
+        public string? AdminName { get; set; }
+
         public int? Cost { get; set; }
 
         public ExtendedServiceTypeOutputModel? ServiceType { get; set; }
 
         public List<ContractorWithServiceTypeOutputModel>? AvailableContractors { get; set; }
-
-        public ContractorWithServiceTypeOutputModel? Contractor { get; set; }
 
         public ReviewOutputModel? Review { get; set; }
     }

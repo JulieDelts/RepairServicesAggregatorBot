@@ -105,13 +105,13 @@ namespace RepairServicesProviderBot.DAL
             }
         }
 
-        public List<OrderDTO> GetAllContractorOrdersByContractorId(int userId)
+        public List<OrderDTO> GetAllOrdersByUserId(int userId)
         {
             string conectionString = Options.ConnectionString;
 
             using (var connection = new NpgsqlConnection(conectionString))
             {
-                string query = OrderQueries.GetAllContractorOrdersByContractorIdQuery;
+                string query = OrderQueries.GetAllOrdersByUserIdQuery;
 
                 var args = new
                 {
@@ -120,44 +120,14 @@ namespace RepairServicesProviderBot.DAL
 
                 connection.Open();
 
-                return connection.Query<UserDTO, OrderDTO, ServiceTypeDTO, OrderDTO>(query,
-                    (userDTO,orderDTO, serviceTypeDTO) =>
+                return connection.Query<OrderDTO, ServiceTypeDTO, OrderDTO>(query,
+                    (orderDTO, serviceTypeDTO) =>
                     {
-                        orderDTO.Client = userDTO;
                         orderDTO.ServiceType = serviceTypeDTO;
                         return orderDTO;
                     },
                     args,
-                    splitOn: "OrderDescription, ServiceTypeDescription").ToList();
-
-            }
-        }
-
-        public List<OrderDTO> GetCurrentContractorOrdersByContractorId(int userId)
-        {
-            string conectionString = Options.ConnectionString;
-
-            using (var connection = new NpgsqlConnection(conectionString))
-            {
-                string query = OrderQueries.GetCurrentContractorOrdersByContractorIdQuery;
-
-                var args = new
-                {
-                    userId = userId
-                };
-
-                connection.Open();
-
-                return connection.Query<UserDTO, OrderDTO, ServiceTypeDTO, OrderDTO>(query,
-                    (userDTO, orderDTO, serviceTypeDTO) =>
-                    {
-                        orderDTO.Client = userDTO;
-                        orderDTO.ServiceType = serviceTypeDTO;
-                        return orderDTO;
-                    },
-                    args,
-                    splitOn: "OrderDescription, ServiceTypeDescription").ToList();
-
+                    splitOn: "ServiceTypeDescription").ToList();
             }
         }
 
@@ -184,33 +154,6 @@ namespace RepairServicesProviderBot.DAL
                     },
                     args,
                     splitOn: "ServiceTypeDescription").First();
-            }
-        }
-
-        public List<OrderDTO> GetAllClientOrdersById(int userId)
-        {
-            string conectionString = Options.ConnectionString;
-
-            using (var connection = new NpgsqlConnection(conectionString))
-            {
-                string query = OrderQueries.GetAllClientOrdersByIdQuery;
-
-                var args = new
-                {
-                    userId = userId
-                };
-
-                connection.Open();
-
-                return connection.Query<OrderDTO, UserDTO, ServiceTypeDTO, OrderDTO>(query,
-                  (orderDTO, userDTO, serviceTypeDTO) =>
-                  {
-                      orderDTO.Contractor = userDTO;
-                      orderDTO.ServiceType = serviceTypeDTO;
-                      return orderDTO;
-                  },
-                  args,
-                  splitOn: "Name, ServiceTypeDescription").ToList();
             }
         }
 
