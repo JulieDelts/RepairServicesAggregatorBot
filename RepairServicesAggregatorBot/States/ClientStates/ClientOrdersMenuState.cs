@@ -42,13 +42,31 @@ namespace RepairServicesAggregatorBot.Bot.States.ClientStates
 
                 foreach (var order in clientOrders)
                 {
-                    if (order.StatusId < 5)
+                    if (order.StatusId < 5 && order.IsDeleted == false)
                     {
                         currentOrders.Add(order);
                     }
                 }
 
-                context.State = new CurrentClientOrdersMenu(_messageId,currentOrders);
+                context.State = new CurrentClientOrdersMenu(_messageId, currentOrders);
+            }
+            else if (message.Data == "ordrshstr")
+            {
+                OrderService orderService = new OrderService();
+
+                var clientOrders = orderService.GetAllOrdersByUserId(context.Id);
+
+                List<InitialOrderOutputModel> inactiveOrders = new List<InitialOrderOutputModel>();
+
+                foreach (var order in clientOrders)
+                {
+                    if ((order.StatusId == 5 || order.StatusId == 6) && order.IsDeleted == false)
+                    {
+                        inactiveOrders.Add(order);
+                    }
+                }
+
+                context.State = new ClientOrderHistoryState(_messageId, inactiveOrders);
             }
             else if (message.Data == "bck")
             {

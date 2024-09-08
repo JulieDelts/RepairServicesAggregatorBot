@@ -49,11 +49,13 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.CreatingBaseOrderSt
         {
             OrderService orderService = new OrderService();
 
-            var order = orderService.AddOrder(OrderInputModel);
+            var orderId = orderService.AddOrder(OrderInputModel);
+
+            var order = orderService.GetOrderById(orderId);
 
             var orderDescription = $"ID заказа: {order.Id}\nОписание: {order.OrderDescription}\nАдрес: {order.Address}\nДата создания: {order.Date}\n";
 
-            await botClient.SendTextMessageAsync(new ChatId(context.ChatId), $"Добавление заказа завершено.\n");
+            await botClient.SendTextMessageAsync(new ChatId(context.ChatId), $"Добавление заказа завершено.\n{orderDescription}");
 
             InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(
             new[]
