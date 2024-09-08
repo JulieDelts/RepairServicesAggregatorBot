@@ -18,5 +18,7 @@ namespace RepairServicesProviderBot.Core.InputModels
         public int StatusId { get; set; }
 
         public string Date { get; set; }
+
+        public string Photo {  get; set; }
     }
 }
