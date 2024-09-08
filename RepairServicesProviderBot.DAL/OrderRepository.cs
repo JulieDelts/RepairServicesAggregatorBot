@@ -120,14 +120,15 @@ namespace RepairServicesProviderBot.DAL
 
                 connection.Open();
 
-                return connection.Query<OrderDTO, ServiceTypeDTO, OrderDTO>(query,
-                    (orderDTO, serviceTypeDTO) =>
+                return connection.Query<UserDTO, OrderDTO, ServiceTypeDTO, OrderDTO>(query,
+                    (userDTO,orderDTO, serviceTypeDTO) =>
                     {
+                        orderDTO.Client = userDTO;
                         orderDTO.ServiceType = serviceTypeDTO;
                         return orderDTO;
                     },
                     args,
-                    splitOn: "ServiceTypeDescription").ToList();
+                    splitOn: "OrderDescription, ServiceTypeDescription").ToList();
 
             }
         }

@@ -22,22 +22,23 @@ namespace RepairServicesProviderBot.BLL
                 {
                     cfg.AddProfile(new OrderMapperProfile());
                     cfg.AddProfile(new ContractorMapperProfile());
+                    cfg.AddProfile(new ClientMapperProfile());
                     cfg.AddProfile(new ServiceTypeMapperProfile());
                     cfg.AddProfile(new ReviewMapperProfile());
                 });
             _mapper = new Mapper(config);
         }
 
-        //public InitialOrderOutputModel AddOrder(OrderInputModel order)
-        //{
-        //    var orderDTO = _mapper.Map<OrderDTO>(order);
+        public InitialOrderOutputModel AddOrder(OrderInputModel order)
+        {
+            var orderDTO = _mapper.Map<OrderDTO>(order);
 
-        //    var orderId = OrderRepository.AddOrder(orderDTO);
+            var orderId = OrderRepository.AddOrder(orderDTO);
 
-        //    //var orderResponce = GetOrderById(orderId);
+            var orderResponce = GetOrderById(orderId);
 
-        //    return orderResponce;
-        //}
+            return orderResponce;
+        }
 
         public void AddContractorReadyToAcceptOrder(int userId, int orderId)
         {
@@ -60,50 +61,50 @@ namespace RepairServicesProviderBot.BLL
             return contractors;
         }
 
-        //public List<InitialOrderOutputModel> GetAllContractorOrdersByContractorId(int userId)
-        //{
-        //    var orderDTOs = OrderRepository.GetAllContractorOrdersByContractorId(userId);
+        public List<InitialOrderOutputModel> GetAllContractorOrdersByContractorId(int userId)
+        {
+            var orderDTOs = OrderRepository.GetAllContractorOrdersByContractorId(userId);
 
-        //    List<InitialOrderOutputModel> orders = new List<InitialOrderOutputModel>();
+            List<InitialOrderOutputModel> orders = new List<InitialOrderOutputModel>();
 
-        //    ReviewService reviewService = new ReviewService();
+            ReviewService reviewService = new ReviewService();
 
-        //    foreach (var orderDTO in orderDTOs)
-        //    {
-        //        InitialOrderOutputModel order = MapOrderDTOToOutputModel(orderDTO);
+            foreach (var orderDTO in orderDTOs)
+            {
+                InitialOrderOutputModel order = MapOrderDTOToOutputModel(orderDTO);
 
-        //        orders.Add(order);
-        //    }
+                orders.Add(order);
+            }
 
-        //    return orders;
-        //}
+            return orders;
+        }
 
-        //public InitialOrderOutputModel GetOrderById(int orderId)
-        //{
-        //    var orderDTO = OrderRepository.GetOrderById(orderId);
+        public InitialOrderOutputModel GetOrderById(int orderId)
+        {
+            var orderDTO = OrderRepository.GetOrderById(orderId);
 
-        //    var order = MapOrderDTOToOutputModel(orderDTO);
+            var order = MapOrderDTOToOutputModel(orderDTO);
 
-        //    return order;
-        //}
+            return order;
+        }
 
-        //public List<InitialOrderOutputModel> GetAllClientOrdersById(int userId)
-        //{
-        //    var orderDTOs = OrderRepository.GetAllClientOrdersById(userId);
+        public List<InitialOrderOutputModel> GetAllClientOrdersById(int userId)
+        {
+            var orderDTOs = OrderRepository.GetAllClientOrdersById(userId);
 
-        //    List<InitialOrderOutputModel> orders = new List<InitialOrderOutputModel>();
+            List<InitialOrderOutputModel> orders = new List<InitialOrderOutputModel>();
 
-        //    ReviewService reviewService = new ReviewService();
+            ReviewService reviewService = new ReviewService();
 
-        //    foreach (var orderDTO in orderDTOs)
-        //    {
-        //        InitialOrderOutputModel order = MapOrderDTOToOutputModel(orderDTO);
+            foreach (var orderDTO in orderDTOs)
+            {
+                InitialOrderOutputModel order = MapOrderDTOToOutputModel(orderDTO);
 
-        //        orders.Add(order);
-        //    }
+                orders.Add(order);
+            }
 
-        //    return orders;
-        //}
+            return orders;
+        }
 
         public ConfirmedOrderOutputModel GetOrderForContractorConfirmation(int orderId)
         {
