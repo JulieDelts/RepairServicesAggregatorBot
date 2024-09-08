@@ -1,5 +1,6 @@
 ﻿using RepairServicesAggregatorBot.Bot.States.AdminStates;
 using RepairServicesAggregatorBot.Bot.States.ClientStates;
+using RepairServicesAggregatorBot.Bot.States.ContractorStates;
 using RepairServicesProviderBot.BLL;
 using RepairServicesProviderBot.Core.InputModels;
 using Telegram.Bot;
@@ -36,7 +37,7 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.RegisteringUser
                 }
                 else if (context.RoleId == 2)
                 {
-                    //context.State = new ContractorMenuState();
+                    context.State = new ContractorMenuState(_messageId);
                 }
                 else if (context.RoleId == 3)
                 {

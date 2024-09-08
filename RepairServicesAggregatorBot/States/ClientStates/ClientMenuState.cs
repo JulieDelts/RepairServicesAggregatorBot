@@ -10,12 +10,10 @@ namespace RepairServicesAggregatorBot.Bot.States.ClientStates
     {
         private int _messageId;
 
-        public ClientMenuState(int messageId)
+        public ClientMenuState(int messageId = 0)
         {
             _messageId = messageId;
         }
-
-        public ClientMenuState() { }
 
         public override async void HandleMessage(Context context, Update update, ITelegramBotClient botClient)
         {

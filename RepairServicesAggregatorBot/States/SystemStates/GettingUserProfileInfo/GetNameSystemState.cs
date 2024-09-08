@@ -17,11 +17,15 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.GettingUserProfile
 
         private bool _isNameError;
 
-        public GetNameSystemState(UserInputModel userInputModel)
+        private int _messageId;
+
+        public GetNameSystemState(UserInputModel userInputModel, int message = 0)
         {
             UserInputModel = userInputModel;
 
             _isNameError = false;
+
+            _messageId = message;
         }
 
         public override void HandleMessage(Context context, Update update, ITelegramBotClient botClient)
@@ -53,13 +57,18 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.GettingUserProfile
             }
             else
             {
+                if (_messageId != 0)
+                {
+                    await botClient.DeleteMessageAsync(new ChatId(context.ChatId), _messageId);
+                }
+
                 await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Введите имя кириллицей:");
             }
         }
 
         private bool IsNameValid(string name)
         {
-            return Regex.IsMatch(name, @"^[а-яА-ЯёЁ]+ ?[а-яА-ЯёЁa-zA-Z]+ ?[а-яА-ЯёЁa-zA-Z]+$");
+            return Regex.IsMatch(name, @"^[а-яА-ЯёЁ]+ ?[а-яА-ЯёЁa-zA-Z]+ ?[а-яА-ЯёЁa-zA-Z]+");
         }
     }
 }
