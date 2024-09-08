@@ -1,4 +1,5 @@
 ﻿using RepairServicesProviderBot.Core.OutputModels;
+using RepairServicesProviderBot.DAL;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
@@ -13,11 +14,14 @@ namespace RepairServicesAggregatorBot.Bot.States.ClientStates
 
         private int _counter;
 
+        private OrderRepository _orderRepository;
+
         public CurrentClientOrdersMenu(int messageId, List<InitialOrderOutputModel> currentOrders)
         {
             _messageId = messageId;
             _orders = currentOrders;
             _counter = 0;
+            _orderRepository = new OrderRepository();
         }
 
         public override async void HandleMessage(Context context, Update update, ITelegramBotClient botClient)
@@ -56,17 +60,18 @@ namespace RepairServicesAggregatorBot.Bot.States.ClientStates
             {
                 context.State = new ClientOrdersMenuState(_messageId);
             }
-            else if (message.Data == "cncl")
+            else if (message.Data.StartsWith("cncl"))
             {
-                //cancel order menu 
+                var orderId = Convert.ToInt32(message.Data.Split("cncl")[1]);
+                _orderRepository.HideOrderById(orderId); //must call CancelOrderState
             }
-            else if (message.Data == "cntrctr")
+            else if (message.Data.StartsWith("cntrctr"))
             {
-                //choose cnrtct 
+                var orderId = Convert.ToInt32(message.Data.Split("cntrctr")[1]);
             }
-            else if (message.Data == "cmpltordr")
+            else if (message.Data.StartsWith("cmpltordr"))
             {
-                //completeorder
+                var orderId = Convert.ToInt32(message.Data.Split("cmpltordr")[1]);
             }
             else
             {
@@ -112,8 +117,8 @@ namespace RepairServicesAggregatorBot.Bot.States.ClientStates
                 {
                     new[]
                     {
-                        InlineKeyboardButton.WithCallbackData("Выбор сотрудника", "cntrctr"),
-                        InlineKeyboardButton.WithCallbackData("Отменить заказ", "cncl")
+                        InlineKeyboardButton.WithCallbackData("Выбор сотрудника", $"cntrctr{unassignedOrder.Id}"),
+                        InlineKeyboardButton.WithCallbackData("Отменить заказ", $"cncl{unassignedOrder.Id}")
                     },
                     new[]
                     {
@@ -140,11 +145,11 @@ namespace RepairServicesAggregatorBot.Bot.States.ClientStates
                 {
                     new[]
                     {
-                        InlineKeyboardButton.WithCallbackData("Пометить заказ как выполненный", "cmpltordr"),
+                        InlineKeyboardButton.WithCallbackData("Пометить заказ как выполненный", $"cmpltordr{assignedOrder.Id}"),
                     },
                     new[]
                     {
-                        InlineKeyboardButton.WithCallbackData("Отменить заказ", "cncl")
+                        InlineKeyboardButton.WithCallbackData("Отменить заказ", $"cncl{assignedOrder.Id}")
                     },
                     new[]
                     {
