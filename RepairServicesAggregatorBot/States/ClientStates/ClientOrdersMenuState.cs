@@ -9,6 +9,8 @@ using RepairServicesAggregatorBot.Bot.States.SystemStates.AddingServiceType;
 using Telegram.Bot.Types.ReplyMarkups;
 using Telegram.Bot.Types;
 using Telegram.Bot;
+using RepairServicesProviderBot.BLL;
+using RepairServicesProviderBot.Core.OutputModels;
 
 namespace RepairServicesAggregatorBot.Bot.States.ClientStates
 {
@@ -32,7 +34,21 @@ namespace RepairServicesAggregatorBot.Bot.States.ClientStates
 
             if (message.Data == "crntordrs")
             {
-                //context.State = new ClientMenuState(_messageId);
+                OrderService orderService = new OrderService();
+
+                var clientOrders = orderService.GetAllOrdersByUserId(context.Id);
+
+                List<InitialOrderOutputModel> currentOrders = new List<InitialOrderOutputModel>();
+
+                foreach (var order in clientOrders)
+                {
+                    if (order.StatusId < 5)
+                    {
+                        currentOrders.Add(order);
+                    }
+                }
+
+                context.State = new CurrentClientOrdersMenu(_messageId,currentOrders);
             }
             else if (message.Data == "bck")
             {
