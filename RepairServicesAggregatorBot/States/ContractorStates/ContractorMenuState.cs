@@ -34,12 +34,12 @@ namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
             }
             else if (message.Data == "srvtp")
             {
-                context.State = new AdminServiceTypeMenuState(_messageId);
+                //
             }
-            else if (message.Data == "cntrctr")
-            {
-                context.State = new AdminContractorsMenuState(_messageId);
-            }
+            //else if (message.Data == "cntrctr")
+            //{
+            //    context.State = new AdminContractorsMenuState(_messageId);
+            //}
             else
             {
                 await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Неверная команда.");
