@@ -32,8 +32,6 @@ namespace RepairServicesAggregatorBot.Bot.States.ClientStates
         {
             var message = update.CallbackQuery;
 
-
-
             //if (message.Data == "nxt")
             //{
             //    if (_end + 3 <= _orders.Count - 1)
