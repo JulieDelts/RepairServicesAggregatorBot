@@ -10,6 +10,7 @@ using RepairServicesProviderBot.BLL;
 using RepairServicesAggregatorBot.Bot.States.SystemStates;
 using RepairServicesAggregatorBot.Bot.States.SystemStates.RegisteringUser;
 using System.Text.RegularExpressions;
+using RepairServicesAggregatorBot.Bot.States.OrderStates.CreatingOrderStates;
 
 namespace RepairServicesAggregatorBot.Bot.States.OrderStates.CreatingBaseOrderStates
 {
@@ -32,7 +33,7 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.CreatingBaseOrderSt
             {
                 OrderInputModel.Address = message.Text;
 
-                context.State = new CompleteAddOrderState(OrderInputModel);
+                context.State = new AddPhotoOrderState(OrderInputModel);
             }
             else
             {
