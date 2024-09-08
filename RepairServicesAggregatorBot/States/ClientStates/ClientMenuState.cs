@@ -40,6 +40,10 @@ namespace RepairServicesAggregatorBot.Bot.States.ClientStates
             {
                 context.State = new AvailableServiceTypesState(_messageId);
             }
+            else if (message.Data == "ords")
+            {
+                context.State = new ClientOrdersMenuState(_messageId);
+            }
             else
             {
                 await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Неверная команда.");
@@ -60,7 +64,7 @@ namespace RepairServicesAggregatorBot.Bot.States.ClientStates
                 new[]
                 {
                     InlineKeyboardButton.WithCallbackData("Создать заказ", "ord"),
-                    InlineKeyboardButton.WithCallbackData("Заказы", "crtOrds")
+                    InlineKeyboardButton.WithCallbackData("Заказы", "ords")
                 },
                 new[]
                 {
