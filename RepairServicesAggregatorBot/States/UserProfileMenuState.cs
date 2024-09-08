@@ -47,7 +47,7 @@ namespace RepairServicesAggregatorBot.Bot.States
             {
                 UserInputModel userInputModel = new UserInputModel();
 
-                context.State = new GetNameSystemState(userInputModel);
+                context.State = new GetNameSystemState(userInputModel, _messageId);
             }
             else
             {
