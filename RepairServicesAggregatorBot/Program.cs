@@ -2,6 +2,7 @@ using Microsoft.VisualBasic;
 using RepairServicesAggregatorBot.Bot;
 using RepairServicesAggregatorBot.Bot.States.AdminStates;
 using RepairServicesAggregatorBot.Bot.States.ClientStates;
+using RepairServicesAggregatorBot.Bot.States.ContractorStates;
 using RepairServicesAggregatorBot.Bot.States.SystemStates.RegisteringUser;
 using RepairServicesProviderBot.BLL;
 using RepairServicesProviderBot.DAL;
@@ -171,7 +172,7 @@ namespace RepairServicesAggregatorBot
             }
             else if (context.RoleId == 2)
             {
-                //contractor menu
+                context.State = new ContractorMenuState();
             }
             else if (context.RoleId == 3)
             {

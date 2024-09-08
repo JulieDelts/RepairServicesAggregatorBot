@@ -9,12 +9,10 @@ namespace RepairServicesAggregatorBot.Bot.States.AdminStates
     {
         private int _messageId;
 
-        public AdminMenuState(int messageId)
+        public AdminMenuState(int messageId = 0)
         {
             _messageId = messageId;
         }
-
-        public AdminMenuState() { }
 
         public override async void HandleMessage(Context context, Update update, ITelegramBotClient botClient)
         {

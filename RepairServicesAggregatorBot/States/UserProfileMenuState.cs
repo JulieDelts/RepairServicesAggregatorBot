@@ -1,5 +1,6 @@
 ﻿using RepairServicesAggregatorBot.Bot.States.AdminStates;
 using RepairServicesAggregatorBot.Bot.States.ClientStates;
+using RepairServicesAggregatorBot.Bot.States.ContractorStates;
 using RepairServicesAggregatorBot.Bot.States.SystemStates.GettingUserProfileInfo;
 using RepairServicesProviderBot.BLL;
 using RepairServicesProviderBot.Core.InputModels;
@@ -35,7 +36,7 @@ namespace RepairServicesAggregatorBot.Bot.States
                 }
                 else if (context.RoleId == 2)
                 {
-                    //
+                    context.State = new ContractorMenuState(_messageId);
                 }
                 else if (context.RoleId == 3)
                 {
@@ -61,6 +62,15 @@ namespace RepairServicesAggregatorBot.Bot.States
             var user = userService.GetUserById(context.Id);
 
             string userDescription = $"Ваш профиль\nИмя: {user.Name}\nТелефон: {user.Phone}\nЭлектронная почта: {user.Email}";
+
+            if (context.RoleId == 2)
+            {
+                ContractorService contractorService = new ContractorService();
+
+                var rating = contractorService.GetContractorRating(context.Id);
+
+                userDescription +=  $"\nРейтинг: {rating}";
+            }
 
             InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(
             new[]
