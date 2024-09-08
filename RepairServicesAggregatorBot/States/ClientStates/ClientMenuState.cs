@@ -34,7 +34,7 @@ namespace RepairServicesAggregatorBot.Bot.States.ClientStates
             }
             else if (message.Data == "ord")
             {
-                context.State = new AddingDescriptionOrderState();
+                context.State = new AddDescriptionOrderState(_messageId);
             }
             else if (message.Data == "srvs")
             {
