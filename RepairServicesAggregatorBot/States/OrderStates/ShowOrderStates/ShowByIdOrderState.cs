@@ -35,11 +35,6 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.ShowOrderStates
             }
         }
 
-        public override async void HandleMessage(Context context, Update update, ITelegramBotClient botClient)
-        {
-            await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Неверная команда.");
-        }
-
         public override void ReactInBot(Context context, ITelegramBotClient botClient)
         {
             throw new NotImplementedException();

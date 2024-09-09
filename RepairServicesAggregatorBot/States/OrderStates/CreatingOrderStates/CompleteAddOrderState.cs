@@ -26,11 +26,6 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.CreatingBaseOrderSt
             OrderInputModel = order;
         }
 
-        public override async void HandleMessage(Context context, Update update, ITelegramBotClient botClient)
-        {
-            await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Неверная команда.");
-        }
-
         public override async void HandleCallbackQuery(Context context, Update update, ITelegramBotClient botClient)
         {
             var message = update.CallbackQuery;

@@ -41,11 +41,6 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.CreatingBaseOrderSt
             }
         }
 
-        public override async void HandleCallbackQuery(Context context, Update update, ITelegramBotClient botClient)
-        {
-            await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Неверная команда.");
-        }
-
         public override async void ReactInBot(Context context, ITelegramBotClient botClient)
         {
             if (_isAddressError)
