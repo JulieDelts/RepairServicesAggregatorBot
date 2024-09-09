@@ -22,6 +22,10 @@ namespace RepairServicesAggregatorBot.Bot.States.AdminStates
             {
                 context.State = new UserProfileMenuState(_messageId);
             }
+            else if (message.Data == "ordrs")
+            {
+                context.State = new AdminOrdersMenuState(_messageId);
+            }
             else if (message.Data == "srvtp")
             {
                 context.State = new AdminServiceTypeMenuState(_messageId);
@@ -48,13 +52,12 @@ namespace RepairServicesAggregatorBot.Bot.States.AdminStates
                 },
                 new[]
                 {
-                    InlineKeyboardButton.WithCallbackData("Заказы", "cntrctr"),
-                    InlineKeyboardButton.WithCallbackData("Клиенты", "srvs")
+                    InlineKeyboardButton.WithCallbackData("Заказы", "ordrs"),
+                    InlineKeyboardButton.WithCallbackData("Клиенты", "clnts")
                 },
                 new[]
                 {  
-                    InlineKeyboardButton.WithCallbackData("Профиль", "prf"),
-                    InlineKeyboardButton.WithCallbackData("Статистика", "ststcs"),
+                    InlineKeyboardButton.WithCallbackData("Профиль", "prf")
                 },
                 new[]
                 {
