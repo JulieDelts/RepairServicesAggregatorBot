@@ -23,6 +23,7 @@ namespace RepairServicesProviderBot.BLL
             var config = new MapperConfiguration(
                 cfg => {
                     cfg.AddProfile(new ContractorMapperProfile());
+                    cfg.AddProfile(new ServiceTypeMapperProfile());
                 });
             _mapper = new Mapper(config);
         }
@@ -43,6 +44,22 @@ namespace RepairServicesProviderBot.BLL
             foreach (var contractorDTO in contractorDTOs)
             { 
                 var contractor = _mapper.Map<ExtendedContractorOutputModel>(contractorDTO);
+
+                contractors.Add(contractor);
+            }
+
+            return contractors;
+        }
+
+        public List<ContractorWithServiceTypeOutputModel> GetContractorsByServiceTypeId(int serviceTypeId)
+        {
+            var contractorDTOs = UserRepository.GetContractorsByServiceTypeId(serviceTypeId);
+
+            List<ContractorWithServiceTypeOutputModel> contractors = new List<ContractorWithServiceTypeOutputModel>();
+
+            foreach (var contractorDTO in contractorDTOs)
+            {
+                var contractor = _mapper.Map<ContractorWithServiceTypeOutputModel>(contractorDTO);
 
                 contractors.Add(contractor);
             }

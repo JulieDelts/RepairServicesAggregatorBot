@@ -18,6 +18,8 @@ namespace RepairServicesProviderBot.DAL.Querries
 
         public const string GetAllContractorsQuery = $"SELECT * FROM \"GetAllContractors\"()";
 
+        public const string GetContractorsByServiceTypeIdQuery = $"SELECT * FROM \"GetContractorsByServiceTypeId\"(@serviceTypeId);";
+
         public const string GetAllAdminsQuery = $"SELECT * FROM \"GetAllAdmins\"();";
 
         public const string UpdateUserByIdQuery = $"SELECT * FROM \"UpdateUserById\"(@userId, @userName, @phone, @email, @roleId, @image, @isDeleted);";

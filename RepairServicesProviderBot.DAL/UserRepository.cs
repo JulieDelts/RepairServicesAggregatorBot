@@ -103,6 +103,32 @@ namespace RepairServicesProviderBot.DAL
             }
         }
 
+        public List<UserDTO> GetContractorsByServiceTypeId(int serviceTypeId)
+        {
+            string conectionString = Options.ConnectionString;
+
+            using (var connection = new NpgsqlConnection(conectionString))
+            {
+                string query = UserQueries.GetContractorsByServiceTypeIdQuery;
+
+                var args = new
+                {
+                    serviceTypeId = serviceTypeId
+                };
+
+                connection.Open();
+
+                return connection.Query<UserDTO, ServiceTypeDTO, UserDTO>(query,
+                    (userDTO, serviceTypeDTO) =>
+                    {
+                        userDTO.ServiceType = serviceTypeDTO;
+                        return userDTO;
+                    },
+                    args,
+                    splitOn:"Cost").ToList();
+            }
+        }
+
         public List<UserDTO> GetAllAdmins()
         {
             string conectionString = Options.ConnectionString;
