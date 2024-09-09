@@ -32,9 +32,9 @@ namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
             {
                 context.State = new UserProfileMenuState(_messageId);
             }
-            else if (message.Data == "srvtp")
+            else if (message.Data == "srvtps")
             {
-                //
+                context.State = new ContractorServiceTypesMenuState(_messageId);
             }
             //else if (message.Data == "cntrctr")
             //{
@@ -53,7 +53,7 @@ namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
             {
                 new[]
                 {
-                    InlineKeyboardButton.WithCallbackData("Услуги", "srvtp"),
+                    InlineKeyboardButton.WithCallbackData("Услуги", "srvtps"),
                 },
                 new[]
                 {
@@ -61,7 +61,7 @@ namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
                 },
                 new[]
                 {
-                    InlineKeyboardButton.WithCallbackData("Рейтинг", "ststcs"),
+                    InlineKeyboardButton.WithCallbackData("Заказы", "ords"),
                 },
             });
 
@@ -73,7 +73,7 @@ namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
             }
             else
             {
-                await botClient.EditMessageTextAsync(new ChatId(context.ChatId), _messageId, "Меню струдника", replyMarkup: keyboard);
+                await botClient.EditMessageTextAsync(new ChatId(context.ChatId), _messageId, "Меню сотрудника", replyMarkup: keyboard);
             }
 
         }
