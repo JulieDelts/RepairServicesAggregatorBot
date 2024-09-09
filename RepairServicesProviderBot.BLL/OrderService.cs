@@ -120,14 +120,11 @@ namespace RepairServicesProviderBot.BLL
             return order;
         }
 
-        //исправить
         public void UpdateOrderById(ExtendedOrderInputModel extendedOrderInputModel)
         {
-            var currentOrder = GetOrderSystemInfoById(extendedOrderInputModel.Id);
+            var orderDTO = _mapper.Map<OrderDTO>(extendedOrderInputModel);
 
-            var updatedOrder = new ExtendedOrderInputModel();
-
-            //OrderRepository.UpdateOrderById(orderDTO);
+            OrderRepository.UpdateOrderById(orderDTO);
         }
 
         public void HideOrderById(int orderId)

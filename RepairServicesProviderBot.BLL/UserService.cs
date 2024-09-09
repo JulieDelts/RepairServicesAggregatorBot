@@ -57,16 +57,11 @@ namespace RepairServicesProviderBot.BLL
         }
 
 
-        //исправить
-        public ExtendedUserOutputModel UpdateUserById(ExtendedUserInputModel user)
+        public void UpdateUserById(ExtendedUserInputModel user)
         {
             var userDTO = _mapper.Map<UserDTO>(user);
 
             int userId = UserRepository.UpdateUserById(userDTO);
-
-            var userResponse = GetUserById(userId);
-
-            return userResponse;
         }
 
         public void HideUserById(int userId)
