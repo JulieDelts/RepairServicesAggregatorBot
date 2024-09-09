@@ -56,6 +56,8 @@ namespace RepairServicesProviderBot.BLL
             return userResponse;
         }
 
+
+        //исправить
         public ExtendedUserOutputModel UpdateUserById(ExtendedUserInputModel user)
         {
             var userDTO = _mapper.Map<UserDTO>(user);
@@ -71,6 +73,5 @@ namespace RepairServicesProviderBot.BLL
         {
             UserRepository.HideUserById(userId);
         }
-
     }
 }
