@@ -1,4 +1,5 @@
 ﻿using RepairServicesAggregatorBot.Bot.States.SystemStates.AddingContractorServiceType;
+using RepairServicesProviderBot.BLL;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
@@ -33,7 +34,11 @@ namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
             }
             else if (message.Data == "сsrvtps")
             {
-                
+                ServiceTypeService serviceTypeService = new ServiceTypeService();
+
+                var contractorServiceTypes = serviceTypeService.GetContractorServiceTypesById(context.Id);
+
+                context.State = new ContractorServiceTypeState(_messageId, contractorServiceTypes);
             }
             else
             {
