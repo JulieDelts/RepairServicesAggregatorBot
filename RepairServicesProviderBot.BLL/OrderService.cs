@@ -86,6 +86,31 @@ namespace RepairServicesProviderBot.BLL
             return orders;
         }
 
+        public List<InitialOrderOutputModel> GetNewOrders()
+        {
+            var orderDTOs = OrderRepository.GetNewOrders();
+
+            List<InitialOrderOutputModel> orders = new List<InitialOrderOutputModel>();
+
+            foreach (var orderDTO in orderDTOs)
+            {
+                InitialOrderOutputModel order = _mapper.Map<InitialOrderOutputModel>(orderDTO);
+
+                orders.Add(order);
+            }
+            
+            return orders;
+        }
+
+        public ExtendedOrderOutputModel GetOrderSystemInfoById(int orderId)
+        {
+            var orderDTO = OrderRepository.GetOrderSystemInfoById(orderId);
+
+            var order = _mapper.Map<ExtendedOrderOutputModel>(orderDTO);
+
+            return order;
+        }
+
         public ConfirmedOrderOutputModel GetOrderForContractorConfirmation(int orderId)
         {
             var orderDTO = OrderRepository.GetOrderForContractorConfirmation(orderId);
@@ -93,6 +118,16 @@ namespace RepairServicesProviderBot.BLL
             var order = _mapper.Map<ConfirmedOrderOutputModel>(orderDTO);
 
             return order;
+        }
+
+        //исправить
+        public void UpdateOrderById(ExtendedOrderInputModel extendedOrderInputModel)
+        {
+            var currentOrder = GetOrderSystemInfoById(extendedOrderInputModel.Id);
+
+            var updatedOrder = new ExtendedOrderInputModel();
+
+            //OrderRepository.UpdateOrderById(orderDTO);
         }
 
         public void HideOrderById(int orderId)

@@ -81,6 +81,25 @@ namespace RepairServicesProviderBot.DAL
             }
         }
 
+        public OrderDTO GetOrderSystemInfoById(int orderId)
+        {
+            string conectionString = Options.ConnectionString;
+
+            using (var connection = new NpgsqlConnection(conectionString))
+            {
+                string query = OrderQueries.GetOrderSystemInfoByIdQuery;
+
+                var args = new
+                {
+                    orderId = orderId
+                };
+
+                connection.Open();
+
+                return connection.QuerySingle<OrderDTO>(query,args);
+            }
+        }
+
         public List<UserDTO> GetContractorsReadyToAcceptOrderByOrderId(int orderId)
         {
             string conectionString = Options.ConnectionString;
@@ -128,6 +147,20 @@ namespace RepairServicesProviderBot.DAL
                     },
                     args,
                     splitOn: "ServiceTypeDescription").ToList();
+            }
+        }
+
+        public List<OrderDTO> GetNewOrders()
+        {
+            string conectionString = Options.ConnectionString;
+
+            using (var connection = new NpgsqlConnection(conectionString))
+            {
+                string query = OrderQueries.GetNewOrdersQuery;
+
+                connection.Open();
+
+                return connection.Query<OrderDTO>(query).ToList();
             }
         }
 
