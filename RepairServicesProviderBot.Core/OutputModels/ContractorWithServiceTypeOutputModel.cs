@@ -7,18 +7,8 @@ using RepairServicesProviderBot.Core.DTOs;
 
 namespace RepairServicesProviderBot.Core.OutputModels
 {
-    public class ContractorWithServiceTypeOutputModel
+    public class ContractorWithServiceTypeOutputModel: ExtendedContractorOutputModel
     {
-        public string Name { get; set; }
-
-        public string Email { get; set; }
-
-        public string Phone { get; set; }
-
-        public string Image { get; set; }
-
-        public double? Rating { get; set; }
-
         public ContractorServiceTypeOutputModel ServiceType { get; set; }
     }
 }
