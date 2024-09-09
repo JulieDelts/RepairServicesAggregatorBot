@@ -52,6 +52,15 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.CreatingBaseOrderSt
 
             await botClient.SendTextMessageAsync(new ChatId(context.ChatId), $"Добавление заказа завершено.\n{orderDescription}");
 
+            AdminService adminService = new AdminService();
+
+            var admins = adminService.GeAllAdmins();
+
+            foreach (var admin in admins)
+            {
+                await botClient.SendTextMessageAsync(new ChatId(admin.ChatId), $"Поступил новый заказ. Id: {order.Id}. Его можно посмотреть в меню новых заказов.");
+            }
+
             InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(
             new[]
             {
