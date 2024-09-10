@@ -56,9 +56,12 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.CreatingBaseOrderSt
 
             var admins = adminService.GeAllAdmins();
 
-            foreach (var admin in admins)
+            if (admins.Count > 0)
             {
-                await botClient.SendTextMessageAsync(new ChatId(admin.ChatId), $"Поступил новый заказ. Id: {order.Id}. Его можно посмотреть в меню новых заказов.");
+                foreach (var admin in admins)
+                {
+                    await botClient.SendTextMessageAsync(new ChatId(admin.ChatId), $"Поступил новый заказ. Id: {order.Id}. Его можно посмотреть в меню новых заказов.");
+                }
             }
 
             InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(
