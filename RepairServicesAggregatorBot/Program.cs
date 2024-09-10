@@ -17,7 +17,7 @@ namespace RepairServicesAggregatorBot
 {
     public class Program
     {
-        public static Dictionary<long, Context> Users { get; set; }
+        public static Dictionary<long, Context> Users { get; set; } /// посылать уведомления. принудительно отправить письмо (вызвать реакт)
 
         static async Task Main(string[] args)
         {
@@ -69,7 +69,7 @@ namespace RepairServicesAggregatorBot
 
             Context currentUser = GetUserFromMessage(message);
 
-            if (message.Text.ToLower() == "/start")
+            if (message.Text != null && message.Text.ToLower() == "/start")
             {
                 SetBaseState(currentUser);
             }

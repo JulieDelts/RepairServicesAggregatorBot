@@ -44,7 +44,7 @@ namespace RepairServicesProviderBot.DAL
 
                 connection.Open();
 
-                return connection.QuerySingle<ReviewDTO>(query, args);
+                return connection.Query<ReviewDTO>(query, args).FirstOrDefault();
             }
         }
     }
