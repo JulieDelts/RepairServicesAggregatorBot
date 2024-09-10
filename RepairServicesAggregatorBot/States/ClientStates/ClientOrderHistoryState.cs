@@ -19,90 +19,141 @@ namespace RepairServicesAggregatorBot.Bot.States.ClientStates
         {
             _messageId = messageId;
             _orders = orders;
-            _start = 0;
-            _end = 2;
+
+            if (_orders.Count < 3)
+            {
+                _start = 0;
+                _end = _orders.Count - 1;
+            }
+            else
+            {
+                _start = 0;
+                _end = 2;
+            }
+
         }
 
         public override async void HandleCallbackQuery(Context context, Update update, ITelegramBotClient botClient)
         {
             var message = update.CallbackQuery;
 
-            //if (message.Data == "nxt")
-            //{
-            //    if (_end + 3 <= _orders.Count - 1)
-            //    {
-            //        _end+=3;
-            //        _start+=3;
-            //    }
-            //    else if (_end + 3 > _orders.Count - 1)
-            //    {
-            //        int counter = _orders.Count-1-_end;
-            //        _end += counter;
-            //        _start+=counter;
-            //    }
-            //    else if (_end == _orders.Count - 1)
-            //    {
-            //        _end = 2;
-            //        _start = 0;
-            //    }
-            //}
-            //else if (message.Data == "prv")
-            //{
-            //    if (_start - 3 >= 0)
-            //    {
-            //        _end -= 3;
-            //        _start -= 3;
-            //    }
-            //    else if (_start - 3 < 0)
-            //    {
-            //        _end -= _start;
-            //        _start = 0;
+            if (message.Data == "nxt")
+            {
+                if (_end == _orders.Count - 1)
+                {
+                    _start = 0;
+                    _end = 2;
+                }
+                else if (_end + 3 <= _orders.Count - 1)
+                {
+                    _end += 3;
+                    _start += 3;
+                }
+                else if (_end + 3 > _orders.Count - 1)
+                {
+                    _end = _orders.Count-1;
+                    _start += 3;
+                }
+            }
+            else if (message.Data == "prv")
+            {
+                if (_start == 0)
+                {
+                    _end = _orders.Count - 1;
 
-                //    }
-                //    else if (_start == 0)
-                //    {
-                //        _end = _orders.Count - 1;
-                //        _start = _end-3;
-                //    }
-
-                //}
-            //else if (message.Data == "bck")
-            //{
-            //    context.State = new ClientOrdersMenuState(_messageId);
-            //}
-            //else
-            //{
-            //    await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Неверная команда.");
-            //}
+                    if (_orders.Count % 3 == 0)
+                    {
+                        _start = _end - 2;
+                    }
+                    else 
+                    {
+                        _start = _orders.Count - _orders.Count % 3;
+                    }
+                }
+                else if (_end - _start == 2)
+                {
+                    _end -= 3;
+                    _start -= 3;
+                }
+                else 
+                {
+                    _end = _start - 1;
+                    _start = _end-2;
+                }
+            }
+            else if (message.Data == "bck")
+            {
+                context.State = new ClientOrdersMenuState(_messageId);
+            }
+            else
+            {
+                await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Неверная команда.");
+            }
         }
 
         public override async void ReactInBot(Context context, ITelegramBotClient botClient)
         {
-            string orderInfo = "История заказов:\n";
-
-            for (int i = _start; i <= _end; i++)
+            if (_orders.Count == 0)
             {
-                orderInfo += $"ID заказа: {_orders[i].Id}\nОписание: {_orders[i].OrderDescription}\nСтатус: {_orders[i].StatusDescription}";
+                InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(
+                new[]
+                {
+                    new[]
+                    {
+                       InlineKeyboardButton.WithCallbackData("Назад", "bck"),
+                    }
+                });
+
+                var message = await botClient.EditMessageTextAsync(new ChatId(context.ChatId), _messageId, "Новых заказов нет.", replyMarkup: keyboard);
+
+                _messageId = message.MessageId;
             }
-
-            InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(
-            new[]
+            else if (_orders.Count <= 3)
             {
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Текущие заказы", "crntordrs"),
-                    InlineKeyboardButton.WithCallbackData("История заказов", "ordrshstr"),
+                string orderInfo = "История заказов:\n";
 
-                },
-                new[]
+                for (int i = _start; i <= _end; i++)
                 {
-                    InlineKeyboardButton.WithCallbackData("Назад", "bck"),
+                    orderInfo += $"ID заказа: {_orders[i].Id}\nОписание: {_orders[i].OrderDescription}\nСтатус: {_orders[i].StatusDescription}";
                 }
-            });
 
-            var message = await botClient.EditMessageTextAsync(new ChatId(context.ChatId), _messageId, "Меню заказов пользователя", replyMarkup: keyboard);
+               InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(
+               new[]
+               {
+                    new[]
+                    {
+                       InlineKeyboardButton.WithCallbackData("Назад", "bck"),
+                    }
+               });
 
-            _messageId = message.MessageId;
+                var message = await botClient.EditMessageTextAsync(new ChatId(context.ChatId), _messageId, orderInfo, replyMarkup: keyboard);
+
+                _messageId = message.MessageId;
+            }
+            else
+            {
+                string orderInfo = "История заказов:\n";
+
+                for (int i = _start; i <= _end; i++)
+                {
+                    orderInfo += $"ID заказа: {_orders[i].Id}\nОписание: {_orders[i].OrderDescription}\nСтатус: {_orders[i].StatusDescription}";
+                }
+
+                InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(
+                new[]
+                {
+                    new[]
+                    {
+                        InlineKeyboardButton.WithCallbackData("⬅️", "prv"),
+                        InlineKeyboardButton.WithCallbackData("Назад", "bck"),
+                        InlineKeyboardButton.WithCallbackData("➡️", "nxt")
+                    } 
+                });
+
+                var message = await botClient.EditMessageTextAsync(new ChatId(context.ChatId), _messageId, orderInfo, replyMarkup: keyboard);
+
+                _messageId = message.MessageId;
+            }
         }
     }
 }
