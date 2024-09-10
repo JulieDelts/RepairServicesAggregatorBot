@@ -1,4 +1,4 @@
-﻿using RepairServicesAggregatorBot.Bot.States.OrderStates;
+﻿using RepairServicesAggregatorBot.Bot.States.OrderStates.ManageExistOrderStates;
 using RepairServicesProviderBot.Core.OutputModels;
 using RepairServicesProviderBot.DAL;
 using Telegram.Bot;
@@ -58,7 +58,7 @@ namespace RepairServicesAggregatorBot.Bot.States.ClientStates
             }
             else if (message.Data.StartsWith("cncl"))
             {
-                var orderId = Convert.ToInt32(message.Data.Split("cncl")[1]); //ZABRAL
+                var orderId = Convert.ToInt32(message.Data.Split("cncl")[1]);
 
                 context.State = new CancelOrderState(orderId);
             }
@@ -69,6 +69,7 @@ namespace RepairServicesAggregatorBot.Bot.States.ClientStates
             else if (message.Data.StartsWith("cmpltordr"))//ZABRAL
             {
                 var orderId = Convert.ToInt32(message.Data.Split("cmpltordr")[1]);
+
             }
             else
             {
@@ -87,7 +88,7 @@ namespace RepairServicesAggregatorBot.Bot.States.ClientStates
                 {
                     new[]
                     {
-                        InlineKeyboardButton.WithCallbackData("Отменить заказ", "cncl")
+                        InlineKeyboardButton.WithCallbackData("Отменить заказ", $"cncl{order.Id}")
                     },
                     new[]
                     {
