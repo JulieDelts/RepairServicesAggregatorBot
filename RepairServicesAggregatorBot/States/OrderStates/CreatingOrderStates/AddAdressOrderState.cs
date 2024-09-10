@@ -33,7 +33,7 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.CreatingBaseOrderSt
             {
                 OrderInputModel.Address = message.Text;
 
-                context.State = new AddPhotoOrderState(OrderInputModel);
+                context.State = new CompleteAddOrderState(OrderInputModel);
             }
             else
             {
