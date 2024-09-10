@@ -1,4 +1,5 @@
-﻿using RepairServicesProviderBot.DAL;
+﻿using RepairServicesAggregatorBot.Bot.States.ClientStates;
+using RepairServicesProviderBot.DAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,19 +22,15 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates
             _orderRepository = new OrderRepository();
         }
 
-        public override void HandleCallbackQuery(Context context, Update update, ITelegramBotClient botClient)
+        public override async void ReactInBot(Context context, ITelegramBotClient botClient)
         {
-            _orderRepository.HideOrderById(_orderId);
-        }
+            _orderRepository?.HideOrderById(_orderId);
 
-        public override void HandleMessage(Context context, Update update, ITelegramBotClient botClient)
-        {
-            throw new NotImplementedException();
-        }
+            await botClient.SendTextMessageAsync(new ChatId(context.ChatId), $"Ваш заказ удален!!");
 
-        public override void ReactInBot(Context context, ITelegramBotClient botClient)
-        {
-            throw new NotImplementedException();
+            context.State = new ClientMenuState();
+
+            context.State.ReactInBot(context, botClient);
         }
     }
 }

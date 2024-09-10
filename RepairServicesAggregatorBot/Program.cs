@@ -65,6 +65,7 @@ namespace RepairServicesAggregatorBot
 
         private static void HandleMessage(Update update, ITelegramBotClient botClient)
         {
+            
             var message = update.Message;
 
             Context currentUser = GetUserFromMessage(message);
