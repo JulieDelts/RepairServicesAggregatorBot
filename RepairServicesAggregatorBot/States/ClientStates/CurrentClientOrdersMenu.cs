@@ -1,4 +1,5 @@
-﻿using RepairServicesProviderBot.Core.OutputModels;
+﻿using RepairServicesAggregatorBot.Bot.States.OrderStates;
+using RepairServicesProviderBot.Core.OutputModels;
 using RepairServicesProviderBot.DAL;
 using Telegram.Bot;
 using Telegram.Bot.Types;
@@ -58,7 +59,8 @@ namespace RepairServicesAggregatorBot.Bot.States.ClientStates
             else if (message.Data.StartsWith("cncl"))
             {
                 var orderId = Convert.ToInt32(message.Data.Split("cncl")[1]);
-                _orderRepository.HideOrderById(orderId); //must call CancelOrderState
+
+                context.State = new CancelOrderState(orderId);
             }
             else if (message.Data.StartsWith("cntrctr"))
             {
