@@ -62,14 +62,17 @@ namespace RepairServicesAggregatorBot.Bot.States.ClientStates
 
                 context.State = new CancelOrderState(orderId);
             }
-            else if (message.Data.StartsWith("cntrctr"))//ZABRAL
+            else if (message.Data.StartsWith("cntrctr"))
             {
                 var orderId = Convert.ToInt32(message.Data.Split("cntrctr")[1]);
+
+
             }
-            else if (message.Data.StartsWith("cmpltordr"))//ZABRAL
+            else if (message.Data.StartsWith("cmpltordr"))
             {
                 var orderId = Convert.ToInt32(message.Data.Split("cmpltordr")[1]);
 
+                context.State = new CompleteOrderState(orderId);
             }
             else
             {

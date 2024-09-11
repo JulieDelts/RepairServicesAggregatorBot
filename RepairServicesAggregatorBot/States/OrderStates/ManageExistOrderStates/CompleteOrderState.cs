@@ -1,18 +1,18 @@
 ﻿using RepairServicesAggregatorBot.Bot.States.ClientStates;
-using RepairServicesProviderBot.Core.InputModels;
 using RepairServicesProviderBot.BLL;
-using Telegram.Bot;
+using RepairServicesProviderBot.Core.InputModels;
 using Telegram.Bot.Types;
+using Telegram.Bot;
 
 namespace RepairServicesAggregatorBot.Bot.States.OrderStates.ManageExistOrderStates
 {
-    public class CancelOrderState : AbstractState
+    public class CompleteOrderState : AbstractState
     {
         private int _orderId;
 
         private OrderService _orderService;
 
-        public CancelOrderState(int orderId)
+        public CompleteOrderState(int orderId)
         {
             _orderId = orderId;
             _orderService = new OrderService();
@@ -27,7 +27,7 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.ManageExistOrderSta
                 ClientId = order.ClientId,
                 ContractorId = order.ContractorId,
                 AdminId = order.AdminId,
-                StatusId = 6,
+                StatusId = 5,
                 Date = order.Date,
                 OrderDescription = order.OrderDescription,
                 Address = order.Address,
@@ -39,15 +39,15 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.ManageExistOrderSta
 
             if (updatedOrder.StatusId > 1 && updatedOrder.StatusId < 5)
             {
-                await botClient.SendTextMessageAsync(updatedOrder.AdminId, $"заказ {updatedOrder.Id} удален!!");
+                await botClient.SendTextMessageAsync(updatedOrder.AdminId, $"заказ {updatedOrder.Id} завершен!!");
             }
 
             if (updatedOrder.StatusId > 1 && updatedOrder.StatusId < 5)
             {
-                await botClient.SendTextMessageAsync(updatedOrder.ContractorId, $"заказ {updatedOrder.Id} удален!!");
+                await botClient.SendTextMessageAsync(updatedOrder.ContractorId, $"заказ {updatedOrder.Id} завершен!!");
             }
 
-            await botClient.SendTextMessageAsync(new ChatId(context.ChatId), $"Ваш заказ удален!!");
+            await botClient.SendTextMessageAsync(new ChatId(context.ChatId), $"Ваш заказ завершен!!");
 
             context.State = new ClientMenuState();
 
