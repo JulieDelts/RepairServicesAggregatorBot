@@ -26,6 +26,8 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.ChooseContractorOrd
 
         private ContractorService _contractorService;
 
+        private Dictionary<long, Context> _users;
+
         public ShowContractorsOrderState(int messageId, UnassignedOrderOutputModel order, int serviceId)
         {
             _messageId = messageId;
@@ -60,6 +62,31 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.ChooseContractorOrd
                     _counter = _contractors.Count - 1;
                 }
 
+            }
+            else if (message.Data == "choose")
+            {
+                var contractorId = _contractors[_counter].ChatId;
+
+                var orderInfo = $"Вам заказ!!\nОписание: {_order.OrderDescription}\nАдрес: {_order.Address}";
+
+                InlineKeyboardMarkup contractorKeyboard = new InlineKeyboardMarkup(
+                new[]
+                {
+                    new[]
+                    {
+                       InlineKeyboardButton.WithCallbackData("Взять в работу", "cnfrm"),
+                    },
+                    new[]
+                    {
+                        InlineKeyboardButton.WithCallbackData("Отменить", "cncl")
+                    }
+                });
+
+                //_users[contractorId].State = new ConfirmOrderContractorState();
+
+                await botClient.SendTextMessageAsync(contractorId, orderInfo, replyMarkup: contractorKeyboard);
+
+                context.State = new ClientOrdersMenuState(_messageId);
             }
             else if (message.Data == "bck")
             {
