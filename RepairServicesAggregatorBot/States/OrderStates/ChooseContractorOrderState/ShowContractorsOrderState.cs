@@ -1,5 +1,6 @@
 ﻿using RepairServicesAggregatorBot.Bot.States.ClientStates;
 using RepairServicesProviderBot.BLL;
+using RepairServicesAggregatorBot.Bot.States.ContractorStates;
 using RepairServicesProviderBot.Core.InputModels;
 using System;
 using System.Collections.Generic;
@@ -67,24 +68,7 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.ChooseContractorOrd
             {
                 var contractorId = _contractors[_counter].ChatId;
 
-                var orderInfo = $"Вам заказ!!\nОписание: {_order.OrderDescription}\nАдрес: {_order.Address}";
-
-                InlineKeyboardMarkup contractorKeyboard = new InlineKeyboardMarkup(
-                new[]
-                {
-                    new[]
-                    {
-                       InlineKeyboardButton.WithCallbackData("Взять в работу", "cnfrm"),
-                    },
-                    new[]
-                    {
-                        InlineKeyboardButton.WithCallbackData("Отменить", "cncl")
-                    }
-                });
-
-                //_users[contractorId].State = new ConfirmOrderContractorState();
-
-                await botClient.SendTextMessageAsync(contractorId, orderInfo, replyMarkup: contractorKeyboard);
+                _users[contractorId].State = new ConfirmOrderContractorState(_order);
 
                 context.State = new ClientOrdersMenuState(_messageId);
             }
