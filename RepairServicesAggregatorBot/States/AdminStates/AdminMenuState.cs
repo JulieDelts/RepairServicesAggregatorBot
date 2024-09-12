@@ -52,7 +52,6 @@ namespace RepairServicesAggregatorBot.Bot.States.AdminStates
                 new[]
                 {
                     InlineKeyboardButton.WithCallbackData("Заказы", "ordrs"),
-                    InlineKeyboardButton.WithCallbackData("Клиенты", "clnts")
                 },
                 new[]
                 {  
@@ -60,7 +59,7 @@ namespace RepairServicesAggregatorBot.Bot.States.AdminStates
                 },
                 new[]
                 {
-                    InlineKeyboardButton.WithCallbackData("Модификация пользователя", "usrmdf")
+                    InlineKeyboardButton.WithCallbackData("Системные настройки", "usrmdf")
                 }
             });
 

@@ -2,6 +2,8 @@
 using Telegram.Bot.Types;
 using Telegram.Bot;
 using RepairServicesProviderBot.BLL;
+using RepairServicesProviderBot.Core.OutputModels;
+using RepairServicesAggregatorBot.Bot.States.OrderStates.ShowOrderStates;
 
 namespace RepairServicesAggregatorBot.Bot.States.AdminStates
 {
@@ -28,11 +30,39 @@ namespace RepairServicesAggregatorBot.Bot.States.AdminStates
             }
             else if (message.Data == "actvordrs")
             {
+                OrderService orderService = new();
 
+                var clientOrders = orderService.GetAllOrdersByUserId(context.Id);
+
+                List<InitialOrderOutputModel> currentOrders = new();
+
+                foreach (var order in clientOrders)
+                {
+                    if (order.StatusId < 5 && order.IsDeleted == false)
+                    {
+                        currentOrders.Add(order);
+                    }
+                }
+
+                context.State = new CurrentAdminOrdersMenuState(_messageId, currentOrders);
             }
             else if (message.Data == "ordrshstr")
             {
- 
+                OrderService orderService = new();
+
+                var clientOrders = orderService.GetAllOrdersByUserId(context.Id);
+
+                List<InitialOrderOutputModel> inactiveOrders = new();
+
+                foreach (var order in clientOrders)
+                {
+                    if ((order.StatusId == 5 || order.StatusId == 6) && order.IsDeleted == false)
+                    {
+                        inactiveOrders.Add(order);
+                    }
+                }
+
+                context.State = new OrderHistoryState(_messageId, inactiveOrders);
             }
             else if (message.Data == "bck")
             {

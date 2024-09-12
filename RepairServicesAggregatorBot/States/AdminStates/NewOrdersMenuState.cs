@@ -1,4 +1,5 @@
-﻿using RepairServicesProviderBot.Core.OutputModels;
+﻿using RepairServicesAggregatorBot.Bot.States.SystemStates.ConfirmingOrder;
+using RepairServicesProviderBot.Core.OutputModels;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
@@ -83,7 +84,6 @@ namespace RepairServicesAggregatorBot.Bot.States.AdminStates
             }
             else if (_newOrders.Count == 1)
             {
-
                 var order = _newOrders[0];
 
                 string orderDescription = $"Новые заказы:\nID: {order.Id}\nОписание: {order.OrderDescription}\nДата создания: {order.Date}\nID клиента: {order.ClientId}\nИмя клиента: {order.ClientName}\nАдрес: {order.Address}";

@@ -1,12 +1,13 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
+using RepairServicesAggregatorBot.Bot.States.AdminStates;
 using RepairServicesProviderBot.BLL;
 using RepairServicesProviderBot.Core.InputModels;
 using RepairServicesProviderBot.Core.OutputModels;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 
-namespace RepairServicesAggregatorBot.Bot.States.AdminStates
+namespace RepairServicesAggregatorBot.Bot.States.SystemStates.ConfirmingOrder
 {
     public class StartConfirmOrderAdminState : AbstractState
     {

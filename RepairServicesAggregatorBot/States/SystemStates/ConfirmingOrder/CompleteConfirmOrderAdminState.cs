@@ -5,10 +5,11 @@ using Telegram.Bot.Types;
 using Telegram.Bot;
 using RepairServicesProviderBot.Core.OutputModels;
 using RepairServicesAggregatorBot.Bot.States.ContractorStates;
+using RepairServicesAggregatorBot.Bot.States.AdminStates;
 
-namespace RepairServicesAggregatorBot.Bot.States.AdminStates
+namespace RepairServicesAggregatorBot.Bot.States.SystemStates.ConfirmingOrder
 {
-    public class CompleteConfirmOrderAdminState: AbstractState
+    public class CompleteConfirmOrderAdminState : AbstractState
     {
         public ExtendedOrderInputModel ExtendedOrderInputModel { get; set; }
 
@@ -16,8 +17,8 @@ namespace RepairServicesAggregatorBot.Bot.States.AdminStates
 
         private int _messageId;
 
-        public CompleteConfirmOrderAdminState(ExtendedOrderInputModel extendedOrderInputModel, List<ContractorWithServiceTypeOutputModel> contractors) 
-        { 
+        public CompleteConfirmOrderAdminState(ExtendedOrderInputModel extendedOrderInputModel, List<ContractorWithServiceTypeOutputModel> contractors)
+        {
             ExtendedOrderInputModel = extendedOrderInputModel;
 
             _contractors = contractors;
