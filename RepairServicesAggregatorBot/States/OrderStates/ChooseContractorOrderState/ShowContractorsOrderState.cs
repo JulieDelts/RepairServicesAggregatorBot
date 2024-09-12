@@ -68,7 +68,8 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.ChooseContractorOrd
             {
                 var contractorId = _contractors[_counter].ChatId;
 
-                //_users[contractorId].State = new ExecuteOrderContractorState(_order);
+                _users[contractorId].State = new StartExecutingOrderContractorState(_order);
+                _users[contractorId].State.ReactInBot(context, botClient);
 
                 context.State = new ClientOrdersMenuState(_messageId);
             }
