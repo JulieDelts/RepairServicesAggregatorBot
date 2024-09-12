@@ -1,10 +1,7 @@
 ﻿using RepairServicesProviderBot.BLL;
-using RepairServicesProviderBot.Core.InputModels;
 using RepairServicesProviderBot.Core.OutputModels;
-using System.Text.RegularExpressions;
 using Telegram.Bot;
 using Telegram.Bot.Types;
-using Telegram.Bot.Types.Payments;
 using Telegram.Bot.Types.ReplyMarkups;
 
 namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
@@ -16,6 +13,8 @@ namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
         private OrderService _orderService;
 
         private ClientService _clientService;
+
+        private int _messageId;
 
         public ConfirmOrderContractorState(UnassignedOrderOutputModel order)
         {
@@ -42,11 +41,15 @@ namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
 
                 await botClient.SendTextMessageAsync(new ChatId(clientChatId), $"Заказ ID {_order.Id} готов выполнить еще один сотрудник. Сотрудника можно выбрать в меню выбора сотрудников у заказа.");
 
-                context.State = new ContractorMenuState();
+                context.State = new ContractorMenuState(_messageId);
+
+                context.State.ReactInBot(context, botClient);
             }
             else if (message.Data == "cncl")
             {
-                context.State = new ContractorMenuState();
+                context.State = new ContractorMenuState(_messageId);
+
+                context.State.ReactInBot(context, botClient);
             }
         }
 
@@ -67,7 +70,9 @@ namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
                 }
             });
 
-            await botClient.SendTextMessageAsync(new ChatId(context.ChatId), orderInfo, replyMarkup: contractorKeyboard);
+            var message = await botClient.SendTextMessageAsync(new ChatId(context.ChatId), orderInfo, replyMarkup: contractorKeyboard);
+
+            _messageId = message.MessageId;
         }
     }
 }

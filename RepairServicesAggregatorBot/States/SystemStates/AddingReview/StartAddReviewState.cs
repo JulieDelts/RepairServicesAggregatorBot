@@ -14,7 +14,7 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.AddingReview
 
         public StartAddReviewState(int messageId, int orderId)
         {
-            ReviewInputModel = new();
+            ReviewInputModel = new() { OrderId = orderId };
 
             _isRatingError = false;
 

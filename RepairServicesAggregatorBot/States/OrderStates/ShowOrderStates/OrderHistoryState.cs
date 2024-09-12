@@ -5,6 +5,7 @@ using Telegram.Bot.Types.ReplyMarkups;
 using Telegram.Bot.Types;
 using Telegram.Bot;
 using RepairServicesAggregatorBot.Bot.States.AdminStates;
+using RepairServicesAggregatorBot.Bot.States.ContractorStates;
 
 namespace RepairServicesAggregatorBot.Bot.States.OrderStates.ShowOrderStates
 {
@@ -91,7 +92,7 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.ShowOrderStates
                 }
                 else if (context.RoleId == 2)
                 {
-                    //context.State = new ContractorOrdersMenuState(_messageId);
+                    context.State = new ContractorOrdersMenuState(_messageId);
                 }
                 else if (context.RoleId == 3)
                 {
