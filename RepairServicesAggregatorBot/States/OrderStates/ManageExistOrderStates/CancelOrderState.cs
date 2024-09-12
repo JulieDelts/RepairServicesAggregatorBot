@@ -29,11 +29,11 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.ManageExistOrderSta
                 ContractorId = order.ContractorId,
                 AdminId = order.AdminId,
                 StatusId = 6,
+                ServiceTypeId = order.ServiceTypeId,
                 Date = order.Date,
                 OrderDescription = order.OrderDescription,
                 Address = order.Address,
                 IsDeleted = order.IsDeleted
-
             };
 
             _orderService.UpdateOrder(updatedOrder);

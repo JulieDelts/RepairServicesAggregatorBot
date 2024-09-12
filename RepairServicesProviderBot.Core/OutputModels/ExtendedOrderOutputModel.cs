@@ -12,6 +12,8 @@
 
         public int StatusId { get; set; }
 
+        public int ServiceTypeId { get; set; }
+
         public string Date { get; set; }
 
         public string OrderDescription { get; set; }

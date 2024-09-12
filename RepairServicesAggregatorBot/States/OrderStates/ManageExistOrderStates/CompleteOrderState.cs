@@ -30,6 +30,7 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.ManageExistOrderSta
                 ContractorId = order.ContractorId,
                 AdminId = order.AdminId,
                 StatusId = 5,
+                ServiceTypeId = order.ServiceTypeId,
                 Date = order.Date,
                 OrderDescription = order.OrderDescription,
                 Address = order.Address,

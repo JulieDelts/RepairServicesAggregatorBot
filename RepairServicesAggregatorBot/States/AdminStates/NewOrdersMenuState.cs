@@ -1,11 +1,11 @@
 ﻿using RepairServicesProviderBot.Core.OutputModels;
-using Telegram.Bot.Types.ReplyMarkups;
-using Telegram.Bot.Types;
 using Telegram.Bot;
+using Telegram.Bot.Types;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace RepairServicesAggregatorBot.Bot.States.AdminStates
 {
-    public class NewOrdersMenuState: AbstractState
+    public class NewOrdersMenuState : AbstractState
     {
         private List<InitialOrderOutputModel> _newOrders;
 
@@ -13,7 +13,7 @@ namespace RepairServicesAggregatorBot.Bot.States.AdminStates
 
         private int _counter;
 
-        public NewOrdersMenuState(int messageId, List<InitialOrderOutputModel> initialOrderOutputModels) 
+        public NewOrdersMenuState(int messageId, List<InitialOrderOutputModel> initialOrderOutputModels)
         {
             _newOrders = initialOrderOutputModels;
 
@@ -50,11 +50,11 @@ namespace RepairServicesAggregatorBot.Bot.States.AdminStates
             }
             else if (message.Data == "cnf")
             {
-                
+                context.State = new StartConfirmOrderAdminState(_messageId, _newOrders[_counter]);
             }
             else if (message.Data == "dcl")
             {
-                
+                //context.State = new CancelOrderState(_newOrders[_counter].Id);
             }
             else if (message.Data == "bck")
             {
@@ -86,7 +86,7 @@ namespace RepairServicesAggregatorBot.Bot.States.AdminStates
 
                 var order = _newOrders[0];
 
-                string  orderDescription = $"Новые заказы:\nID: {order.Id}\nОписание: {order.OrderDescription}\nДата создания: {order.Date}\nID клиента: {order.ClientId}\nИмя клиента: {order.ClientName}\nАдрес: {order.Address}";
+                string orderDescription = $"Новые заказы:\nID: {order.Id}\nОписание: {order.OrderDescription}\nДата создания: {order.Date}\nID клиента: {order.ClientId}\nИмя клиента: {order.ClientName}\nАдрес: {order.Address}";
 
                 InlineKeyboardMarkup keyboard = new(
                 new[]
