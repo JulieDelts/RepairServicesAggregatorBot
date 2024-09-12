@@ -3,6 +3,7 @@ using Telegram.Bot.Types;
 using Telegram.Bot;
 using RepairServicesProviderBot.BLL;
 using RepairServicesProviderBot.Core.OutputModels;
+using RepairServicesAggregatorBot.Bot.States.OrderStates.ShowOrderStates;
 
 namespace RepairServicesAggregatorBot.Bot.States.ClientStates
 {
@@ -53,7 +54,7 @@ namespace RepairServicesAggregatorBot.Bot.States.ClientStates
                     }
                 }
 
-                context.State = new ClientOrderHistoryState(_messageId, inactiveOrders);
+                context.State = new OrderHistoryState(_messageId, inactiveOrders);
             }
             else if (message.Data == "bck")
             {

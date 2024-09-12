@@ -1,12 +1,18 @@
-﻿using System.Text;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using RepairServicesAggregatorBot.Bot.States.ClientStates;
 using RepairServicesProviderBot.Core.OutputModels;
-using Telegram.Bot;
-using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
+using Telegram.Bot.Types;
+using Telegram.Bot;
+using RepairServicesAggregatorBot.Bot.States.AdminStates;
 
-namespace RepairServicesAggregatorBot.Bot.States.ClientStates
+namespace RepairServicesAggregatorBot.Bot.States.OrderStates.ShowOrderStates
 {
-    public class ClientOrderHistoryState : AbstractState
+    public class OrderHistoryState : AbstractState
     {
         private List<InitialOrderOutputModel> _orders;
 
@@ -16,7 +22,7 @@ namespace RepairServicesAggregatorBot.Bot.States.ClientStates
 
         private int _end;
 
-        public ClientOrderHistoryState(int messageId, List<InitialOrderOutputModel> orders)
+        public OrderHistoryState(int messageId, List<InitialOrderOutputModel> orders)
         {
             _messageId = messageId;
             _orders = orders;
@@ -51,7 +57,7 @@ namespace RepairServicesAggregatorBot.Bot.States.ClientStates
                 }
                 else if (_end + 3 > _orders.Count - 1)
                 {
-                    _end = _orders.Count-1;
+                    _end = _orders.Count - 1;
                     _start += 3;
                 }
             }
@@ -65,7 +71,7 @@ namespace RepairServicesAggregatorBot.Bot.States.ClientStates
                     {
                         _start = _end - 2;
                     }
-                    else 
+                    else
                     {
                         _start = _orders.Count - _orders.Count % 3;
                     }
@@ -75,15 +81,26 @@ namespace RepairServicesAggregatorBot.Bot.States.ClientStates
                     _end -= 3;
                     _start -= 3;
                 }
-                else 
+                else
                 {
                     _end = _start - 1;
-                    _start = _end-2;
+                    _start = _end - 2;
                 }
             }
             else if (message.Data == "bck")
             {
-                context.State = new ClientOrdersMenuState(_messageId);
+                if (context.RoleId == 1)
+                {
+                    context.State = new ClientOrdersMenuState(_messageId);
+                }
+                else if (context.RoleId == 2)
+                {
+                    //context.State = new ContractorOrdersMenuState(_messageId);
+                }
+                else if (context.RoleId == 3)
+                {
+                    context.State = new AdminOrdersMenuState(_messageId);
+                }
             }
             else
             {
@@ -104,7 +121,7 @@ namespace RepairServicesAggregatorBot.Bot.States.ClientStates
                     }
                 });
 
-                var message = await botClient.EditMessageTextAsync(new ChatId(context.ChatId), _messageId, "Новых заказов нет.", replyMarkup: keyboard);
+                var message = await botClient.EditMessageTextAsync(new ChatId(context.ChatId), _messageId, "Истории заказов нет.", replyMarkup: keyboard);
 
                 _messageId = message.MessageId;
             }
@@ -114,17 +131,17 @@ namespace RepairServicesAggregatorBot.Bot.States.ClientStates
 
                 for (int i = _start; i <= _end; i++)
                 {
-                    orderInfo.Append($"ID заказа: {_orders[i].Id}\nОписание: {_orders[i].OrderDescription}\nСтатус: {_orders[i].StatusDescription}");
+                    orderInfo.Append($"\nID заказа: {_orders[i].Id}\nОписание: {_orders[i].OrderDescription}\nСтатус: {_orders[i].StatusDescription}");
                 }
 
-               InlineKeyboardMarkup keyboard = new(
-               new[]
-               {
+                InlineKeyboardMarkup keyboard = new(
+                new[]
+                {
                     new[]
                     {
                        InlineKeyboardButton.WithCallbackData("Назад", "bck"),
                     }
-               });
+                });
 
                 var message = await botClient.EditMessageTextAsync(new ChatId(context.ChatId), _messageId, orderInfo.ToString(), replyMarkup: keyboard);
 
@@ -147,7 +164,7 @@ namespace RepairServicesAggregatorBot.Bot.States.ClientStates
                         InlineKeyboardButton.WithCallbackData("⬅️", "prv"),
                         InlineKeyboardButton.WithCallbackData("Назад", "bck"),
                         InlineKeyboardButton.WithCallbackData("➡️", "nxt")
-                    } 
+                    }
                 });
 
                 var message = await botClient.EditMessageTextAsync(new ChatId(context.ChatId), _messageId, orderInfo.ToString(), replyMarkup: keyboard);
