@@ -18,19 +18,23 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.ChooseContractorOrd
 
         private int _counter;
 
-        private ContractorService _contractorService;
+        private OrderService _contractorService;
 
         private Dictionary<long, Context> _users;
 
-        public ShowContractorsOrderState(int messageId, UnassignedOrderOutputModel order, int serviceId)
+        public ShowContractorsOrderState(int messageId, UnassignedOrderOutputModel order)
         {
             _messageId = messageId;
 
-            _contractors = _contractorService.GetContractorsByServiceTypeId(serviceId);
+            _contractorService = new OrderService();
+
+            _contractors = _contractorService.GetGetContractorsReadyToAcceptOrderByOrderId(order.Id);
 
             _counter = 0;
 
             _order = order;
+
+            _users = Program.Users;
         }
 
         public override async void HandleCallbackQuery(Context context, Update update, ITelegramBotClient botClient)
@@ -64,7 +68,7 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.ChooseContractorOrd
             {
                 var contractorId = _contractors[_counter].ChatId;
 
-                _users[contractorId].State = new ConfirmOrderContractorState(_order);
+                //_users[contractorId].State = new ExecuteOrderContractorState(_order);
 
                 context.State = new ClientOrdersMenuState(_messageId);
             }

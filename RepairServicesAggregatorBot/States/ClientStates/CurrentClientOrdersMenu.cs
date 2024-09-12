@@ -71,10 +71,9 @@ namespace RepairServicesAggregatorBot.Bot.States.ClientStates
             {
                 var order = _orders[_counter] as UnassignedOrderOutputModel;
 
-                var serviceTypeId = order.ServiceType.Id;
                 var messageId = update.Message.MessageId;
 
-                context.State = new ShowContractorsOrderState(messageId, order, serviceTypeId);
+                context.State = new ShowContractorsOrderState(messageId, order);
 
             }
             else if (message.Data == "cmpltordr")
