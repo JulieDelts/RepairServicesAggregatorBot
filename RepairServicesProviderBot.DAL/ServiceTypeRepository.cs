@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Npgsql;
+﻿using Npgsql;
 using RepairServicesProviderBot.Core;
 using RepairServicesProviderBot.Core.DTOs;
 using Dapper;
@@ -73,7 +67,7 @@ namespace RepairServicesProviderBot.DAL
             }
         }
 
-        public ServiceTypeDTO GetContractorServiceTypeById(ServiceTypeDTO serviceType)
+        public ServiceTypeDTO GetContractorServiceType(ServiceTypeDTO serviceType)
         {
             string conectionString = Options.ConnectionString;
 
@@ -126,7 +120,7 @@ namespace RepairServicesProviderBot.DAL
             }
         }
 
-        public int UpdateServiceTypeById(ServiceTypeDTO serviceType)
+        public int UpdateServiceType(ServiceTypeDTO serviceType)
         {
             string conectionString = Options.ConnectionString;
 
@@ -147,7 +141,7 @@ namespace RepairServicesProviderBot.DAL
             }
         }
 
-        public int UpdateContractorServiceCostById(ServiceTypeDTO serviceType)
+        public int UpdateContractorServiceCost(ServiceTypeDTO serviceType)
         {
             string conectionString = Options.ConnectionString;
 
@@ -187,7 +181,7 @@ namespace RepairServicesProviderBot.DAL
             }
         }
 
-        public void DeleteContractorServiceTypeById(ServiceTypeDTO serviceType)
+        public void DeleteContractorServiceType(ServiceTypeDTO serviceType)
         {
             string conectionString = Options.ConnectionString;
 

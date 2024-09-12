@@ -1,4 +1,5 @@
-﻿using RepairServicesAggregatorBot.Bot.States.AdminStates;
+﻿using System.Text;
+using RepairServicesAggregatorBot.Bot.States.AdminStates;
 using RepairServicesAggregatorBot.Bot.States.ClientStates;
 using RepairServicesProviderBot.BLL;
 using Telegram.Bot;
@@ -39,11 +40,11 @@ namespace RepairServicesAggregatorBot.Bot.States.ServiceTypeStates
 
         public override async void ReactInBot(Context context, ITelegramBotClient botClient)
         {
-            ServiceTypeService serviceTypeService = new ServiceTypeService();
+            ServiceTypeService serviceTypeService = new();
 
             var services = serviceTypeService.GetAvailableServices();
 
-            string servicesDescription = "Услуги:\n";
+            StringBuilder servicesDescription = new("Услуги:\n");
 
             for (int i = 0; i < services.Count; i++)
             {
@@ -54,15 +55,15 @@ namespace RepairServicesAggregatorBot.Bot.States.ServiceTypeStates
                         continue;
                     }
 
-                    servicesDescription += $"{i + 1}. {services[i].ServiceTypeDescription}\n";
+                    servicesDescription.Append($"{i + 1}. {services[i].ServiceTypeDescription}\n");
                 }
                 else
                 {
-                    servicesDescription += $"{i + 1}. {services[i].ServiceTypeDescription}\nID: {services[i].Id}\nСкрыт: {services[i].IsDeleted}\n";
+                    servicesDescription.Append($"{i + 1}. {services[i].ServiceTypeDescription}\nID: {services[i].Id}\nСкрыт: {services[i].IsDeleted}\n");
                 }
             }
 
-            InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(
+            InlineKeyboardMarkup keyboard = new(
             new[]
             {
                 new[]
@@ -71,7 +72,7 @@ namespace RepairServicesAggregatorBot.Bot.States.ServiceTypeStates
                 }
             });
 
-            var message = await botClient.EditMessageTextAsync(new ChatId(context.ChatId), _messageId, servicesDescription, replyMarkup: keyboard);
+            var message = await botClient.EditMessageTextAsync(new ChatId(context.ChatId), _messageId, servicesDescription.ToString(), replyMarkup: keyboard);
 
             int messageId = message.MessageId;
         }

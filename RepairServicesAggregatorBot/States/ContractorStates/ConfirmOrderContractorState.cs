@@ -1,11 +1,5 @@
 ﻿using RepairServicesProviderBot.BLL;
-using RepairServicesProviderBot.Core.InputModels;
 using RepairServicesProviderBot.Core.OutputModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
@@ -41,19 +35,18 @@ namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
         {
             var orderInfo = $"Вам заказ!!\nОписание: {_order.OrderDescription}\nАдрес: {_order.Address}";
 
-            InlineKeyboardMarkup contractorKeyboard = new InlineKeyboardMarkup(
+            InlineKeyboardMarkup contractorKeyboard = new(
             new[]
             {
-                    new[]
-                    {
-                       InlineKeyboardButton.WithCallbackData("Взять в работу", "cnfrm"),
-                    },
-                    new[]
-                    {
-                        InlineKeyboardButton.WithCallbackData("Отменить", "cncl")
-                    }
+                new[]
+                {
+                    InlineKeyboardButton.WithCallbackData("Взять в работу", "cnfrm"),
+                },
+                new[]
+                {
+                    InlineKeyboardButton.WithCallbackData("Отменить", "cncl")
+                }
             });
-
 
             await botClient.SendTextMessageAsync(new ChatId(context.ChatId), orderInfo, replyMarkup: contractorKeyboard);
         }

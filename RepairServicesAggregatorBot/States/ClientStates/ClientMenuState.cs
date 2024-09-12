@@ -53,7 +53,7 @@ namespace RepairServicesAggregatorBot.Bot.States.ClientStates
 
             //await botClient.SendStickerAsync(new ChatId(context.ChatId), InputFile.FromFileId("CAACAgIAAxkBAAEIQAJm2KQmQ9lgITGWr0VCxCV2EKpFpgACDlkAAmm6yEpSDNwNc75gtzYE"));
 
-            InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(
+            InlineKeyboardMarkup keyboard = new(
             new[]
             {
                 new[]

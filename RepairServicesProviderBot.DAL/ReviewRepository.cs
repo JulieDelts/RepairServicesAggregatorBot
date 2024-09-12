@@ -29,7 +29,7 @@ namespace RepairServicesProviderBot.DAL
             }
         }
 
-        public ReviewDTO GetReviewByOrderId(int orderId)
+        public ReviewDTO? GetReviewByOrderId(int orderId)
         {
             string conectionString = Options.ConnectionString;
 

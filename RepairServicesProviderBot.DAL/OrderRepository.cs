@@ -4,7 +4,6 @@ using RepairServicesProviderBot.Core;
 using RepairServicesProviderBot.Core.DTOs;
 using RepairServicesProviderBot.DAL.Querries;
 
-
 namespace RepairServicesProviderBot.DAL
 {
     public class OrderRepository
@@ -190,7 +189,7 @@ namespace RepairServicesProviderBot.DAL
             }
         }
 
-        public int UpdateOrderById(OrderDTO order)
+        public int UpdateOrder(OrderDTO order)
         {
             string conectionString = Options.ConnectionString;
 
@@ -218,7 +217,7 @@ namespace RepairServicesProviderBot.DAL
             }
         }
 
-        public OrderDTO HideOrderById(int orderId)
+        public int HideOrderById(int orderId)
         {
             string conectionString = Options.ConnectionString;
 
@@ -233,7 +232,7 @@ namespace RepairServicesProviderBot.DAL
 
                 connection.Open();
 
-                return connection.QuerySingle<OrderDTO>(query, args);
+                return connection.QuerySingle<int>(query, args);
             }
         }
     }

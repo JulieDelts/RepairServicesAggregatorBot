@@ -1,8 +1,6 @@
 ﻿using Telegram.Bot;
 using Telegram.Bot.Types;
 using RepairServicesProviderBot.Core.InputModels;
-using RepairServicesAggregatorBot.Bot.States.SystemStates;
-using RepairServicesAggregatorBot.Bot.States.SystemStates.RegisteringUser;
 using System.Text.RegularExpressions;
 
 namespace RepairServicesAggregatorBot.Bot.States.OrderStates.CreatingBaseOrderStates
@@ -17,7 +15,7 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.CreatingBaseOrderSt
 
         public AddDescriptionOrderState(int messageId) 
         {
-            OrderInputModel = new OrderInputModel();
+            OrderInputModel = new();
             
             _isDescriptionError = false;
 
@@ -45,6 +43,7 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.CreatingBaseOrderSt
                 _isDescriptionError = true;
             }
         }
+
         public override async void ReactInBot(Context context, ITelegramBotClient botClient)
         {
             if (_isDescriptionError)

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RepairServicesAggregatorBot.Bot.States.AdminStates;
-using RepairServicesProviderBot.BLL;
+﻿using RepairServicesProviderBot.BLL;
 using RepairServicesProviderBot.Core.InputModels;
 using Telegram.Bot.Types.ReplyMarkups;
 using Telegram.Bot.Types;
@@ -40,7 +34,7 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.AddingContractorSe
 
         public override async void ReactInBot(Context context, ITelegramBotClient botClient)
         {
-            ServiceTypeService serviceTypeService = new ServiceTypeService();
+            ServiceTypeService serviceTypeService = new();
 
             serviceTypeService.AddContractorServiceType(ContractorServiceTypeInputModel);
 

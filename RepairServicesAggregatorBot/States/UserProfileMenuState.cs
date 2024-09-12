@@ -1,4 +1,5 @@
-﻿using RepairServicesAggregatorBot.Bot.States.AdminStates;
+﻿using System.Text;
+using RepairServicesAggregatorBot.Bot.States.AdminStates;
 using RepairServicesAggregatorBot.Bot.States.ClientStates;
 using RepairServicesAggregatorBot.Bot.States.ContractorStates;
 using RepairServicesAggregatorBot.Bot.States.SystemStates.GettingUserProfileInfo;
@@ -40,7 +41,7 @@ namespace RepairServicesAggregatorBot.Bot.States
             }
             else if (message.Data == "updprf")
             {
-                UserInputModel userInputModel = new UserInputModel();
+                UserInputModel userInputModel = new();
 
                 context.State = new GetNameSystemState(userInputModel, _messageId);
             }
@@ -52,22 +53,22 @@ namespace RepairServicesAggregatorBot.Bot.States
 
         public override async void ReactInBot(Context context, ITelegramBotClient botClient)
         {
-            UserService userService = new UserService();
+            UserService userService = new();
 
             var user = userService.GetUserById(context.Id);
 
-            string userDescription = $"Ваш профиль\nИмя: {user.Name}\nТелефон: {user.Phone}\nЭлектронная почта: {user.Email}";
+            StringBuilder userDescription = new ($"Ваш профиль\nИмя: {user.Name}\nТелефон: {user.Phone}\nЭлектронная почта: {user.Email}");
 
             if (context.RoleId == 2)
             {
-                ContractorService contractorService = new ContractorService();
+                ContractorService contractorService = new();
 
                 var rating = contractorService.GetContractorRating(context.Id);
 
-                userDescription +=  $"\nРейтинг: {rating}";
+                userDescription.Append($"\nРейтинг: {rating}");
             }
 
-            InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(
+            InlineKeyboardMarkup keyboard = new(
             new[]
             {
                 new[]
@@ -77,7 +78,7 @@ namespace RepairServicesAggregatorBot.Bot.States
                 }
             });
 
-            var message = await botClient.EditMessageTextAsync(new ChatId(context.ChatId), _messageId, userDescription, replyMarkup: keyboard);
+            var message = await botClient.EditMessageTextAsync(new ChatId(context.ChatId), _messageId, userDescription.ToString(), replyMarkup: keyboard);
 
             _messageId = message.MessageId;
         }

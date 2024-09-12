@@ -27,11 +27,11 @@ namespace RepairServicesAggregatorBot.Bot.States.ServiceTypeStates
                 {
                     int id = Convert.ToInt32(message.Text);
 
-                    ServiceTypeService serviceTypeService = new ServiceTypeService();
+                    ServiceTypeService serviceTypeService = new();
 
                     var serviceType = serviceTypeService.GetServiceTypeById(id);
 
-                    ExtendedServiceTypeInputModel inputModel = new ExtendedServiceTypeInputModel();
+                    ExtendedServiceTypeInputModel inputModel = new();
 
                     inputModel.Id = id;
 

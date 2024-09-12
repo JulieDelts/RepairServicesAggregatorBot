@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RepairServicesProviderBot.Core.DTOs
+﻿namespace RepairServicesProviderBot.Core.DTOs
 {
     public class OrderDTO
     {
@@ -28,7 +22,7 @@ namespace RepairServicesProviderBot.Core.DTOs
 
         public string? StatusDescription { get; set; }
 
-        public int Cost { get; set; }
+        public int? Cost { get; set; }
 
         public string? Date { get; set; }
 
@@ -39,6 +33,5 @@ namespace RepairServicesProviderBot.Core.DTOs
         public bool? IsDeleted { get; set; }
 
         public ServiceTypeDTO? ServiceType { get; set; }
-
     }
 }

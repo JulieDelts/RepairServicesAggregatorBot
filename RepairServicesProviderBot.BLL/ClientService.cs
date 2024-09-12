@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
 using RepairServicesProviderBot.BLL.Mappings;
-using RepairServicesProviderBot.Core.DTOs;
-using RepairServicesProviderBot.Core.InputModels;
 using RepairServicesProviderBot.Core.OutputModels;
 using RepairServicesProviderBot.DAL;
 
@@ -17,9 +15,9 @@ namespace RepairServicesProviderBot.BLL
 
         public ClientService()
         {
-            UserRepository = new UserRepository();
+            UserRepository = new();
 
-            OrderRepository = new OrderRepository();
+            OrderRepository = new();
 
             var config = new MapperConfiguration(
                 cfg => {
@@ -36,29 +34,5 @@ namespace RepairServicesProviderBot.BLL
 
             return client;
         }
-
-        //public ClientWithOrdersOutputModel GetClientWithOrdersById(int clientId)
-        //{
-        //    var clientDTO = UserRepository.GetUserById(clientId);
-
-        //    var client = _mapper.Map<ClientWithOrdersOutputModel>(clientDTO);
-
-        //    //var orders = _mapper.Map
-        //    //client.Orders = orders;
-
-        //    return client;
-        //}
-
-        //public List<OrderOutputModel> GetAllClientOrdersById(int clientId)
-        //{
-        //    List<OrderOutputModel> clientOrders = new();
-
-        //    var orderDTOs = OrderRepository.GetAllClientOrdersById(clientId);
-
-        //    foreach (var orderDTO in orderDTOs)
-        //    {
-        //        if(orderDTO.StatusDescription == "подтверждение"||orderDTO.StatusDescription == "подтверждение")
-        //    }
-        //}
     }
 }

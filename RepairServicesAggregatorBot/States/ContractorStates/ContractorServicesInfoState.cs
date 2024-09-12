@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RepairServicesAggregatorBot.Bot.States.AdminStates;
-using RepairServicesProviderBot.BLL;
+﻿using RepairServicesAggregatorBot.Bot.States.AdminStates;
 using Telegram.Bot.Types.ReplyMarkups;
 using Telegram.Bot.Types;
 using Telegram.Bot;
 using RepairServicesProviderBot.Core.OutputModels;
+using System.Text;
 
 namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
 {
@@ -22,6 +17,7 @@ namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
         {
             ContractorWithServiceTypesOutputModel = contractorWithServiceTypesOutputModel;
         }
+
         public override async void HandleCallbackQuery(Context context, Update update, ITelegramBotClient botClient)
         { 
             var message = update.CallbackQuery;
@@ -38,14 +34,14 @@ namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
 
         public override async void ReactInBot(Context context, ITelegramBotClient botClient)
         {
-            string contractorInfo = $"{ContractorWithServiceTypesOutputModel.Name}\nРейтинг: {ContractorWithServiceTypesOutputModel.Rating}\nТелефон: {ContractorWithServiceTypesOutputModel.Phone}\nЭлектронная почта: {ContractorWithServiceTypesOutputModel.Email}\nДоступные услуги:\n";
+            StringBuilder contractorInfo = new($"{ContractorWithServiceTypesOutputModel.Name}\nРейтинг: {ContractorWithServiceTypesOutputModel.Rating}\nТелефон: {ContractorWithServiceTypesOutputModel.Phone}\nЭлектронная почта: {ContractorWithServiceTypesOutputModel.Email}\nДоступные услуги:\n");
 
             for (int i = 0; i < ContractorWithServiceTypesOutputModel.ServiceTypes.Count; i++)
             {
-                contractorInfo += $"{i+1}. {ContractorWithServiceTypesOutputModel.ServiceTypes[i].ServiceTypeDescription} {ContractorWithServiceTypesOutputModel.ServiceTypes[i].Cost}\n";
+                contractorInfo.Append($"{i+1}. {ContractorWithServiceTypesOutputModel.ServiceTypes[i].ServiceTypeDescription} {ContractorWithServiceTypesOutputModel.ServiceTypes[i].Cost}\n");
             }
 
-            InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(
+            InlineKeyboardMarkup keyboard = new(
             new[]
             {
                 new[]
@@ -54,7 +50,7 @@ namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
                 }
             });
 
-            var message = await botClient.SendTextMessageAsync(new ChatId(context.ChatId), contractorInfo, replyMarkup: keyboard);
+            var message = await botClient.SendTextMessageAsync(new ChatId(context.ChatId), contractorInfo.ToString(), replyMarkup: keyboard);
 
             _messageId = message.MessageId;
         }

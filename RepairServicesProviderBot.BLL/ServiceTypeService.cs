@@ -15,7 +15,7 @@ namespace RepairServicesProviderBot.BLL
 
         public ServiceTypeService()
         {
-            ServiceTypeRepository = new ServiceTypeRepository();
+            ServiceTypeRepository = new();
 
             var config = new MapperConfiguration(
                 cfg => {
@@ -23,26 +23,23 @@ namespace RepairServicesProviderBot.BLL
                 });
             _mapper = new Mapper(config);
         }
-        public ExtendedServiceTypeOutputModel AddServiceType(ServiceTypeInputModel serviceType)
+
+        public int AddServiceType(ServiceTypeInputModel serviceType)
         {
             var serviceTypeDescription = serviceType.ServiceTypeDescription;
 
             var serviceTypeId = ServiceTypeRepository.AddServiceType(serviceTypeDescription);
 
-            var serviceTypeResponse = GetServiceTypeById(serviceTypeId);
-
-            return serviceTypeResponse;
+            return serviceTypeId;
         }
 
-        public ContractorServiceTypeOutputModel AddContractorServiceType(ContractorServiceTypeInputModel contractorServiceType)
+        public int AddContractorServiceType(ContractorServiceTypeInputModel contractorServiceType)
         {
             var contractorServiceTypeDTO = _mapper.Map<ServiceTypeDTO>(contractorServiceType);
 
-            ServiceTypeRepository.AddContractorServiceType(contractorServiceTypeDTO);
+            int userId = ServiceTypeRepository.AddContractorServiceType(contractorServiceTypeDTO);
 
-            var contractorServiceTypeResponce = GetContractorServiceTypeById(contractorServiceType);
-
-            return contractorServiceTypeResponce;
+            return userId;
         }
 
         public ExtendedServiceTypeOutputModel GetServiceTypeById(int serviceTypeId)
@@ -54,11 +51,11 @@ namespace RepairServicesProviderBot.BLL
             return serviceTypeResponse;
         }
 
-        public ContractorServiceTypeOutputModel GetContractorServiceTypeById(ContractorServiceTypeInputModel contractorServiceType)
+        public ContractorServiceTypeOutputModel GetContractorServiceType(ContractorServiceTypeInputModel contractorServiceType)
         {
             var contractorServiceTypeDTO = _mapper.Map<ServiceTypeDTO>(contractorServiceType);
 
-            var contractorServiceTypeDTOResponse = ServiceTypeRepository.GetContractorServiceTypeById(contractorServiceTypeDTO);
+            var contractorServiceTypeDTOResponse = ServiceTypeRepository.GetContractorServiceType(contractorServiceTypeDTO);
 
             var contractorServiceTypeResponse = _mapper.Map<ContractorServiceTypeOutputModel>(contractorServiceTypeDTOResponse);
 
@@ -68,11 +65,13 @@ namespace RepairServicesProviderBot.BLL
         public List<ExtendedServiceTypeOutputModel> GetAvailableServices()
         { 
             List<ServiceTypeDTO> serviceTypeDTOs = ServiceTypeRepository.GetAvailableServiceTypes();
-            List<ExtendedServiceTypeOutputModel> serviceTypeOutputModels = new List<ExtendedServiceTypeOutputModel>();
+
+            List<ExtendedServiceTypeOutputModel> serviceTypeOutputModels = new();
 
             foreach (var serviceTypeDTO in serviceTypeDTOs)
             {
                 var serviceTypeOutput = _mapper.Map<ExtendedServiceTypeOutputModel>(serviceTypeDTO);
+
                 serviceTypeOutputModels.Add(serviceTypeOutput);
             }
 
@@ -82,39 +81,35 @@ namespace RepairServicesProviderBot.BLL
         public List<ContractorServiceTypeOutputModel> GetContractorServiceTypesById(int userId)
         {
             List<ServiceTypeDTO> contractorServiceTypeDTOs = ServiceTypeRepository.GetContractorServiceTypesById(userId);
-            List<ContractorServiceTypeOutputModel> contractorServiceTypeOutputModels = new List<ContractorServiceTypeOutputModel>();
+
+            List<ContractorServiceTypeOutputModel> contractorServiceTypeOutputModels = new();
 
             foreach (var contractorServiceTypeDTO in contractorServiceTypeDTOs)
             {
                 var contractorServiceTypeOutput = _mapper.Map<ContractorServiceTypeOutputModel>(contractorServiceTypeDTO);
+
                 contractorServiceTypeOutputModels.Add(contractorServiceTypeOutput);
             }
 
             return contractorServiceTypeOutputModels;
         }
 
-        public ExtendedServiceTypeOutputModel UpdateServiceTypeById(ExtendedServiceTypeInputModel serviceType)
+        public int UpdateServiceType(ExtendedServiceTypeInputModel serviceType)
         {
             var serviceTypeDTO = _mapper.Map<ServiceTypeDTO>(serviceType);
 
-            int serviceTypeId = ServiceTypeRepository.UpdateServiceTypeById(serviceTypeDTO);
+            int serviceTypeId = ServiceTypeRepository.UpdateServiceType(serviceTypeDTO);
 
-            var serviceTypeDTOResponse = ServiceTypeRepository.GetServiceTypeById(serviceTypeId);
-
-            var serviceTypeResponse = _mapper.Map<ExtendedServiceTypeOutputModel>(serviceTypeDTOResponse);
-
-            return serviceTypeResponse;
+            return serviceTypeId;
         }
 
-        public ContractorServiceTypeOutputModel UpdateContractorServiceCostById(ContractorServiceTypeInputModel contractorServiceType)
+        public int UpdateContractorServiceCost(ContractorServiceTypeInputModel contractorServiceType)
         {
             var contractorServiceTypeDTO = _mapper.Map<ServiceTypeDTO>(contractorServiceType);
 
-            ServiceTypeRepository.UpdateContractorServiceCostById(contractorServiceTypeDTO);
+            int userId = ServiceTypeRepository.UpdateContractorServiceCost(contractorServiceTypeDTO);
 
-            var contractorServiceTypeResponce = GetContractorServiceTypeById(contractorServiceType);
-
-            return contractorServiceTypeResponce;
+            return userId;
         }
 
         public void HideServiceTypeById(int serviceTypeId)
@@ -122,11 +117,11 @@ namespace RepairServicesProviderBot.BLL
             ServiceTypeRepository.HideServiceTypeById(serviceTypeId);
         }
 
-        public void DeleteContractorServiceTypeById(ContractorServiceTypeInputModel contractorServiceType)
+        public void DeleteContractorServiceType(ContractorServiceTypeInputModel contractorServiceType)
         {
             var contractorServiceTypeDTO = _mapper.Map<ServiceTypeDTO>(contractorServiceType);
 
-            ServiceTypeRepository.DeleteContractorServiceTypeById(contractorServiceTypeDTO);
+            ServiceTypeRepository.DeleteContractorServiceType(contractorServiceTypeDTO);
         }
     }
 }

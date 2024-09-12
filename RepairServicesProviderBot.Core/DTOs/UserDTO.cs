@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RepairServicesProviderBot.Core.DTOs
+﻿namespace RepairServicesProviderBot.Core.DTOs
 {
     public class UserDTO
     {
@@ -33,6 +27,5 @@ namespace RepairServicesProviderBot.Core.DTOs
         public List<OrderDTO>? Orders { get; set; }
 
         public List<ServiceTypeDTO>? Services { get; set; }
-
     }
 }

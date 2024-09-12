@@ -1,15 +1,8 @@
 ﻿using RepairServicesAggregatorBot.Bot.States.ClientStates;
 using RepairServicesProviderBot.BLL;
 using RepairServicesAggregatorBot.Bot.States.ContractorStates;
-using RepairServicesProviderBot.Core.InputModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Telegram.Bot.Types;
 using Telegram.Bot;
-using System.Diagnostics.Metrics;
 using RepairServicesProviderBot.Core.OutputModels;
 using Telegram.Bot.Types.ReplyMarkups;
 
@@ -32,8 +25,11 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.ChooseContractorOrd
         public ShowContractorsOrderState(int messageId, UnassignedOrderOutputModel order, int serviceId)
         {
             _messageId = messageId;
+
             _contractors = _contractorService.GetContractorsByServiceTypeId(serviceId);
+
             _counter = 0;
+
             _order = order;
         }
 
@@ -82,7 +78,7 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.ChooseContractorOrd
         {
             if (_contractors.Count == 0)
             {
-                InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(
+                InlineKeyboardMarkup keyboard = new(
                 new[]
                 {
                     new[]
@@ -100,7 +96,7 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.ChooseContractorOrd
 
                 string contractorDescription = $"Сотрудник: {contractor.Name}\nЦена {contractor.ServiceType.Cost}";
 
-                InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(
+                InlineKeyboardMarkup keyboard = new(
                 new[]
                 {
                     new[]
@@ -113,7 +109,7 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.ChooseContractorOrd
                     }
                 });
 
-                var message = await botClient.EditMessageTextAsync(new ChatId(context.ChatId), _messageId, $"{contractorDescription}", replyMarkup: keyboard);
+                var message = await botClient.EditMessageTextAsync(new ChatId(context.ChatId), _messageId, contractorDescription, replyMarkup: keyboard);
 
                 _messageId = message.MessageId;
             }
@@ -126,20 +122,19 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.ChooseContractorOrd
                 InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(
                 new[]
                 {
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Хочу такого домой", $"choose{contractor.Id}")
-
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("⬅️", "prv"),
-                    InlineKeyboardButton.WithCallbackData("Назад", "bck"),
-                    InlineKeyboardButton.WithCallbackData("➡️", "nxt")
-                }
+                    new[]
+                    {
+                        InlineKeyboardButton.WithCallbackData("Хочу такого домой", $"choose{contractor.Id}")
+                    },
+                    new[]
+                    {
+                        InlineKeyboardButton.WithCallbackData("⬅️", "prv"),
+                        InlineKeyboardButton.WithCallbackData("Назад", "bck"),
+                        InlineKeyboardButton.WithCallbackData("➡️", "nxt")
+                    }
                 });
 
-                var message = await botClient.EditMessageTextAsync(new ChatId(context.ChatId), _messageId, $"{contractorDescription}", replyMarkup: keyboard);
+                var message = await botClient.EditMessageTextAsync(new ChatId(context.ChatId), _messageId, contractorDescription, replyMarkup: keyboard);
 
                 _messageId = message.MessageId;
             }

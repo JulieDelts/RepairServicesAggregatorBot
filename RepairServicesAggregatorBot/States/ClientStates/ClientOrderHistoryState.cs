@@ -1,4 +1,5 @@
-﻿using RepairServicesProviderBot.Core.OutputModels;
+﻿using System.Text;
+using RepairServicesProviderBot.Core.OutputModels;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
@@ -30,7 +31,6 @@ namespace RepairServicesAggregatorBot.Bot.States.ClientStates
                 _start = 0;
                 _end = 2;
             }
-
         }
 
         public override async void HandleCallbackQuery(Context context, Update update, ITelegramBotClient botClient)
@@ -95,7 +95,7 @@ namespace RepairServicesAggregatorBot.Bot.States.ClientStates
         {
             if (_orders.Count == 0)
             {
-                InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(
+                InlineKeyboardMarkup keyboard = new(
                 new[]
                 {
                     new[]
@@ -110,14 +110,14 @@ namespace RepairServicesAggregatorBot.Bot.States.ClientStates
             }
             else if (_orders.Count <= 3)
             {
-                string orderInfo = "История заказов:\n";
+                StringBuilder orderInfo = new("История заказов:\n");
 
                 for (int i = _start; i <= _end; i++)
                 {
-                    orderInfo += $"ID заказа: {_orders[i].Id}\nОписание: {_orders[i].OrderDescription}\nСтатус: {_orders[i].StatusDescription}";
+                    orderInfo.Append($"ID заказа: {_orders[i].Id}\nОписание: {_orders[i].OrderDescription}\nСтатус: {_orders[i].StatusDescription}");
                 }
 
-               InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(
+               InlineKeyboardMarkup keyboard = new(
                new[]
                {
                     new[]
@@ -126,20 +126,20 @@ namespace RepairServicesAggregatorBot.Bot.States.ClientStates
                     }
                });
 
-                var message = await botClient.EditMessageTextAsync(new ChatId(context.ChatId), _messageId, orderInfo, replyMarkup: keyboard);
+                var message = await botClient.EditMessageTextAsync(new ChatId(context.ChatId), _messageId, orderInfo.ToString(), replyMarkup: keyboard);
 
                 _messageId = message.MessageId;
             }
             else
             {
-                string orderInfo = "История заказов:\n";
+                StringBuilder orderInfo = new("История заказов:\n");
 
                 for (int i = _start; i <= _end; i++)
                 {
-                    orderInfo += $"ID заказа: {_orders[i].Id}\nОписание: {_orders[i].OrderDescription}\nСтатус: {_orders[i].StatusDescription}";
+                    orderInfo.Append($"ID заказа: {_orders[i].Id}\nОписание: {_orders[i].OrderDescription}\nСтатус: {_orders[i].StatusDescription}");
                 }
 
-                InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(
+                InlineKeyboardMarkup keyboard = new(
                 new[]
                 {
                     new[]
@@ -150,7 +150,7 @@ namespace RepairServicesAggregatorBot.Bot.States.ClientStates
                     } 
                 });
 
-                var message = await botClient.EditMessageTextAsync(new ChatId(context.ChatId), _messageId, orderInfo, replyMarkup: keyboard);
+                var message = await botClient.EditMessageTextAsync(new ChatId(context.ChatId), _messageId, orderInfo.ToString(), replyMarkup: keyboard);
 
                 _messageId = message.MessageId;
             }

@@ -15,12 +15,13 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.ManageExistOrderSta
         public CancelOrderState(int orderId)
         {
             _orderId = orderId;
-            _orderService = new OrderService();
+            _orderService = new();
         }
 
         public override async void ReactInBot(Context context, ITelegramBotClient botClient)
         {
             var order = _orderService.GetOrderSystemInfoById(_orderId);
+
             var updatedOrder = new ExtendedOrderInputModel()
             {
                 Id = order.Id,
@@ -35,7 +36,7 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.ManageExistOrderSta
 
             };
 
-            _orderService.UpdateOrderById(updatedOrder);
+            _orderService.UpdateOrder(updatedOrder);
 
             if (updatedOrder.StatusId > 1 && updatedOrder.StatusId < 5)
             {

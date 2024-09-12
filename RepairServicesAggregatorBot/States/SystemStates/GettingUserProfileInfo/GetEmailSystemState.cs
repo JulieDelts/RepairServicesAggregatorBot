@@ -48,7 +48,7 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.GettingUserProfile
             }
             else
             {
-                await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Введите электронную почту или 'no', чтобы перейти к следующему этапу регистрации:");
+                await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Введите электронную почту или 'no', чтобы перейти к следующему этапу:");
             }
         }
 

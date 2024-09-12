@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RepairServicesAggregatorBot.Bot.States.SystemStates.GettingUserProfileInfo;
+﻿using RepairServicesAggregatorBot.Bot.States.SystemStates.GettingUserProfileInfo;
 using RepairServicesProviderBot.Core.InputModels;
 using Telegram.Bot;
 using Telegram.Bot.Types;
@@ -20,7 +15,7 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.RegisteringUser
 
         public StartRegistrationSystemState()
         {
-            UserInputModel = new UserInputModel();
+            UserInputModel = new();
 
             _roleModes = new Dictionary<string, int>() { { "qwe", 3 }, { "qwo", 2 }, { "no", 1 } };
 

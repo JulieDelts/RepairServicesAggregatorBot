@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using RepairServicesProviderBot.BLL.Mappings;
 using RepairServicesProviderBot.Core.DTOs;
 using RepairServicesProviderBot.Core.InputModels;
@@ -20,10 +15,11 @@ namespace RepairServicesProviderBot.BLL
 
         public UserService()
         {
-            UserRepository = new UserRepository();
+            UserRepository = new();
 
             var config = new MapperConfiguration(
-                cfg => {
+                cfg =>
+                {
                     cfg.AddProfile(new UserMapperProfile());
                 });
             _mapper = new Mapper(config);
@@ -56,17 +52,20 @@ namespace RepairServicesProviderBot.BLL
             return userResponse;
         }
 
-
-        public void UpdateUserById(ExtendedUserInputModel user)
+        public int UpdateUser(ExtendedUserInputModel user)
         {
             var userDTO = _mapper.Map<UserDTO>(user);
 
-            int userId = UserRepository.UpdateUserById(userDTO);
+            int userId = UserRepository.UpdateUser(userDTO);
+
+            return userId;
         }
 
-        public void HideUserById(int userId)
+        public int HideUserById(int userId)
         {
-            UserRepository.HideUserById(userId);
+            int user = UserRepository.HideUserById(userId);
+
+            return user;
         }
     }
 }

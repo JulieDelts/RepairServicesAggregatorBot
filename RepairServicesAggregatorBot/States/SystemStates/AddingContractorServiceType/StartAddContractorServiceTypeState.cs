@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Text;
+using System.Text.RegularExpressions;
 using RepairServicesProviderBot.BLL;
 using RepairServicesProviderBot.Core.InputModels;
 using Telegram.Bot;
@@ -15,6 +16,8 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.AddingContractorSe
         public StartAddContractorServiceTypeState(int messageId)
         {
             _messageId = messageId;
+
+            _isIdError = false;
         }
 
         public override async void HandleMessage(Context context, Update update, ITelegramBotClient botClient)
@@ -27,18 +30,16 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.AddingContractorSe
                 {
                     int id = Convert.ToInt32(message.Text);
 
-                    ServiceTypeService serviceTypeService = new ServiceTypeService();
+                    ServiceTypeService serviceTypeService = new();
 
                     var serviceType = serviceTypeService.GetServiceTypeById(id);
 
-                    ContractorServiceTypeInputModel contractorServiceTypeInputModel = new ContractorServiceTypeInputModel();
+                    ContractorServiceTypeInputModel contractorServiceTypeInputModel = new();
 
                     contractorServiceTypeInputModel.Id = id;
-
                     contractorServiceTypeInputModel.UserId = context.Id;
 
                     context.State = new GetContractorServiceTypeCostState(contractorServiceTypeInputModel);
-
                 }
                 catch (Exception ex)
                 {
@@ -57,11 +58,11 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.AddingContractorSe
             }
             else
             {
-                ServiceTypeService serviceTypeService = new ServiceTypeService();
+                ServiceTypeService serviceTypeService = new();
 
                 var services = serviceTypeService.GetAvailableServices();
 
-                string servicesDescription = "Услуги:\n";
+                StringBuilder servicesDescription = new("Услуги:\n");
 
                 for (int i = 0; i < services.Count; i++)
                 {
@@ -70,7 +71,7 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.AddingContractorSe
                         continue;
                     }
 
-                    servicesDescription += $"{i + 1}. {services[i].ServiceTypeDescription}\nID: {services[i].Id}\n";
+                    servicesDescription.Append($"{i + 1}. {services[i].ServiceTypeDescription}\nID: {services[i].Id}\n");
                 }
 
                 var message = await botClient.EditMessageTextAsync(new ChatId(context.ChatId), _messageId, $"{servicesDescription}\nВведите ID услуги: ");

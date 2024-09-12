@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using RepairServicesProviderBot.BLL.Mappings;
 using RepairServicesProviderBot.Core.OutputModels;
 using RepairServicesProviderBot.DAL;
@@ -18,7 +13,7 @@ namespace RepairServicesProviderBot.BLL
 
         public ContractorService()
         {
-            UserRepository = new UserRepository();
+            UserRepository = new();
 
             var config = new MapperConfiguration(
                 cfg => {
@@ -39,7 +34,7 @@ namespace RepairServicesProviderBot.BLL
         {
             var contractorDTOs = UserRepository.GetAllContractors();
 
-            List<ExtendedContractorOutputModel> contractors = new List<ExtendedContractorOutputModel>();
+            List<ExtendedContractorOutputModel> contractors = new();
 
             foreach (var contractorDTO in contractorDTOs)
             { 
@@ -55,7 +50,7 @@ namespace RepairServicesProviderBot.BLL
         {
             var contractorDTOs = UserRepository.GetContractorsByServiceTypeId(serviceTypeId);
 
-            List<ContractorWithServiceTypeOutputModel> contractors = new List<ContractorWithServiceTypeOutputModel>();
+            List<ContractorWithServiceTypeOutputModel> contractors = new();
 
             foreach (var contractorDTO in contractorDTOs)
             {

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RepairServicesProviderBot.Core.InputModels;
+﻿using RepairServicesProviderBot.Core.InputModels;
 using Telegram.Bot.Types;
 using Telegram.Bot;
 using System.Text.RegularExpressions;

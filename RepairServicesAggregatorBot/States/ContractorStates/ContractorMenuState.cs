@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RepairServicesAggregatorBot.Bot.States.AdminStates;
-using Telegram.Bot.Types.ReplyMarkups;
+﻿using Telegram.Bot.Types.ReplyMarkups;
 using Telegram.Bot.Types;
 using Telegram.Bot;
 
@@ -43,7 +37,7 @@ namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
 
         public override async void ReactInBot(Context context, ITelegramBotClient botClient)
         {
-            InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(
+            InlineKeyboardMarkup keyboard = new(
             new[]
             {
                 new[]
@@ -70,7 +64,6 @@ namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
             {
                 await botClient.EditMessageTextAsync(new ChatId(context.ChatId), _messageId, "Меню сотрудника", replyMarkup: keyboard);
             }
-
         }
     }
 }

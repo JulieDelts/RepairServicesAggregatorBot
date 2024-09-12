@@ -143,7 +143,7 @@ namespace RepairServicesProviderBot.DAL
             }
         }
 
-        public int UpdateUserById(UserDTO user)
+        public int UpdateUser(UserDTO user)
         {
             string conectionString = Options.ConnectionString;
 

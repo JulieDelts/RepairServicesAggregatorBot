@@ -1,5 +1,4 @@
-﻿using RepairServicesAggregatorBot.Bot.States.ServiceTypeStates;
-using Telegram.Bot;
+﻿using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 
@@ -42,7 +41,7 @@ namespace RepairServicesAggregatorBot.Bot.States.AdminStates
 
         public override async void ReactInBot(Context context, ITelegramBotClient botClient)
         {
-            InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(
+            InlineKeyboardMarkup keyboard = new(
             new[]
             {
                 new[]
