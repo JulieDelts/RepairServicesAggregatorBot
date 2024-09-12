@@ -4,6 +4,7 @@ using RepairServicesProviderBot.Core.OutputModels;
 using System.Text.RegularExpressions;
 using Telegram.Bot;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.Payments;
 using Telegram.Bot.Types.ReplyMarkups;
 
 namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
@@ -29,22 +30,19 @@ namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
 
             if (message.Data == "cnfrm")
             {
-                    int contractorId = context.Id;
+                int contractorId = context.Id;
 
-                    var updatedOrder = new ExtendedOrderInputModel()
-                    {
-                        Id = _order.Id,
-                        ClientId = _order.ClientId,
-                        ContractorId = contractorId,
-                        AdminId = context.Id,
-                        StatusId = 1,
-                        ServiceTypeId = _order.ServiceTypeId,
-                        Date = _order.Date,
-                        OrderDescription = _order.OrderDescription,
-                        Address = _order.Address,
-                        IsDeleted = _order.IsDeleted
-                    };
-                
+                _orderService.AddContractorReadyToAcceptOrder(contractorId, _order.Id);
+
+                UserService userService = new();
+
+                var client = userService.GetUserById(_order.ClientId);
+
+                long clientChatId = client.ChatId;
+
+                await botClient.SendTextMessageAsync(new ChatId(clientChatId), $"Заказ ID {_order.Id} готов выполнить еще один сотрудник. Сотрудника можно выбрать в меню выбора сотрудников у заказа.");
+
+                context.State = new ContractorMenuState();
             }
             else if (message.Data == "cncl")
             {
@@ -52,11 +50,8 @@ namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
             }
         }
 
-
         public override async void ReactInBot(Context context, ITelegramBotClient botClient)
         {
-            var client = _clientService.GetClientById(_order.ClientId);
-
             var orderInfo = $"Вам заказ!!\nОписание: {_order.OrderDescription}\nАдрес: {_order.Address}\n";
 
             InlineKeyboardMarkup contractorKeyboard = new(
@@ -68,16 +63,11 @@ namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
                 },
                 new[]
                 {
-                    InlineKeyboardButton.WithCallbackData("Отменить", "cncl")
+                    InlineKeyboardButton.WithCallbackData("Отклонить", "cncl")
                 }
             });
 
             await botClient.SendTextMessageAsync(new ChatId(context.ChatId), orderInfo, replyMarkup: contractorKeyboard);
-        }
-
-        private bool IsIdValid(string id)
-        {
-            return Regex.IsMatch(id, @"[0-9]+");
         }
     }
 }
