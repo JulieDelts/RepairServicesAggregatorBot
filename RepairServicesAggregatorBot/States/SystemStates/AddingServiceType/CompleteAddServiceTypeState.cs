@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RepairServicesProviderBot.BLL;
+﻿using RepairServicesProviderBot.BLL;
 using RepairServicesProviderBot.Core.InputModels;
 using Telegram.Bot.Types;
 using Telegram.Bot;
@@ -39,13 +34,13 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.AddingServiceType
 
         public override async void ReactInBot(Context context, ITelegramBotClient botClient)
         {
-            ServiceTypeService serviceTypeService = new ServiceTypeService();
+            ServiceTypeService serviceTypeService = new();
 
             serviceTypeService.AddServiceType(ServiceTypeInputModel);
 
             await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Добавление услуги завершено.");
 
-            InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(
+            InlineKeyboardMarkup keyboard = new(
             new[]
             {
                 new[]

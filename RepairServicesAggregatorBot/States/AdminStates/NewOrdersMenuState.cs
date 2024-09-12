@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RepairServicesAggregatorBot.Bot.States.ContractorStates;
-using RepairServicesAggregatorBot.Bot.States.SystemStates.UpdatingContractorServiceType;
-using RepairServicesProviderBot.Core.InputModels;
-using RepairServicesProviderBot.Core.OutputModels;
+﻿using RepairServicesProviderBot.Core.OutputModels;
 using Telegram.Bot.Types.ReplyMarkups;
 using Telegram.Bot.Types;
 using Telegram.Bot;
@@ -78,7 +70,7 @@ namespace RepairServicesAggregatorBot.Bot.States.AdminStates
         {
             if (_newOrders.Count == 0)
             {
-                InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(
+                InlineKeyboardMarkup keyboard = new(
                 new[]
                 {
                     new[]
@@ -94,9 +86,9 @@ namespace RepairServicesAggregatorBot.Bot.States.AdminStates
 
                 var order = _newOrders[0];
 
-                string  orderDescription = $"ID: {order.Id}\nОписание: {order.OrderDescription}\nДата создания: {order.Date}\nID клиента: {order.ClientId}\nИмя клиента: {order.ClientName}\nАдрес: {order.Address}";
+                string  orderDescription = $"Новые заказы:\nID: {order.Id}\nОписание: {order.OrderDescription}\nДата создания: {order.Date}\nID клиента: {order.ClientId}\nИмя клиента: {order.ClientName}\nАдрес: {order.Address}";
 
-                InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(
+                InlineKeyboardMarkup keyboard = new(
                 new[]
                 {
                     new[]
@@ -110,7 +102,7 @@ namespace RepairServicesAggregatorBot.Bot.States.AdminStates
                     }
                 });
 
-                var message = await botClient.EditMessageTextAsync(new ChatId(context.ChatId), _messageId, $"Новые заказы:\n{orderDescription}", replyMarkup: keyboard);
+                var message = await botClient.EditMessageTextAsync(new ChatId(context.ChatId), _messageId, orderDescription, replyMarkup: keyboard);
 
                 _messageId = message.MessageId;
             }
@@ -118,7 +110,7 @@ namespace RepairServicesAggregatorBot.Bot.States.AdminStates
             {
                 var order = _newOrders[_counter];
 
-                string orderDescription = $"ID: {order.Id}\nОписание: {order.OrderDescription}\nДата создания: {order.Date}\nID клиента: {order.ClientId}\nИмя клиента: {order.ClientName}\nАдрес: {order.Address}";
+                string orderDescription = $"Новые заказы:\nID: {order.Id}\nОписание: {order.OrderDescription}\nДата создания: {order.Date}\nID клиента: {order.ClientId}\nИмя клиента: {order.ClientName}\nАдрес: {order.Address}";
 
                 InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(
                 new[]
@@ -137,7 +129,7 @@ namespace RepairServicesAggregatorBot.Bot.States.AdminStates
                 }
                 });
 
-                var message = await botClient.EditMessageTextAsync(new ChatId(context.ChatId), _messageId, $"Новые заказы:\n{orderDescription}", replyMarkup: keyboard);
+                var message = await botClient.EditMessageTextAsync(new ChatId(context.ChatId), _messageId, orderDescription, replyMarkup: keyboard);
 
                 _messageId = message.MessageId;
             }

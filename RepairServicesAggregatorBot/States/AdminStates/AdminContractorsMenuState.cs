@@ -37,7 +37,7 @@ namespace RepairServicesAggregatorBot.Bot.States.AdminStates
 
         public override async void ReactInBot(Context context, ITelegramBotClient botClient)
         {
-            InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(
+            InlineKeyboardMarkup keyboard = new(
             new[]
             {
                 new[]

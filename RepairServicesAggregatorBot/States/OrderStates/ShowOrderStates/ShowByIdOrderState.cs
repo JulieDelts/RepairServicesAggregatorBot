@@ -1,9 +1,4 @@
 ﻿using RepairServicesProviderBot.DAL;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 
@@ -15,7 +10,7 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.ShowOrderStates
 
         public ShowByIdOrderState() 
         {
-            _orderRepository = new OrderRepository();
+            _orderRepository = new();
         }
 
         public override async void HandleCallbackQuery(Context context, Update update, ITelegramBotClient botClient)
@@ -31,13 +26,10 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.ShowOrderStates
                 var orderMessage = $"заказ:\nID заказа: {order.Id}\nОписание: {order.OrderDescription}\nАдрес: {order.Address}\nДата создания: {order.Date}\nСтатус: {order.StatusDescription}\n";
 
                 await botClient.SendTextMessageAsync(new ChatId(context.ChatId), orderMessage);
-
             }
         }
 
         public override void ReactInBot(Context context, ITelegramBotClient botClient)
-        {
-            throw new NotImplementedException();
-        }
+        {}
     }
 }

@@ -1,16 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Telegram.Bot;
+﻿using Telegram.Bot;
 using Telegram.Bot.Types;
 using RepairServicesProviderBot.Core.InputModels;
-using RepairServicesProviderBot.BLL;
-using RepairServicesAggregatorBot.Bot.States.SystemStates;
-using RepairServicesAggregatorBot.Bot.States.SystemStates.RegisteringUser;
 using System.Text.RegularExpressions;
-using RepairServicesAggregatorBot.Bot.States.OrderStates.CreatingOrderStates;
 
 namespace RepairServicesAggregatorBot.Bot.States.OrderStates.CreatingBaseOrderStates
 {

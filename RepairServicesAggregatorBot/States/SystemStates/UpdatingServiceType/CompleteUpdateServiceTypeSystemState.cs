@@ -34,13 +34,13 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.UpdatingServiceTyp
 
         public override async void ReactInBot(Context context, ITelegramBotClient botClient)
         {
-            ServiceTypeService serviceTypeService = new ServiceTypeService();
+            ServiceTypeService serviceTypeService = new();
 
-            var service = serviceTypeService.UpdateServiceTypeById(ExtendedServiceTypeInputModel);
+            var service = serviceTypeService.UpdateServiceType(ExtendedServiceTypeInputModel);
 
-            await botClient.SendTextMessageAsync(new ChatId(context.ChatId), $"Обновление услуги завершено.\nОписание услуги: {service.ServiceTypeDescription}");
+            await botClient.SendTextMessageAsync(new ChatId(context.ChatId), $"Обновление услуги завершено.");
 
-            InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(
+            InlineKeyboardMarkup keyboard = new(
             new[]
             {
                     new[]

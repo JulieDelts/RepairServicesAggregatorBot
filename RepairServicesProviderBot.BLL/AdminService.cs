@@ -13,7 +13,7 @@ namespace RepairServicesProviderBot.BLL
 
         public AdminService()
         {
-            UserRepository = new UserRepository();
+            UserRepository = new();
 
             var config = new MapperConfiguration(
                 cfg =>
@@ -27,11 +27,12 @@ namespace RepairServicesProviderBot.BLL
         {
             var adminDTOs = UserRepository.GetAllAdmins();
 
-            List<AdminOutputModel> admins = new List<AdminOutputModel>();
+            List<AdminOutputModel> admins = new();
 
             foreach (var adminDTO in adminDTOs)
             {
                 var admin = _mapper.Map<AdminOutputModel>(adminDTO);
+
                 admins.Add(admin);
             }
 

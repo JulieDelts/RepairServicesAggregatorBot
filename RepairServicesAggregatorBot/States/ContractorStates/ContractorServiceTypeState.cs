@@ -1,5 +1,4 @@
-﻿using Npgsql.Internal;
-using RepairServicesAggregatorBot.Bot.States.SystemStates.UpdatingContractorServiceType;
+﻿using RepairServicesAggregatorBot.Bot.States.SystemStates.UpdatingContractorServiceType;
 using RepairServicesProviderBot.Core.InputModels;
 using RepairServicesProviderBot.Core.OutputModels;
 using Telegram.Bot;
@@ -53,7 +52,7 @@ namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
             }
             else if (message.Data == "upd")
             {
-                ContractorServiceTypeInputModel contractorServiceTypeInputModel = new ContractorServiceTypeInputModel();
+                ContractorServiceTypeInputModel contractorServiceTypeInputModel = new();
 
                 contractorServiceTypeInputModel.Id = _contractorServiceTypes[_counter].Id;
 
@@ -63,7 +62,7 @@ namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
             }
             else if (message.Data == "dlt")
             {
-                ContractorServiceTypeInputModel contractorServiceTypeInputModel = new ContractorServiceTypeInputModel();
+                ContractorServiceTypeInputModel contractorServiceTypeInputModel = new();
 
                 contractorServiceTypeInputModel.Id = _contractorServiceTypes[_counter].Id;
 
@@ -86,7 +85,7 @@ namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
         {
             if (_contractorServiceTypes.Count == 0)
             {
-                InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(
+                InlineKeyboardMarkup keyboard = new(
                 new[]
                 {
                     new[]
@@ -99,9 +98,9 @@ namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
             }
             else if (_contractorServiceTypes.Count == 1)
             {
-                string serviceTypeDescription = $"{_contractorServiceTypes[_counter].ServiceTypeDescription}\nСтоимость: {_contractorServiceTypes[_counter].Cost}";
+                string serviceTypeDescription = $"Услуги сотрудника:\n{_contractorServiceTypes[_counter].ServiceTypeDescription}\nСтоимость: {_contractorServiceTypes[_counter].Cost}";
 
-                InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(
+                InlineKeyboardMarkup keyboard = new(
                 new[]
                 {
                     new[]
@@ -115,15 +114,15 @@ namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
                     }
                 });
 
-                var message = await botClient.EditMessageTextAsync(new ChatId(context.ChatId), _messageId, $"Услуги сотрудника:\n{serviceTypeDescription}", replyMarkup: keyboard);
+                var message = await botClient.EditMessageTextAsync(new ChatId(context.ChatId), _messageId, serviceTypeDescription, replyMarkup: keyboard);
 
                 _messageId = message.MessageId;
             }
             else
             {
-                string serviceTypeDescription = $"{_contractorServiceTypes[_counter].ServiceTypeDescription}\nСтоимость: {_contractorServiceTypes[_counter].Cost}";
+                string serviceTypeDescription = $"Услуги сотрудника:\n{_contractorServiceTypes[_counter].ServiceTypeDescription}\nСтоимость: {_contractorServiceTypes[_counter].Cost}";
 
-                InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(
+                InlineKeyboardMarkup keyboard = new(
                 new[]
                 {
                 new[]
@@ -140,7 +139,7 @@ namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
                 }
                 });
 
-                var message = await botClient.EditMessageTextAsync(new ChatId(context.ChatId), _messageId, $"Услуги сотрудника:\n{serviceTypeDescription}", replyMarkup: keyboard);
+                var message = await botClient.EditMessageTextAsync(new ChatId(context.ChatId), _messageId, serviceTypeDescription, replyMarkup: keyboard);
 
                 _messageId = message.MessageId;
             }

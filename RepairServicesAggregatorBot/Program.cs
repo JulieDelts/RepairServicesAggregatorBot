@@ -1,17 +1,13 @@
-using Microsoft.VisualBasic;
 using RepairServicesAggregatorBot.Bot;
 using RepairServicesAggregatorBot.Bot.States.AdminStates;
 using RepairServicesAggregatorBot.Bot.States.ClientStates;
 using RepairServicesAggregatorBot.Bot.States.ContractorStates;
 using RepairServicesAggregatorBot.Bot.States.SystemStates.RegisteringUser;
 using RepairServicesProviderBot.BLL;
-using RepairServicesProviderBot.DAL;
 using Telegram.Bot;
 using Telegram.Bot.Polling;
-using Telegram.Bot.Requests;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
-
 
 namespace RepairServicesAggregatorBot
 {
@@ -65,7 +61,6 @@ namespace RepairServicesAggregatorBot
 
         private static void HandleMessage(Update update, ITelegramBotClient botClient)
         {
-            
             var message = update.Message;
 
             Context currentUser = GetUserFromMessage(message);
@@ -98,7 +93,7 @@ namespace RepairServicesAggregatorBot
 
                 try
                 {
-                    UserService userService = new UserService();
+                    UserService userService = new();
 
                     var clientModel = userService.GetUserByChatId(message.Chat.Id);
 
@@ -143,7 +138,7 @@ namespace RepairServicesAggregatorBot
 
                 try
                 {
-                    UserService userService = new UserService();
+                    UserService userService = new();
 
                     var clientModel = userService.GetUserByChatId(callback.From.Id);
 

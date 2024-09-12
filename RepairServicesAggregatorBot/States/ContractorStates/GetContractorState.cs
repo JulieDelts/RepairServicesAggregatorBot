@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RepairServicesAggregatorBot.Bot.States.ServiceTypeStates;
-using RepairServicesProviderBot.BLL;
-using RepairServicesProviderBot.Core.InputModels;
+﻿using RepairServicesProviderBot.BLL;
 using Telegram.Bot.Types;
 using Telegram.Bot;
 using RepairServicesProviderBot.Core.OutputModels;
@@ -34,24 +27,24 @@ namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
                 {
                     int id = Convert.ToInt32(message.Text);
 
-                    UserService userService = new UserService();
+                    UserService userService = new();
 
                     var user = userService.GetUserById(id);
 
-                    ContractorWithServiceTypesOutputModel contractorWithServiceTypesOutputModel = new ContractorWithServiceTypesOutputModel()
+                    ContractorWithServiceTypesOutputModel contractorWithServiceTypesOutputModel = new()
                     {
                         Name = user.Name,
                         Phone = user.Phone,
                         Email = user.Email
                     };
 
-                    ContractorService contractorService = new ContractorService();
+                    ContractorService contractorService = new();
 
                     double? contractorRating = contractorService.GetContractorRating(id);
 
                     contractorWithServiceTypesOutputModel.Rating = contractorRating;
 
-                    ServiceTypeService serviceTypeService = new ServiceTypeService();
+                    ServiceTypeService serviceTypeService = new();
 
                     var serviceTypes = serviceTypeService.GetContractorServiceTypesById(id);
 

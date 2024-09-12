@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RepairServicesAggregatorBot.Bot.States.ServiceTypeStates;
+﻿using RepairServicesAggregatorBot.Bot.States.ServiceTypeStates;
 using Telegram.Bot.Types.ReplyMarkups;
 using Telegram.Bot.Types;
 using Telegram.Bot;
@@ -48,7 +43,7 @@ namespace RepairServicesAggregatorBot.Bot.States.AdminStates
 
         public override async void ReactInBot(Context context, ITelegramBotClient botClient)
         {
-            InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(
+            InlineKeyboardMarkup keyboard = new(
             new[]
             {
                 new[]

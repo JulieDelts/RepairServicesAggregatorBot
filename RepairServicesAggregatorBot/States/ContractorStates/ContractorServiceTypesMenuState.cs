@@ -29,7 +29,7 @@ namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
             }
             else if (message.Data == "сsrvtps")
             {
-                ServiceTypeService serviceTypeService = new ServiceTypeService();
+                ServiceTypeService serviceTypeService = new();
 
                 var contractorServiceTypes = serviceTypeService.GetContractorServiceTypesById(context.Id);
 
@@ -43,7 +43,7 @@ namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
 
         public override async void ReactInBot(Context context, ITelegramBotClient botClient)
         {
-            InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(
+            InlineKeyboardMarkup keyboard = new(
             new[]
             {
                 new[]
@@ -60,7 +60,7 @@ namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
                 },
             });
 
-            var message = await botClient.EditMessageTextAsync(new ChatId(context.ChatId),_messageId, "Меню услуг сотрудника", replyMarkup: keyboard);
+            var message = await botClient.EditMessageTextAsync(new ChatId(context.ChatId), _messageId, "Меню услуг сотрудника", replyMarkup: keyboard);
 
             _messageId = message.MessageId;
         }

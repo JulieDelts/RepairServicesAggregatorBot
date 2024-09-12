@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RepairServicesAggregatorBot.Bot.States.AdminStates;
-using RepairServicesProviderBot.BLL;
+﻿using RepairServicesProviderBot.BLL;
 using RepairServicesProviderBot.Core.InputModels;
 using Telegram.Bot.Types.ReplyMarkups;
 using Telegram.Bot.Types;
@@ -44,13 +38,13 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.UpdatingContractor
         {
             await botClient.DeleteMessageAsync(new ChatId(context.ChatId), _messageId);
 
-            ServiceTypeService serviceTypeService = new ServiceTypeService();
+            ServiceTypeService serviceTypeService = new();
 
-            serviceTypeService.DeleteContractorServiceTypeById(ContractorServiceTypeInputModel);
+            serviceTypeService.DeleteContractorServiceType(ContractorServiceTypeInputModel);
 
             await botClient.SendTextMessageAsync(new ChatId(context.ChatId), $"Удаление услуги завершено.");
 
-            InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(
+            InlineKeyboardMarkup keyboard = new(
             new[]
             {
                     new[]

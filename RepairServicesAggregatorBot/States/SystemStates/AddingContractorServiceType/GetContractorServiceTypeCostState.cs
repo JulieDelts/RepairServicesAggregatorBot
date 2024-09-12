@@ -1,6 +1,4 @@
 ﻿using System.Text.RegularExpressions;
-using RepairServicesAggregatorBot.Bot.States.ServiceTypeStates;
-using RepairServicesProviderBot.BLL;
 using RepairServicesProviderBot.Core.InputModels;
 using Telegram.Bot;
 using Telegram.Bot.Types;

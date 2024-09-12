@@ -47,7 +47,7 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.RegisteringUser
 
         public override async void ReactInBot(Context context, ITelegramBotClient botClient)
         {
-            UserService adminService = new UserService();
+            UserService adminService = new();
 
             int qwe = adminService.AddUser(UserInputModel);
 
@@ -55,7 +55,7 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.RegisteringUser
 
             await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Регистрация завершена.");
 
-            InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(
+            InlineKeyboardMarkup keyboard = new(
             new[]
             {
                 new[]

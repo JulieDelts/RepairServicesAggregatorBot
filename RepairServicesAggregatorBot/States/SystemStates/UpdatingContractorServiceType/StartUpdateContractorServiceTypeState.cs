@@ -1,5 +1,4 @@
 ﻿using System.Text.RegularExpressions;
-using RepairServicesAggregatorBot.Bot.States.SystemStates.AddingContractorServiceType;
 using RepairServicesProviderBot.Core.InputModels;
 using Telegram.Bot;
 using Telegram.Bot.Types;
@@ -19,6 +18,8 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.UpdatingContractor
             _messageId = messageId;
 
             ContractorServiceTypeInputModel = contractorServiceTypeInputModel;
+
+            _isCostError = false;
         }
 
         public override async void HandleMessage(Context context, Update update, ITelegramBotClient botClient)
@@ -57,6 +58,5 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.UpdatingContractor
         {
             return Regex.IsMatch(id, @"[0-9]+");
         }
-
     }
 }

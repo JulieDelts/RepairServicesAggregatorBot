@@ -1,4 +1,5 @@
-﻿using RepairServicesAggregatorBot.Bot.States.AdminStates;
+﻿using System.Text;
+using RepairServicesAggregatorBot.Bot.States.AdminStates;
 using RepairServicesProviderBot.BLL;
 using Telegram.Bot;
 using Telegram.Bot.Types;
@@ -31,18 +32,18 @@ namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
 
         public override async void ReactInBot(Context context, ITelegramBotClient botClient)
         {
-            ContractorService contractorService = new ContractorService();
+            ContractorService contractorService = new();
 
             var contractors = contractorService.GetAllContractors();
 
-            string contractorsDescription = "Сотрудники:\n";
+            StringBuilder contractorsDescription = new("Сотрудники:\n");
 
             for (int i = 0; i < contractors.Count; i++)
             {
-                contractorsDescription += $"{i + 1}. {contractors[i].Name}\nID: {contractors[i].Id}\nСкрыт: {contractors[i].IsDeleted}\n";
+                contractorsDescription.Append($"{i + 1}. {contractors[i].Name}\nID: {contractors[i].Id}\nСкрыт: {contractors[i].IsDeleted}\n");
             }
 
-            InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(
+            InlineKeyboardMarkup keyboard = new(
             new[]
             {
                 new[]
@@ -51,7 +52,7 @@ namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
                 }
             });
 
-            var message = await botClient.EditMessageTextAsync(new ChatId(context.ChatId), _messageId, contractorsDescription, replyMarkup: keyboard);
+            var message = await botClient.EditMessageTextAsync(new ChatId(context.ChatId), _messageId, contractorsDescription.ToString(), replyMarkup: keyboard);
 
             _messageId = message.MessageId;
         }

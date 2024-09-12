@@ -15,7 +15,7 @@ namespace RepairServicesProviderBot.BLL
 
         public OrderService()
         {
-            OrderRepository = new OrderRepository();
+            OrderRepository = new();
 
             var config = new MapperConfiguration(
                 cfg =>
@@ -38,9 +38,11 @@ namespace RepairServicesProviderBot.BLL
             return orderId;
         }
 
-        public void AddContractorReadyToAcceptOrder(int userId, int orderId)
+        public int AddContractorReadyToAcceptOrder(int userId, int orderId)
         {
-            OrderRepository.AddContractorReadyToAcceptOrder(userId, orderId);
+            int user = OrderRepository.AddContractorReadyToAcceptOrder(userId, orderId);
+
+            return user;
         }
 
         public List<ContractorWithServiceTypeOutputModel> GetGetContractorsReadyToAcceptOrderByOrderId(int orderId)
@@ -72,9 +74,9 @@ namespace RepairServicesProviderBot.BLL
         {
             var orderDTOs = OrderRepository.GetAllOrdersByUserId(userId);
 
-            List<InitialOrderOutputModel> orders = new List<InitialOrderOutputModel>();
+            List<InitialOrderOutputModel> orders = new();
 
-            ReviewService reviewService = new ReviewService();
+            ReviewService reviewService = new();
 
             foreach (var orderDTO in orderDTOs)
             {
@@ -90,7 +92,7 @@ namespace RepairServicesProviderBot.BLL
         {
             var orderDTOs = OrderRepository.GetNewOrders();
 
-            List<InitialOrderOutputModel> orders = new List<InitialOrderOutputModel>();
+            List<InitialOrderOutputModel> orders = new();
 
             foreach (var orderDTO in orderDTOs)
             {
@@ -98,7 +100,7 @@ namespace RepairServicesProviderBot.BLL
 
                 orders.Add(order);
             }
-            
+
             return orders;
         }
 
@@ -120,21 +122,25 @@ namespace RepairServicesProviderBot.BLL
             return order;
         }
 
-        public void UpdateOrderById(ExtendedOrderInputModel extendedOrderInputModel)
+        public int UpdateOrder(ExtendedOrderInputModel extendedOrderInputModel)
         {
             var orderDTO = _mapper.Map<OrderDTO>(extendedOrderInputModel);
 
-            OrderRepository.UpdateOrderById(orderDTO);
+            int orderId = OrderRepository.UpdateOrder(orderDTO);
+
+            return orderId;
         }
 
-        public void HideOrderById(int orderId)
+        public int HideOrderById(int orderId)
         {
-            OrderRepository.HideOrderById(orderId);
+            int order = OrderRepository.HideOrderById(orderId);
+
+            return order;
         }
 
         private InitialOrderOutputModel MapOrderDTOToOutputModel(OrderDTO orderDTO)
         {
-            ReviewService reviewService = new ReviewService();
+            ReviewService reviewService = new();
 
             InitialOrderOutputModel order = new();
 

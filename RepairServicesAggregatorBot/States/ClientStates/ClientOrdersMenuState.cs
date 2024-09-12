@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RepairServicesAggregatorBot.Bot.States.AdminStates;
-using RepairServicesAggregatorBot.Bot.States.ServiceTypeStates;
-using RepairServicesAggregatorBot.Bot.States.SystemStates.AddingServiceType;
-using Telegram.Bot.Types.ReplyMarkups;
+﻿using Telegram.Bot.Types.ReplyMarkups;
 using Telegram.Bot.Types;
 using Telegram.Bot;
 using RepairServicesProviderBot.BLL;
@@ -29,11 +21,11 @@ namespace RepairServicesAggregatorBot.Bot.States.ClientStates
 
             if (message.Data == "crntordrs")
             {
-                OrderService orderService = new OrderService();
+                OrderService orderService = new();
 
                 var clientOrders = orderService.GetAllOrdersByUserId(context.Id);
 
-                List<InitialOrderOutputModel> currentOrders = new List<InitialOrderOutputModel>();
+                List<InitialOrderOutputModel> currentOrders = new();
 
                 foreach (var order in clientOrders)
                 {
@@ -47,11 +39,11 @@ namespace RepairServicesAggregatorBot.Bot.States.ClientStates
             }
             else if (message.Data == "ordrshstr")
             {
-                OrderService orderService = new OrderService();
+                OrderService orderService = new();
 
                 var clientOrders = orderService.GetAllOrdersByUserId(context.Id);
 
-                List<InitialOrderOutputModel> inactiveOrders = new List<InitialOrderOutputModel>();
+                List<InitialOrderOutputModel> inactiveOrders = new();
 
                 foreach (var order in clientOrders)
                 {
@@ -75,7 +67,7 @@ namespace RepairServicesAggregatorBot.Bot.States.ClientStates
 
         public override async void ReactInBot(Context context, ITelegramBotClient botClient)
         {
-            InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(
+            InlineKeyboardMarkup keyboard = new(
             new[]
             {
                 new[]

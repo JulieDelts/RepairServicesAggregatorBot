@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RepairServicesAggregatorBot.Bot.States.SystemStates.GettingUserProfileInfo;
-using RepairServicesProviderBot.Core.InputModels;
+﻿using RepairServicesProviderBot.Core.InputModels;
 using Telegram.Bot.Types;
 using Telegram.Bot;
-using RepairServicesAggregatorBot.Bot.States.ServiceTypeStates;
 using System.Text.RegularExpressions;
 
 namespace RepairServicesAggregatorBot.Bot.States.SystemStates.AddingServiceType
@@ -22,7 +15,7 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.AddingServiceType
 
         public StartAddServiceTypeState(int messageId)
         {
-            ServiceTypeInputModel = new ServiceTypeInputModel();
+            ServiceTypeInputModel = new();
 
             _isDescriptionError = false;
 

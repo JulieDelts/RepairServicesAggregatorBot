@@ -45,7 +45,7 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.UpdatingUserProfil
 
         public override async void ReactInBot(Context context, ITelegramBotClient botClient)
         {
-            UserService userService = new UserService();
+            UserService userService = new();
 
             var client = userService.GetUserById(context.Id);
 
@@ -61,11 +61,11 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.UpdatingUserProfil
                 Image = client.Image
             };
 
-            userService.UpdateUserById(updatedClient);
+            userService.UpdateUser(updatedClient);
 
             await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Обновление профиля завершено.");
 
-            InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(
+            InlineKeyboardMarkup keyboard = new(
             new[]
             {
                 new[]

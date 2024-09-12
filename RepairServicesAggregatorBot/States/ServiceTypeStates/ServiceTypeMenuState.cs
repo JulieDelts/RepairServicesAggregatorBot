@@ -1,7 +1,6 @@
 ﻿using RepairServicesAggregatorBot.Bot.States.AdminStates;
 using RepairServicesAggregatorBot.Bot.States.SystemStates.UpdatingServiceType;
 using RepairServicesProviderBot.Core.InputModels;
-using RepairServicesProviderBot.Core.OutputModels;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
@@ -18,7 +17,6 @@ namespace RepairServicesAggregatorBot.Bot.States.ServiceTypeStates
         {
             ExtendedServiceTypeInputModel = extendedServiceTypeInputModel;
         }
-
 
         public override async void HandleCallbackQuery(Context context, Update update, ITelegramBotClient botClient)
         {
@@ -44,7 +42,7 @@ namespace RepairServicesAggregatorBot.Bot.States.ServiceTypeStates
         
         public override async void ReactInBot(Context context, ITelegramBotClient botClient)
         {
-            InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(
+            InlineKeyboardMarkup keyboard = new(
             new[]
             {
                 new[]

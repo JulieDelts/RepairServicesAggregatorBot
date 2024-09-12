@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RepairServicesProviderBot.DAL.Querries
+﻿namespace RepairServicesProviderBot.DAL.Querries
 {
     public class UserQueries
     {
@@ -25,6 +19,5 @@ namespace RepairServicesProviderBot.DAL.Querries
         public const string UpdateUserByIdQuery = $"SELECT * FROM \"UpdateUserById\"(@userId, @userName, @phone, @email, @roleId, @image, @isDeleted);";
 
         public const string HideUserByIdQuery = $"SELECT * FROM \"HideUserById\"(@userId);"; 
-
     }
 }

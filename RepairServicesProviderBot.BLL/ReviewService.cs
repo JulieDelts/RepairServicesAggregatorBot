@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using RepairServicesProviderBot.BLL.Mappings;
 using RepairServicesProviderBot.Core.DTOs;
 using RepairServicesProviderBot.Core.InputModels;
@@ -20,7 +15,7 @@ namespace RepairServicesProviderBot.BLL
 
         public ReviewService()
         {
-            ReviewRepository = new ReviewRepository();
+            ReviewRepository = new();
 
             var config = new MapperConfiguration(
                 cfg => {
@@ -29,15 +24,13 @@ namespace RepairServicesProviderBot.BLL
             _mapper = new Mapper(config);
         }
 
-        public ReviewOutputModel AddReview(ReviewInputModel review)
+        public int AddReview(ReviewInputModel review)
         {
             var reviewDTO = _mapper.Map<ReviewDTO>(review);
 
             int orderId = ReviewRepository.AddReview(reviewDTO);
 
-            var reviewResponse = GetReviewByOrderId(orderId);
-
-            return reviewResponse;
+            return orderId;
         }
 
         public ReviewOutputModel GetReviewByOrderId(int orderId)

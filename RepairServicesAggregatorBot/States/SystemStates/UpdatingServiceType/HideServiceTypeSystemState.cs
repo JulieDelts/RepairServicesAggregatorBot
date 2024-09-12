@@ -1,13 +1,13 @@
 ﻿using RepairServicesAggregatorBot.Bot.States.AdminStates;
 using RepairServicesProviderBot.BLL;
 using RepairServicesProviderBot.Core.InputModels;
-using Telegram.Bot.Types.ReplyMarkups;
-using Telegram.Bot.Types;
 using Telegram.Bot;
+using Telegram.Bot.Types;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace RepairServicesAggregatorBot.Bot.States.SystemStates.UpdatingServiceType
 {
-    public class HideServiceTypeSystemState: AbstractState
+    public class HideServiceTypeSystemState : AbstractState
     {
         public ExtendedServiceTypeInputModel ExtendedServiceTypeInputModel { get; set; }
 
@@ -38,13 +38,13 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.UpdatingServiceTyp
         {
             await botClient.DeleteMessageAsync(new ChatId(context.ChatId), _messageId);
 
-            ServiceTypeService serviceTypeService = new ServiceTypeService();
+            ServiceTypeService serviceTypeService = new();
 
             serviceTypeService.HideServiceTypeById(ExtendedServiceTypeInputModel.Id);
 
             await botClient.SendTextMessageAsync(new ChatId(context.ChatId), $"Сокрытие услуги завершено.");
 
-            InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(
+            InlineKeyboardMarkup keyboard = new(
             new[]
             {
                     new[]

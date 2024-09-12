@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RepairServicesProviderBot.Core.OutputModels
+﻿namespace RepairServicesProviderBot.Core.OutputModels
 {
     public class ExtendedUserOutputModel
     {
@@ -22,6 +16,6 @@ namespace RepairServicesProviderBot.Core.OutputModels
 
         public string? Image { get; set; }
 
-        public bool? IsDeleted { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }
