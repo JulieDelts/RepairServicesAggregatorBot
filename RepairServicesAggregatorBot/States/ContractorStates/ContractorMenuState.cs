@@ -25,10 +25,10 @@ namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
             {
                 context.State = new ContractorServiceTypesMenuState(_messageId);
             }
-            //else if (message.Data == "cntrctr")
-            //{
-            //    context.State = new AdminContractorsMenuState(_messageId);
-            //}
+            else if (message.Data == "ords")
+            {
+                context.State = new ContractorOrdersMenuState(_messageId);
+            }
             else
             {
                 await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Неверная команда.");
