@@ -2,7 +2,6 @@
 using RepairServicesProviderBot.Core.OutputModels;
 using Telegram.Bot;
 using Telegram.Bot.Types;
-using RepairServicesAggregatorBot.Bot.States.ContractorStates;
 
 namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
 {
@@ -26,6 +25,8 @@ namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
             await botClient.SendTextMessageAsync(new ChatId(context.ChatId), $"Вы теперь выполняете этот заказ:\n{_order.OrderDescription} по адресу {_order.Address}\nКлиент {client.Name} номер {client.Phone} почта {client.Email}");
 
             context.State = new ContractorMenuState();
+
+            context.State.ReactInBot(context, botClient);
         }
     }
 }

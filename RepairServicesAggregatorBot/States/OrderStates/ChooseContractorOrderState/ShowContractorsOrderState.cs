@@ -74,7 +74,7 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.ChooseContractorOrd
                     ClientId = order.ClientId,
                     ContractorId = order.ContractorId,
                     AdminId = order.AdminId,
-                    StatusId = 1,
+                    StatusId = 2,
                     ServiceTypeId = order.ServiceTypeId,
                     Date = order.Date,
                     OrderDescription = order.OrderDescription,

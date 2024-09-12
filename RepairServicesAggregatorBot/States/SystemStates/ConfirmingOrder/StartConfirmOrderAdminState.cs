@@ -53,7 +53,7 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.ConfirmingOrder
                         ClientId = order.ClientId,
                         ContractorId = order.ContractorId,
                         AdminId = context.Id,
-                        StatusId = 1,
+                        StatusId = 2,
                         ServiceTypeId = id,
                         Date = order.Date,
                         OrderDescription = order.OrderDescription,
