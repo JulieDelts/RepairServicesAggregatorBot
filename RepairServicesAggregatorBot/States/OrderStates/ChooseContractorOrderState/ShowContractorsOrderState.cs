@@ -72,9 +72,9 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.ChooseContractorOrd
                 {
                     Id = order.Id,
                     ClientId = order.ClientId,
-                    ContractorId = order.ContractorId,
+                    ContractorId = _contractors[_counter].Id,
                     AdminId = order.AdminId,
-                    StatusId = 2,
+                    StatusId = 3,
                     ServiceTypeId = order.ServiceTypeId,
                     Date = order.Date,
                     OrderDescription = order.OrderDescription,
@@ -87,7 +87,7 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.ChooseContractorOrd
                 var contractorId = _contractors[_counter].ChatId;
 
                 _users[contractorId].State = new StartExecutingOrderContractorState(_order);
-                _users[contractorId].State.ReactInBot(context, botClient);
+                _users[contractorId].State.ReactInBot(_users[contractorId], botClient);
 
                 context.State = new ClientOrdersMenuState(_messageId);
             }
