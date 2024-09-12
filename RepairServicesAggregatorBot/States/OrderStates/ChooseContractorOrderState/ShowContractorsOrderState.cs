@@ -5,6 +5,7 @@ using Telegram.Bot.Types;
 using Telegram.Bot;
 using RepairServicesProviderBot.Core.OutputModels;
 using Telegram.Bot.Types.ReplyMarkups;
+using RepairServicesProviderBot.Core.InputModels;
 
 namespace RepairServicesAggregatorBot.Bot.States.OrderStates.ChooseContractorOrderState
 {
@@ -18,7 +19,7 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.ChooseContractorOrd
 
         private int _counter;
 
-        private OrderService _contractorService;
+        private OrderService _orderService;
 
         private Dictionary<long, Context> _users;
 
@@ -26,9 +27,9 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.ChooseContractorOrd
         {
             _messageId = messageId;
 
-            _contractorService = new OrderService();
+            _orderService = new OrderService();
 
-            _contractors = _contractorService.GetGetContractorsReadyToAcceptOrderByOrderId(order.Id);
+            _contractors = _orderService.GetGetContractorsReadyToAcceptOrderByOrderId(order.Id);
 
             _counter = 0;
 
@@ -65,6 +66,24 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.ChooseContractorOrd
             }
             else if (message.Data == "choose")
             {
+                var order = _orderService.GetOrderSystemInfoById(_order.Id);
+
+                var updatedOrder = new ExtendedOrderInputModel()
+                {
+                    Id = order.Id,
+                    ClientId = order.ClientId,
+                    ContractorId = order.ContractorId,
+                    AdminId = order.AdminId,
+                    StatusId = 1,
+                    ServiceTypeId = order.ServiceTypeId,
+                    Date = order.Date,
+                    OrderDescription = order.OrderDescription,
+                    Address = order.Address,
+                    IsDeleted = order.IsDeleted
+                };
+
+                _orderService.UpdateOrder(updatedOrder);
+
                 var contractorId = _contractors[_counter].ChatId;
 
                 _users[contractorId].State = new StartExecutingOrderContractorState(_order);
