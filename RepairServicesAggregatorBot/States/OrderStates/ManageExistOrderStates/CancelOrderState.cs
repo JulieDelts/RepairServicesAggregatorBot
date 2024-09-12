@@ -12,10 +12,13 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.ManageExistOrderSta
 
         private OrderService _orderService;
 
-        public CancelOrderState(int orderId)
+        private int _messageId;
+
+        public CancelOrderState(int orderId, int messageId)
         {
             _orderId = orderId;
             _orderService = new();
+            _messageId = messageId;
         }
 
         public override async void ReactInBot(Context context, ITelegramBotClient botClient)
@@ -48,7 +51,7 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.ManageExistOrderSta
                 await botClient.SendTextMessageAsync(updatedOrder.ContractorId, $"заказ {updatedOrder.Id} удален!!");
             }
 
-            await botClient.SendTextMessageAsync(new ChatId(context.ChatId), $"Ваш заказ удален!!");
+            await botClient.EditMessageTextAsync(new ChatId(context.ChatId),_messageId, $"Ваш заказ удален!!");
 
             context.State = new ClientMenuState();
 

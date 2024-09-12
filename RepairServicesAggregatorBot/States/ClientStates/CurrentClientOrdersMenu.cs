@@ -65,7 +65,7 @@ namespace RepairServicesAggregatorBot.Bot.States.ClientStates
             {
                 var orderId = _orders[_counter].Id;
 
-                context.State = new CancelOrderState(orderId);
+                context.State = new CancelOrderState(orderId, _messageId);
             }
             else if (message.Data.StartsWith("cntrctr"))
             {
@@ -80,7 +80,7 @@ namespace RepairServicesAggregatorBot.Bot.States.ClientStates
             {
                 var orderId = _orders[_counter].Id;
 
-                context.State = new CompleteOrderState(orderId);
+                context.State = new CompleteOrderState(orderId, _messageId);
             }
             else
             {
