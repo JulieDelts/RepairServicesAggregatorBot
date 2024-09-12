@@ -1,8 +1,10 @@
 ﻿using RepairServicesAggregatorBot.Bot.States.ClientStates;
+using RepairServicesAggregatorBot.Bot.States.SystemStates.AddingReview;
 using RepairServicesProviderBot.BLL;
 using RepairServicesProviderBot.Core.InputModels;
-using Telegram.Bot.Types;
 using Telegram.Bot;
+using Telegram.Bot.Types;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace RepairServicesAggregatorBot.Bot.States.OrderStates.ManageExistOrderStates
 {
@@ -12,6 +14,8 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.ManageExistOrderSta
 
         private OrderService _orderService;
 
+        private UserService _userService;
+
         private int _messageId;
 
         public CompleteOrderState(int orderId, int messageId)
@@ -20,7 +24,27 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.ManageExistOrderSta
 
             _orderService = new();
 
+            _userService = new();
+
             _messageId = messageId;
+        }
+
+        public override async void HandleCallbackQuery(Context context, Update update, ITelegramBotClient botClient)
+        {
+            var message = update.CallbackQuery;
+
+            if (message.Data == "bck")
+            {
+                context.State = new ClientOrdersMenuState(_messageId);
+            }
+            else if (message.Data == "rev")
+            {
+                context.State = new StartAddReviewState(_messageId, _orderId);
+            }
+            else
+            {
+                await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Неверная команда.");
+            }
         }
 
         public override async void ReactInBot(Context context, ITelegramBotClient botClient)
@@ -44,21 +68,29 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.ManageExistOrderSta
 
             _orderService.UpdateOrder(updatedOrder);
 
-            if (updatedOrder.StatusId > 1 && updatedOrder.StatusId < 5)
+            var admin = _userService.GetUserById((int)order.AdminId);
+
+            long adminChatId = admin.ChatId;
+
+            await botClient.SendTextMessageAsync(adminChatId, $"Заказ {updatedOrder.Id} выполнен.");
+
+            var contractor = _userService.GetUserById((int)order.ContractorId);
+
+            long contractorChatId = contractor.ChatId;
+
+            await botClient.SendTextMessageAsync(contractorChatId, $"Заказ {updatedOrder.Id} выполнен.");
+
+            InlineKeyboardMarkup keyboard = new(
+            new[]
             {
-                await botClient.SendTextMessageAsync(updatedOrder.AdminId, $"заказ {updatedOrder.Id} завершен!!");
-            }
+                new[]
+                {
+                    InlineKeyboardButton.WithCallbackData("Оставить отзыв", "rev"),
+                    InlineKeyboardButton.WithCallbackData("Назад", "bck")
+                }
+            });
 
-            if (updatedOrder.StatusId > 1 && updatedOrder.StatusId < 5)
-            {
-                await botClient.SendTextMessageAsync(updatedOrder.ContractorId, $"заказ {updatedOrder.Id} завершен!!");
-            }
-
-            await botClient.EditMessageTextAsync(new ChatId(context.ChatId), _messageId,  $"Ваш заказ завершен!!");
-
-            context.State = new ClientMenuState();
-
-            context.State.ReactInBot(context, botClient);
+            await botClient.EditMessageTextAsync(new ChatId(context.ChatId), _messageId, $"Ваш заказ {updatedOrder.Id} выполнен. Вы можете оставить отзыв или вернуться в меню.", replyMarkup:keyboard);
         }
     }
 }

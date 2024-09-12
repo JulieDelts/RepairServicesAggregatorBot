@@ -4,6 +4,8 @@ using RepairServicesProviderBot.BLL;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using RepairServicesAggregatorBot.Bot.States.AdminStates;
+using Telegram.Bot.Types.ReplyMarkups;
+using RepairServicesAggregatorBot.Bot.States.SystemStates.AddingReview;
 
 namespace RepairServicesAggregatorBot.Bot.States.OrderStates.ManageExistOrderStates
 {
@@ -28,6 +30,24 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.ManageExistOrderSta
             _messageId = messageId;
         }
 
+        public override async void HandleCallbackQuery(Context context, Update update, ITelegramBotClient botClient)
+        {
+            var message = update.CallbackQuery;
+
+            if (message.Data == "bck")
+            {
+                context.State = new ClientOrdersMenuState(_messageId);
+            }
+            else if (message.Data == "rev")
+            {
+                context.State = new StartAddReviewState(_messageId, _orderId);
+            }
+            else
+            {
+                await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Неверная команда.");
+            }
+        }
+
         public override async void ReactInBot(Context context, ITelegramBotClient botClient)
         {
             var order = _orderService.GetOrderSystemInfoById(_orderId);
@@ -48,7 +68,7 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.ManageExistOrderSta
 
             _orderService.UpdateOrder(updatedOrder);
 
-            if (updatedOrder.StatusId >= 1 && updatedOrder.StatusId <= 5)
+            if (context.RoleId == 1 && order.StatusId >= 1 && order.StatusId <= 5)
             {   
                 var admin = _userService.GetUserById((int)order.AdminId);
 
@@ -57,7 +77,7 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.ManageExistOrderSta
                 await botClient.SendTextMessageAsync(adminChatId, $"Заказ {updatedOrder.Id} отменен.");
             }
 
-            if (updatedOrder.StatusId >= 3 && updatedOrder.StatusId <= 5)
+            if (order.StatusId >= 3 && order.StatusId <= 5)
             {
                 var contractor = _userService.GetUserById((int)order.ContractorId);
 
@@ -66,18 +86,45 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.ManageExistOrderSta
                 await botClient.SendTextMessageAsync(contractorChatId, $"Заказ {updatedOrder.Id} отменен.");
             }
 
-            await botClient.EditMessageTextAsync(new ChatId(context.ChatId), _messageId, $"Ваш заказ отменен.");
-
-            if (context.RoleId == 1)
+            if (context.RoleId == 3 && order.StatusId == 0)
             {
+                var client = _userService.GetUserById(order.ClientId);
+
+                long clientChatId = client.ChatId;
+
+                await botClient.SendTextMessageAsync(clientChatId, $"Заказ {updatedOrder.Id} отменен.");
+            }
+
+            if (context.RoleId == 1 && order.StatusId >= 3)
+            {
+                InlineKeyboardMarkup keyboard = new(
+                new[]
+                {
+                    new[]
+                    {
+                        InlineKeyboardButton.WithCallbackData("Оставить отзыв", "rev"),
+                        InlineKeyboardButton.WithCallbackData("Назад", "bck")
+                    }
+                });
+
+                await botClient.EditMessageTextAsync(new ChatId(context.ChatId), _messageId, $"Ваш заказ {updatedOrder.Id} отменен. Вы можете оставить отзыв или вернуться в меню.", replyMarkup: keyboard);
+            }
+            else if (context.RoleId == 1)
+            {
+                await botClient.EditMessageTextAsync(new ChatId(context.ChatId), _messageId, $"Заказ {updatedOrder.Id} отменен.");
+
                 context.State = new ClientMenuState();
+
+                context.State.ReactInBot(context, botClient);
             }
             else if (context.RoleId == 3)
             {
-                context.State = new AdminMenuState();
-            }
+                await botClient.EditMessageTextAsync(new ChatId(context.ChatId), _messageId, $"Заказ {updatedOrder.Id} отменен.");
 
-            context.State.ReactInBot(context, botClient);
+                context.State = new AdminMenuState();
+
+                context.State.ReactInBot(context, botClient);
+            }
         }
     }
 }
