@@ -1,14 +1,10 @@
-﻿using RepairServicesAggregatorBot.Bot.States.AdminStates;
-using RepairServicesProviderBot.Core.OutputModels;
+﻿using RepairServicesProviderBot.Core.OutputModels;
 using RepairServicesProviderBot.DAL;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Telegram.Bot.Types.ReplyMarkups;
 using Telegram.Bot.Types;
 using Telegram.Bot;
+using RepairServicesProviderBot.BLL;
+using RepairServicesProviderBot.Core.InputModels;
 
 namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
 {
@@ -63,6 +59,28 @@ namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
             {
                 context.State = new ContractorOrdersMenuState(_messageId);
             }
+            else if (message.Data == "exec")
+            {
+                OrderService orderService = new();
+
+                var order = orderService.GetOrderSystemInfoById(_orders[_counter].Id);
+
+                var updatedOrder = new ExtendedOrderInputModel()
+                {
+                    Id = order.Id,
+                    ClientId = order.ClientId,
+                    ContractorId = order.ContractorId,
+                    AdminId = order.AdminId,
+                    StatusId = 4,
+                    ServiceTypeId = order.ServiceTypeId,
+                    Date = order.Date,
+                    OrderDescription = order.OrderDescription,
+                    Address = order.Address,
+                    IsDeleted = order.IsDeleted
+                };
+
+                context.State = new ExecuteOrderContractorState(_messageId, updatedOrder);
+            }
             else
             {
                 await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Неверная команда.");
@@ -90,7 +108,9 @@ namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
             {
                 var order = _orders[0];
 
-                string orderInfo = SetOrderInfoByStatus(order);
+                var assignedOrder = order as AssignedOrderOutputModel;
+
+                string orderInfo = $"Текущие заказы:\nID заказа: {assignedOrder.Id}\nОписание: {assignedOrder.OrderDescription}\nАдрес: {assignedOrder.Address}\nДата создания: {assignedOrder.Date}\nСтатус: {assignedOrder.StatusDescription}\nТип услуги: {assignedOrder.ServiceType.ServiceTypeDescription}\nАдминистратор: {assignedOrder.AdminName}\nСотрудник: {assignedOrder.ContractorName}\n Стоимость: {assignedOrder.Cost}\n";
 
                 InlineKeyboardMarkup keyboard = new(
                 new[]
@@ -101,6 +121,22 @@ namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
                     }
                 });
 
+                if (order.StatusId == 3)
+                {
+                    keyboard = new(
+                    new[]
+                    {
+                        new[]
+                        {
+                            InlineKeyboardButton.WithCallbackData("Перейти к выполнению", "exec"),
+                        },
+                        new[]
+                        {
+                            InlineKeyboardButton.WithCallbackData("Назад", "bck"),
+                        }
+                    });
+                }
+
                 var message = await botClient.EditMessageTextAsync(new ChatId(context.ChatId), _messageId, orderInfo, replyMarkup: keyboard);
 
                 _messageId = message.MessageId;
@@ -109,7 +145,9 @@ namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
             {
                 var order = _orders[_counter];
 
-                string orderInfo = SetOrderInfoByStatus(order);
+                var assignedOrder = order as AssignedOrderOutputModel;
+
+                string orderInfo = $"Текущие заказы:\nID заказа: {assignedOrder.Id}\nОписание: {assignedOrder.OrderDescription}\nАдрес: {assignedOrder.Address}\nДата создания: {assignedOrder.Date}\nСтатус: {assignedOrder.StatusDescription}\nТип услуги: {assignedOrder.ServiceType.ServiceTypeDescription}\nАдминистратор: {assignedOrder.AdminName}\nСотрудник: {assignedOrder.ContractorName}\n Стоимость: {assignedOrder.Cost}\n";
 
                 InlineKeyboardMarkup keyboard = new(
                 new[]
@@ -122,38 +160,29 @@ namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
                     }
                 });
 
+                if (order.StatusId == 3)
+                {
+                    keyboard = new(
+                    new[]
+                    {
+                        new[]
+                        {
+                            InlineKeyboardButton.WithCallbackData("Перейти к выполнению", "exec"),
+                        },
+                        new[]
+                        {
+                            InlineKeyboardButton.WithCallbackData("⬅️", "prv"),
+                            InlineKeyboardButton.WithCallbackData("Назад", "bck"),
+                            InlineKeyboardButton.WithCallbackData("➡️", "nxt")
+                        }
+                    });
+                }
+
                 var message = await botClient.EditMessageTextAsync(new ChatId(context.ChatId), _messageId, orderInfo, replyMarkup: keyboard);
 
                 _messageId = message.MessageId;
             }
         }
-
-        private string SetOrderInfoByStatus(InitialOrderOutputModel order)
-        {
-            StringBuilder orderInfo = new($"Текущие заказы:\nID заказа: {order.Id}\nОписание: {order.OrderDescription}\nАдрес: {order.Address}\nДата создания: {order.Date}\nСтатус: {order.StatusDescription}\n");
-
-            if (order.StatusId == 1)
-            {
-                var confirmedOrder = order as ConfirmedOrderOutputModel;
-
-                orderInfo.Append($"Тип услуги: {confirmedOrder.ServiceType.ServiceTypeDescription}\nАдминистратор: {confirmedOrder.AdminName}\n");
-            }
-            else if (order.StatusId == 2)
-            {
-                var unassignedOrder = order as UnassignedOrderOutputModel;
-
-                orderInfo.Append($"Тип услуги: {unassignedOrder.ServiceType.ServiceTypeDescription}\nАдминистратор: {unassignedOrder.AdminName}\n");
-            }
-            else if (order.StatusId == 3 || order.StatusId == 4)
-            {
-                var assignedOrder = order as AssignedOrderOutputModel;
-
-                orderInfo.Append($"Тип услуги: {assignedOrder.ServiceType.ServiceTypeDescription}\nАдминистратор: {assignedOrder.AdminName}\nСотрудник: {assignedOrder.ContractorName}\n Стоимость: {assignedOrder.Cost}\n");
-            }
-
-            return orderInfo.ToString();
-        }
     }
+}
 
-}
-}

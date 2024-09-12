@@ -53,7 +53,6 @@ namespace RepairServicesAggregatorBot.Bot.States.AdminStates
                 {
                     _counter = _orders.Count - 1;
                 }
-
             }
             else if (message.Data == "bck")
             {
