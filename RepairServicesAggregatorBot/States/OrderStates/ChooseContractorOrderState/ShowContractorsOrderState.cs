@@ -62,7 +62,6 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.ChooseContractorOrd
                 {
                     _counter = _contractors.Count - 1;
                 }
-
             }
             else if (message.Data == "choose")
             {
@@ -96,7 +95,6 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.ChooseContractorOrd
             }
             else if (_contractors.Count == 1)
             {
-
                 var contractor = _contractors[0];
 
                 string contractorDescription = $"Сотрудник: {contractor.Name}\nЦена {contractor.ServiceType.Cost}";
@@ -106,7 +104,7 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.ChooseContractorOrd
                 {
                     new[]
                     {
-                        InlineKeyboardButton.WithCallbackData("Хочу такого домой", $"choose")
+                        InlineKeyboardButton.WithCallbackData("Хочу такого домой", "choose")
                     },
                     new[]
                     {
