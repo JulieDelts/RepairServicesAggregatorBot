@@ -35,6 +35,8 @@ namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
 
         public override async void ReactInBot(Context context, ITelegramBotClient botClient)
         {
+            await botClient.DeleteMessageAsync(new ChatId(context.ChatId), _messageId);
+
             OrderService orderService = new();
 
             var orderId = orderService.UpdateOrder(ExtendedOrderInputModel);
