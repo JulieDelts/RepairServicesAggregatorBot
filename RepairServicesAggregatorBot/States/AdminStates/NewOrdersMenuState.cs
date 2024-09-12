@@ -1,4 +1,5 @@
-﻿using RepairServicesAggregatorBot.Bot.States.SystemStates.ConfirmingOrder;
+﻿using RepairServicesAggregatorBot.Bot.States.OrderStates.ManageExistOrderStates;
+using RepairServicesAggregatorBot.Bot.States.SystemStates.ConfirmingOrder;
 using RepairServicesProviderBot.Core.OutputModels;
 using Telegram.Bot;
 using Telegram.Bot.Types;
@@ -55,7 +56,7 @@ namespace RepairServicesAggregatorBot.Bot.States.AdminStates
             }
             else if (message.Data == "dcl")
             {
-                //context.State = new CancelOrderState(_newOrders[_counter].Id);
+                context.State = new CancelOrderState(_newOrders[_counter].Id, _messageId);
             }
             else if (message.Data == "bck")
             {

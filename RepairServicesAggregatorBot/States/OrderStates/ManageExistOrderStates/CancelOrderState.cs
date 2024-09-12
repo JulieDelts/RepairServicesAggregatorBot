@@ -3,6 +3,7 @@ using RepairServicesProviderBot.Core.InputModels;
 using RepairServicesProviderBot.BLL;
 using Telegram.Bot;
 using Telegram.Bot.Types;
+using RepairServicesAggregatorBot.Bot.States.AdminStates;
 
 namespace RepairServicesAggregatorBot.Bot.States.OrderStates.ManageExistOrderStates
 {
@@ -12,12 +13,18 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.ManageExistOrderSta
 
         private OrderService _orderService;
 
+        private UserService _userService;
+
         private int _messageId;
 
         public CancelOrderState(int orderId, int messageId)
         {
             _orderId = orderId;
+
             _orderService = new();
+
+            _userService = new();
+
             _messageId = messageId;
         }
 
@@ -41,19 +48,34 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.ManageExistOrderSta
 
             _orderService.UpdateOrder(updatedOrder);
 
-            if (updatedOrder.StatusId > 1 && updatedOrder.StatusId < 5)
-            {
-                await botClient.SendTextMessageAsync(updatedOrder.AdminId, $"заказ {updatedOrder.Id} удален!!");
+            if (updatedOrder.StatusId >= 1 && updatedOrder.StatusId <= 5)
+            {   
+                var admin = _userService.GetUserById((int)order.AdminId);
+
+                long adminChatId = admin.ChatId;
+
+                await botClient.SendTextMessageAsync(adminChatId, $"Заказ {updatedOrder.Id} отменен.");
             }
 
-            if (updatedOrder.StatusId > 1 && updatedOrder.StatusId < 5)
+            if (updatedOrder.StatusId >= 3 && updatedOrder.StatusId <= 5)
             {
-                await botClient.SendTextMessageAsync(updatedOrder.ContractorId, $"заказ {updatedOrder.Id} удален!!");
+                var contractor = _userService.GetUserById((int)order.ContractorId);
+
+                long contractorChatId = contractor.ChatId;
+
+                await botClient.SendTextMessageAsync(contractorChatId, $"Заказ {updatedOrder.Id} отменен.");
             }
 
-            await botClient.EditMessageTextAsync(new ChatId(context.ChatId),_messageId, $"Ваш заказ удален!!");
+            await botClient.EditMessageTextAsync(new ChatId(context.ChatId), _messageId, $"Ваш заказ отменен.");
 
-            context.State = new ClientMenuState();
+            if (context.RoleId == 1)
+            {
+                context.State = new ClientMenuState();
+            }
+            else if (context.RoleId == 3)
+            {
+                context.State = new AdminMenuState();
+            }
 
             context.State.ReactInBot(context, botClient);
         }
