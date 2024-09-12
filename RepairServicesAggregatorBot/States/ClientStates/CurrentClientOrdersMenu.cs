@@ -55,7 +55,6 @@ namespace RepairServicesAggregatorBot.Bot.States.ClientStates
                 {
                     _counter = _orders.Count - 1;
                 }
-
             }
             else if (message.Data == "bck")
             {
@@ -74,7 +73,6 @@ namespace RepairServicesAggregatorBot.Bot.States.ClientStates
                 var messageId = update.Message.MessageId;
 
                 context.State = new ShowContractorsOrderState(messageId, order);
-
             }
             else if (message.Data == "cmpltordr")
             {
@@ -87,7 +85,6 @@ namespace RepairServicesAggregatorBot.Bot.States.ClientStates
                 await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Неверная команда.");
             }
         }
-
         public override async void ReactInBot(Context context, ITelegramBotClient botClient)
         {
             if (_orders.Count == 0)
