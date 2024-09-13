@@ -18,6 +18,8 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.RegisteringUser
         public CompleteRegistrationSystemState(UserInputModel userInputModel)
         {
             UserInputModel = userInputModel;
+
+            _messageId = 0;
         }
 
         public override async void HandleCallbackQuery(Context context, Update update, ITelegramBotClient botClient)

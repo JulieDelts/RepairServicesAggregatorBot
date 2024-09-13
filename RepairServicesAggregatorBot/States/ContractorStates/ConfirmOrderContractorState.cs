@@ -22,7 +22,11 @@ namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
         {
             _orderService = new OrderService();
 
+            _clientService = new ClientService();
+
             _order = _orderService.GetOrderSystemInfoById(order.Id);
+
+            _messageId = 0;
 
             _isActive = false;
         }
