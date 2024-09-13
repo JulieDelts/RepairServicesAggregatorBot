@@ -5,13 +5,13 @@ using Telegram.Bot.Types;
 
 namespace RepairServicesAggregatorBot.Bot.States.SystemStates.AddingContractorServiceType
 {
-    public class GetContractorServiceTypeCostState : AbstractState
+    public class GetContractorServiceTypeCostSystemState : AbstractState
     {
         public ContractorServiceTypeInputModel ContractorServiceTypeInputModel { get; set; }
 
         private bool _isCostError;
 
-        public GetContractorServiceTypeCostState(ContractorServiceTypeInputModel contractorServiceTypeInputModel)
+        public GetContractorServiceTypeCostSystemState(ContractorServiceTypeInputModel contractorServiceTypeInputModel)
         {
             ContractorServiceTypeInputModel = contractorServiceTypeInputModel;
 
@@ -28,7 +28,7 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.AddingContractorSe
 
                 ContractorServiceTypeInputModel.Cost = cost;
 
-                context.State = new CompleteAddContractorServiceTypeState(ContractorServiceTypeInputModel);
+                context.State = new CompleteAddContractorServiceTypeSystemState(ContractorServiceTypeInputModel);
             }
             else
             {

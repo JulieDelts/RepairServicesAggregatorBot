@@ -52,7 +52,7 @@ namespace RepairServicesAggregatorBot.Bot.States.AdminStates
             }
             else if (message.Data == "cnf")
             {
-                context.State = new StartConfirmOrderAdminState(_messageId, _newOrders[_counter]);
+                context.State = new StartConfirmOrderAdminSystemState(_messageId, _newOrders[_counter]);
             }
             else if (message.Data == "dcl")
             {

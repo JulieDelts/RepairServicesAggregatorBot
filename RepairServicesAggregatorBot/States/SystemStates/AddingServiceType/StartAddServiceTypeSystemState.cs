@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace RepairServicesAggregatorBot.Bot.States.SystemStates.AddingServiceType
 {
-    public class StartAddServiceTypeState : AbstractState
+    public class StartAddServiceTypeSystemState : AbstractState
     {
         public ServiceTypeInputModel ServiceTypeInputModel { get; set; }
 
@@ -13,7 +13,7 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.AddingServiceType
 
         private int _messageId;
 
-        public StartAddServiceTypeState(int messageId)
+        public StartAddServiceTypeSystemState(int messageId)
         {
             ServiceTypeInputModel = new();
 
@@ -30,7 +30,7 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.AddingServiceType
             {
                 ServiceTypeInputModel.ServiceTypeDescription = message.Text;
 
-                context.State = new CompleteAddServiceTypeState(ServiceTypeInputModel);
+                context.State = new CompleteAddServiceTypeSystemState(ServiceTypeInputModel);
             }
             else
             {

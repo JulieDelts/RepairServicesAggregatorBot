@@ -9,7 +9,7 @@ using RepairServicesAggregatorBot.Bot.States.AdminStates;
 
 namespace RepairServicesAggregatorBot.Bot.States.SystemStates.ConfirmingOrder
 {
-    public class CompleteConfirmOrderAdminState : AbstractState
+    public class CompleteConfirmOrderAdminSystemState : AbstractState
     {
         public ExtendedOrderInputModel ExtendedOrderInputModel { get; set; }
 
@@ -17,7 +17,7 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.ConfirmingOrder
 
         private int _messageId;
 
-        public CompleteConfirmOrderAdminState(ExtendedOrderInputModel extendedOrderInputModel, List<ContractorWithServiceTypeOutputModel> contractors)
+        public CompleteConfirmOrderAdminSystemState(ExtendedOrderInputModel extendedOrderInputModel, List<ContractorWithServiceTypeOutputModel> contractors)
         {
             ExtendedOrderInputModel = extendedOrderInputModel;
 

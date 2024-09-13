@@ -4,7 +4,7 @@ using Telegram.Bot;
 
 namespace RepairServicesAggregatorBot.Bot.States.SystemStates.AddingReview
 {
-    public class StartAddReviewState: AbstractState
+    public class StartAddReviewSystemState: AbstractState
     {
         public ReviewInputModel ReviewInputModel { get; set; }
 
@@ -12,7 +12,7 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.AddingReview
 
         private int _messageId;
 
-        public StartAddReviewState(int messageId, int orderId)
+        public StartAddReviewSystemState(int messageId, int orderId)
         {
             ReviewInputModel = new() { OrderId = orderId };
 
@@ -31,7 +31,7 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.AddingReview
             {
                 ReviewInputModel.Rating = result;
 
-               context.State = new GetReviewDescriptionState(ReviewInputModel);
+               context.State = new GetReviewDescriptionSystemState(ReviewInputModel);
             }
             else
             {

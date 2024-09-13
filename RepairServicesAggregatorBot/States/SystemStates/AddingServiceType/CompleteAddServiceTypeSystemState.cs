@@ -1,21 +1,21 @@
 ﻿using RepairServicesProviderBot.BLL;
 using RepairServicesProviderBot.Core.InputModels;
-using Telegram.Bot.Types.ReplyMarkups;
 using Telegram.Bot.Types;
 using Telegram.Bot;
-using RepairServicesAggregatorBot.Bot.States.ClientStates;
+using Telegram.Bot.Types.ReplyMarkups;
+using RepairServicesAggregatorBot.Bot.States.AdminStates;
 
-namespace RepairServicesAggregatorBot.Bot.States.SystemStates.AddingReview
+namespace RepairServicesAggregatorBot.Bot.States.SystemStates.AddingServiceType
 {
-    public class CompleteAddReviewState: AbstractState
+    public class CompleteAddServiceTypeSystemState : AbstractState
     {
-        public ReviewInputModel ReviewInputModel { get; set; }
+        public ServiceTypeInputModel ServiceTypeInputModel { get; set; }
 
         private int _messageId;
 
-        public CompleteAddReviewState(ReviewInputModel reviewInputModel)
+        public CompleteAddServiceTypeSystemState(ServiceTypeInputModel serviceTypeInputModel)
         {
-           ReviewInputModel = reviewInputModel;
+            ServiceTypeInputModel = serviceTypeInputModel;
         }
 
         public override async void HandleCallbackQuery(Context context, Update update, ITelegramBotClient botClient)
@@ -24,9 +24,9 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.AddingReview
 
             if (message.Data == "bck")
             {
-                context.State = new ClientOrdersMenuState(_messageId);
+                context.State = new AdminServiceTypeMenuState(_messageId);
             }
-            else
+            else 
             {
                 await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Неверная команда.");
             }
@@ -34,11 +34,11 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.AddingReview
 
         public override async void ReactInBot(Context context, ITelegramBotClient botClient)
         {
-            ReviewService reviewService = new();
+            ServiceTypeService serviceTypeService = new();
 
-            reviewService.AddReview(ReviewInputModel);
+            serviceTypeService.AddServiceType(ServiceTypeInputModel);
 
-            await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Добавление отзыва завершено.");
+            await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Добавление услуги завершено.");
 
             InlineKeyboardMarkup keyboard = new(
             new[]
@@ -49,7 +49,7 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.AddingReview
                 }
             });
 
-            var message = await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Назад к меню заказов:", replyMarkup: keyboard);
+            var message = await botClient.SendTextMessageAsync(new ChatId(context.ChatId), "Назад к меню услуг:", replyMarkup: keyboard);
 
             _messageId = message.MessageId;
         }

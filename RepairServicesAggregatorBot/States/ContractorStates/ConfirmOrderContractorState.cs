@@ -16,11 +16,15 @@ namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
 
         private int _messageId;
 
+        private bool _isActive;
+
         public ConfirmOrderContractorState(UnassignedOrderOutputModel order)
         {
             _orderService = new OrderService();
 
             _order = _orderService.GetOrderSystemInfoById(order.Id);
+
+            _isActive = false;
         }
 
         public override async void HandleCallbackQuery(Context context, Update update, ITelegramBotClient botClient)
@@ -55,11 +59,14 @@ namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
 
         public override async void ReactInBot(Context context, ITelegramBotClient botClient)
         {
-            var orderInfo = $"Вам заказ!!\nОписание: {_order.OrderDescription}\nАдрес: {_order.Address}\n";
-
-            InlineKeyboardMarkup contractorKeyboard = new(
-            new[]
+            if (_isActive) { }
+            else
             {
+                var orderInfo = $"Вам заказ!!\nОписание: {_order.OrderDescription}\nАдрес: {_order.Address}\n";
+
+                InlineKeyboardMarkup contractorKeyboard = new(
+                new[]
+                {
                 new[]
                 {
                     InlineKeyboardButton.WithCallbackData("Взять в работу", "cnfrm"),
@@ -68,11 +75,14 @@ namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
                 {
                     InlineKeyboardButton.WithCallbackData("Отклонить", "cncl")
                 }
-            });
+                });
 
-            var message = await botClient.SendTextMessageAsync(new ChatId(context.ChatId), orderInfo, replyMarkup: contractorKeyboard);
+                var message = await botClient.SendTextMessageAsync(new ChatId(context.ChatId), orderInfo, replyMarkup: contractorKeyboard);
 
-            _messageId = message.MessageId;
+                _messageId = message.MessageId;
+
+                _isActive = true;
+            }
         }
     }
 }

@@ -21,7 +21,7 @@ namespace RepairServicesAggregatorBot.Bot.States.AdminStates
 
             if (message.Data == "nwsrvtp")
             {
-                context.State = new StartAddServiceTypeState(_messageId);
+                context.State = new StartAddServiceTypeSystemState(_messageId);
             }
             else if (message.Data == "srvtp")
             {

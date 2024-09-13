@@ -21,7 +21,7 @@ namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
 
             if (message.Data == "addsrvtp")
             {
-                context.State = new StartAddContractorServiceTypeState(_messageId);
+                context.State = new StartAddContractorServiceTypeSystemState(_messageId);
             }
             else if (message.Data == "bck")
             {

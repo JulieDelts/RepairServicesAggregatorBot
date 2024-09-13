@@ -7,13 +7,13 @@ using RepairServicesAggregatorBot.Bot.States.ContractorStates;
 
 namespace RepairServicesAggregatorBot.Bot.States.SystemStates.UpdatingContractorServiceType
 {
-    public class CompleteUpdateContractorServiceTypeState: AbstractState
+    public class CompleteUpdateContractorServiceTypeSystemState: AbstractState
     {
         public ContractorServiceTypeInputModel ContractorServiceTypeInputModel { get; set; }
 
         private int _messageId;
 
-        public CompleteUpdateContractorServiceTypeState(ContractorServiceTypeInputModel contractorServiceTypeInputModel)
+        public CompleteUpdateContractorServiceTypeSystemState(ContractorServiceTypeInputModel contractorServiceTypeInputModel)
         {
             ContractorServiceTypeInputModel = contractorServiceTypeInputModel;
         }
