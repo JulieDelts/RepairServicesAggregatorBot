@@ -22,6 +22,8 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.ConfirmingOrder
             ExtendedOrderInputModel = extendedOrderInputModel;
 
             _contractors = contractors;
+
+            _messageId = 0;
         }
 
         public override async void HandleCallbackQuery(Context context, Update update, ITelegramBotClient botClient)

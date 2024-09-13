@@ -16,6 +16,8 @@ namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
         public ContractorServicesInfoState(ContractorWithServiceTypesOutputModel contractorWithServiceTypesOutputModel) 
         {
             ContractorWithServiceTypesOutputModel = contractorWithServiceTypesOutputModel;
+
+            _messageId = 0;
         }
 
         public override async void HandleCallbackQuery(Context context, Update update, ITelegramBotClient botClient)

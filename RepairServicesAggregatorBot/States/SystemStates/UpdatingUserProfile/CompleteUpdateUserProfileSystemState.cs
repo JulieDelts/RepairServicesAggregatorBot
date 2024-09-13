@@ -17,6 +17,8 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.UpdatingUserProfil
         public CompleteUpdateUserProfileSystemState(UserInputModel userInputModel)
         {
             UserInputModel = userInputModel;
+
+            _messageId = 0;
         }
 
         public override async void HandleCallbackQuery(Context context, Update update, ITelegramBotClient botClient)

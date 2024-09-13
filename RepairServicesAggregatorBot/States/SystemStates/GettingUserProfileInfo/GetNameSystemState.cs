@@ -13,13 +13,13 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.GettingUserProfile
 
         private int _messageId;
 
-        public GetNameSystemState(UserInputModel userInputModel, int message = 0)
+        public GetNameSystemState(UserInputModel userInputModel, int messageId = 0)
         {
             UserInputModel = userInputModel;
 
             _isNameError = false;
 
-            _messageId = message;
+            _messageId = messageId;
         }
 
         public override void HandleMessage(Context context, Update update, ITelegramBotClient botClient)

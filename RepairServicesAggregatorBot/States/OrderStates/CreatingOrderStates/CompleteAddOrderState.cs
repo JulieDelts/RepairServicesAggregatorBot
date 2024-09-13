@@ -16,6 +16,8 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.CreatingBaseOrderSt
         public CompleteAddOrderState(OrderInputModel order) 
         {
             OrderInputModel = order;
+
+            _messageId = 0;
         }
 
         public override async void HandleCallbackQuery(Context context, Update update, ITelegramBotClient botClient)

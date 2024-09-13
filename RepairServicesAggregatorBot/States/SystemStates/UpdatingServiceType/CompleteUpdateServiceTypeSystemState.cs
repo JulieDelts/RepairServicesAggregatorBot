@@ -16,6 +16,8 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.UpdatingServiceTyp
         public CompleteUpdateServiceTypeSystemState(ExtendedServiceTypeInputModel extendedServiceTypeInputModel)
         {
             ExtendedServiceTypeInputModel = extendedServiceTypeInputModel;
+
+            _messageId = 0;
         }
 
         public override async void HandleCallbackQuery(Context context, Update update, ITelegramBotClient botClient)

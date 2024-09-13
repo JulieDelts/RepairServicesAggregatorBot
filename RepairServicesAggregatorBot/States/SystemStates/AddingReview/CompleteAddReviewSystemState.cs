@@ -1,13 +1,13 @@
-﻿using RepairServicesProviderBot.BLL;
+﻿using RepairServicesAggregatorBot.Bot.States.ClientStates;
+using RepairServicesProviderBot.BLL;
 using RepairServicesProviderBot.Core.InputModels;
-using Telegram.Bot.Types.ReplyMarkups;
-using Telegram.Bot.Types;
 using Telegram.Bot;
-using RepairServicesAggregatorBot.Bot.States.ClientStates;
+using Telegram.Bot.Types;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace RepairServicesAggregatorBot.Bot.States.SystemStates.AddingReview
 {
-    public class CompleteAddReviewSystemState: AbstractState
+    public class CompleteAddReviewSystemState : AbstractState
     {
         public ReviewInputModel ReviewInputModel { get; set; }
 
@@ -15,7 +15,9 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.AddingReview
 
         public CompleteAddReviewSystemState(ReviewInputModel reviewInputModel)
         {
-           ReviewInputModel = reviewInputModel;
+            ReviewInputModel = reviewInputModel;
+
+            _messageId = 0;
         }
 
         public override async void HandleCallbackQuery(Context context, Update update, ITelegramBotClient botClient)
