@@ -9,7 +9,7 @@ using Telegram.Bot.Types.ReplyMarkups;
 
 namespace RepairServicesAggregatorBot.Bot.States.ClientStates
 {
-    public class CurrentClientOrdersMenu : AbstractState
+    public class CurrentClientOrdersMenuState : AbstractState
     {
         private List<InitialOrderOutputModel> _orders;
 
@@ -19,7 +19,7 @@ namespace RepairServicesAggregatorBot.Bot.States.ClientStates
 
         private OrderRepository _orderRepository;
 
-        public CurrentClientOrdersMenu(int messageId, List<InitialOrderOutputModel> currentOrders)
+        public CurrentClientOrdersMenuState(int messageId, List<InitialOrderOutputModel> currentOrders)
         {
             _messageId = messageId;
 

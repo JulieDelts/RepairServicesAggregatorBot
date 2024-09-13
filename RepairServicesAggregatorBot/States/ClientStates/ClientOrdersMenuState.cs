@@ -36,7 +36,7 @@ namespace RepairServicesAggregatorBot.Bot.States.ClientStates
                     }
                 }
 
-                context.State = new CurrentClientOrdersMenu(_messageId, currentOrders);
+                context.State = new CurrentClientOrdersMenuState(_messageId, currentOrders);
             }
             else if (message.Data == "ordrshstr")
             {

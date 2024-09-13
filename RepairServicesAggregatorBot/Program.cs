@@ -8,18 +8,21 @@ using Telegram.Bot;
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
+using RepairServicesProviderBot.Core;
 
 namespace RepairServicesAggregatorBot
 {
     public class Program
     {
-        public static Dictionary<long, Context> Users { get; set; } /// посылать уведомления. принудительно отправить письмо (вызвать реакт)
+        public static Dictionary<long, Context> Users { get; set; }
 
         static async Task Main(string[] args)
         {
             Users = new Dictionary<long, Context>();
 
-            ITelegramBotClient bot = new TelegramBotClient("7500546786:AAF-jAJEnauxeKOIrNA1MVhoGFuFjSxOzF0");
+            string botToken = Options.TgBotToken;
+
+            ITelegramBotClient bot = new TelegramBotClient(botToken);
 
             var cts = new CancellationTokenSource();
 

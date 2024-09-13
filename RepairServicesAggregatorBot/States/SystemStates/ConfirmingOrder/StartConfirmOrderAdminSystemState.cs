@@ -8,7 +8,7 @@ using Telegram.Bot.Types;
 
 namespace RepairServicesAggregatorBot.Bot.States.SystemStates.ConfirmingOrder
 {
-    public class StartConfirmOrderAdminState : AbstractState
+    public class StartConfirmOrderAdminSystemState : AbstractState
     {
         public InitialOrderOutputModel InitialOrderOutputModel { get; set; }
 
@@ -16,7 +16,7 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.ConfirmingOrder
 
         private bool _isIdError;
 
-        public StartConfirmOrderAdminState(int messageId, InitialOrderOutputModel initialOrderOutputModel)
+        public StartConfirmOrderAdminSystemState(int messageId, InitialOrderOutputModel initialOrderOutputModel)
         {
             InitialOrderOutputModel = initialOrderOutputModel;
 
@@ -61,7 +61,7 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.ConfirmingOrder
                         IsDeleted = order.IsDeleted
                     };
 
-                    context.State = new CompleteConfirmOrderAdminState(updatedOrder, contractors);
+                    context.State = new CompleteConfirmOrderAdminSystemState(updatedOrder, contractors);
                 }
                 catch (Exception ex)
                 {

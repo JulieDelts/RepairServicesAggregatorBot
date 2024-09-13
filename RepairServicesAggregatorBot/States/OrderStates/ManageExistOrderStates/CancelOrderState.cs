@@ -40,7 +40,7 @@ namespace RepairServicesAggregatorBot.Bot.States.OrderStates.ManageExistOrderSta
             }
             else if (message.Data == "rev")
             {
-                context.State = new StartAddReviewState(_messageId, _orderId);
+                context.State = new StartAddReviewSystemState(_messageId, _orderId);
             }
             else
             {

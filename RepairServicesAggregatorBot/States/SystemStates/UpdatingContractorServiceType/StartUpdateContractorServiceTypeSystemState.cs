@@ -5,7 +5,7 @@ using Telegram.Bot.Types;
 
 namespace RepairServicesAggregatorBot.Bot.States.SystemStates.UpdatingContractorServiceType
 {
-    public class StartUpdateContractorServiceTypeState : AbstractState
+    public class StartUpdateContractorServiceTypeSystemState : AbstractState
     {
         public ContractorServiceTypeInputModel ContractorServiceTypeInputModel { get; set; }
 
@@ -13,7 +13,7 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.UpdatingContractor
 
         private bool _isCostError;
 
-        public StartUpdateContractorServiceTypeState(int messageId, ContractorServiceTypeInputModel contractorServiceTypeInputModel)
+        public StartUpdateContractorServiceTypeSystemState(int messageId, ContractorServiceTypeInputModel contractorServiceTypeInputModel)
         {
             _messageId = messageId;
 
@@ -32,7 +32,7 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.UpdatingContractor
 
                 ContractorServiceTypeInputModel.Cost = cost;
 
-                context.State = new CompleteUpdateContractorServiceTypeState(ContractorServiceTypeInputModel);
+                context.State = new CompleteUpdateContractorServiceTypeSystemState(ContractorServiceTypeInputModel);
             }
             else
             {

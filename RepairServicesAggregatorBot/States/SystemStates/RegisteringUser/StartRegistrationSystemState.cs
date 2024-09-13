@@ -2,6 +2,7 @@
 using RepairServicesProviderBot.Core.InputModels;
 using Telegram.Bot;
 using Telegram.Bot.Types;
+using RepairServicesProviderBot.Core;
 
 namespace RepairServicesAggregatorBot.Bot.States.SystemStates.RegisteringUser
 {
@@ -13,11 +14,19 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.RegisteringUser
 
         private bool _isLoginError;
 
+        private string _adminPassword;
+
+        private string _contractorPassword;
+
         public StartRegistrationSystemState()
         {
             UserInputModel = new();
 
-            _roleModes = new Dictionary<string, int>() { { "qwe", 3 }, { "qwo", 2 }, { "no", 1 } };
+            _adminPassword = Options.AdminPassword;
+
+            _contractorPassword = Options.ContractorPassword;
+
+            _roleModes = new Dictionary<string, int>() { { _adminPassword, 3 }, { _contractorPassword, 2 }, { "no", 1 } };
 
             _isLoginError = false;
         }

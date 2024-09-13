@@ -58,7 +58,7 @@ namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
 
                 contractorServiceTypeInputModel.UserId = context.Id;
 
-                context.State = new StartUpdateContractorServiceTypeState(_messageId, contractorServiceTypeInputModel);
+                context.State = new StartUpdateContractorServiceTypeSystemState(_messageId, contractorServiceTypeInputModel);
             }
             else if (message.Data == "dlt")
             {
@@ -68,7 +68,7 @@ namespace RepairServicesAggregatorBot.Bot.States.ContractorStates
 
                 contractorServiceTypeInputModel.UserId = context.Id;
 
-                context.State = new DeleteContractorServiceType(_messageId, contractorServiceTypeInputModel);
+                context.State = new DeleteContractorServiceTypeSystemState(_messageId, contractorServiceTypeInputModel);
 
             }
             else if (message.Data == "bck")

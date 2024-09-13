@@ -5,13 +5,13 @@ using System.Text.RegularExpressions;
 
 namespace RepairServicesAggregatorBot.Bot.States.SystemStates.AddingReview
 {
-    public class GetReviewDescriptionState: AbstractState
+    public class GetReviewDescriptionSystemState: AbstractState
     {
         public ReviewInputModel ReviewInputModel { get; set; }
 
         private bool _isDescriptionError;
 
-        public GetReviewDescriptionState(ReviewInputModel reviewInputModel)
+        public GetReviewDescriptionSystemState(ReviewInputModel reviewInputModel)
         {
             ReviewInputModel = reviewInputModel;
 
@@ -26,11 +26,11 @@ namespace RepairServicesAggregatorBot.Bot.States.SystemStates.AddingReview
             {
                 ReviewInputModel.ReviewDescription = message.Text;
 
-                context.State = new CompleteAddReviewState(ReviewInputModel);
+                context.State = new CompleteAddReviewSystemState(ReviewInputModel);
             }
             else if (message.Text == "no")
             {
-                context.State = new CompleteAddReviewState(ReviewInputModel);
+                context.State = new CompleteAddReviewSystemState(ReviewInputModel);
             }
             else
             {
